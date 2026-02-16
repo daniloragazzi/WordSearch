@@ -86,11 +86,11 @@
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| DSN-001 | Definir paleta de cores | ⬜ | — | 3-4 cores, tons quentes/amigáveis |
-| DSN-002 | Criar ícone do app | ⬜ | DSN-001 | Grid de letras estilizado |
-| DSN-003 | Criar splash screen | ⬜ | DSN-001 | Logo Ragazzi Studios |
-| DSN-004 | Selecionar fonte (Google Fonts) | ⬜ | — | Legível, casual, gratuita |
-| DSN-005 | Criar sprites UI (botões, painéis, ícones) | ⬜ | DSN-001 | Mínimo necessário |
+| DSN-001 | Definir paleta de cores | ✅ | — | GameTheme.cs ScriptableObject, 30+ cores |
+| DSN-002 | Criar ícone do app | ✅ | DSN-001 | Spec em 08_Design_Specs.md, adaptive icon |
+| DSN-003 | Criar splash screen | ✅ | DSN-001 | Spec Ragazzi Studios, Nunito ExtraBold |
+| DSN-004 | Selecionar fonte (Google Fonts) | ✅ | — | Nunito (SIL OFL), 4 pesos, guia TMP |
+| DSN-005 | Criar sprites UI (botões, painéis, ícones) | ✅ | DSN-001 | 30+ specs + PlaceholderSprites.cs procedural |
 
 ### 2.8 — Integração e Testes
 
@@ -126,10 +126,10 @@
 | 2.4 Application | 3 | 0 | 0 | 3 | 100% |
 | 2.5 Dados | 5 | 0 | 0 | 5 | 100% |
 | 2.6 UI/Cenas | 11 | 0 | 0 | 11 | 100% |
-| 2.7 Design | 5 | 5 | 0 | 0 | 0% |
+| 2.7 Design | 5 | 0 | 0 | 5 | 100% |
 | 2.8 Testes/Integração | 6 | 6 | 0 | 0 | 0% |
 | 2.9 Build/Publicação | 5 | 5 | 0 | 0 | 0% |
-| **TOTAL** | **49** | **16** | **0** | **33** | **67%** |
+| **TOTAL** | **49** | **11** | **0** | **38** | **78%** |
 
 ---
 

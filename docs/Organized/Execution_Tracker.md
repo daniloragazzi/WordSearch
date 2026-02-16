@@ -75,7 +75,7 @@
 | DEV-006 | Implementar UI/Screens (Boot, Menu, Category, Level) | ✅ | — | — | 2026-02-15 | 2026-02-15 |
 | DEV-007 | Implementar UI/Components (Grid, LetterCell, Selection, WordList, Popups) | ✅ | — | — | 2026-02-15 | 2026-02-15 |
 | DAT-001 | Gerar banco de palavras | ✅ | — | — | 2026-02-15 | 2026-02-15 |
-| DSN-001 | Criar assets visuais MVP | ⬜ | — | — | — | — |
+| DSN-001 | Criar assets visuais MVP | ✅ | — | [08_Design_Specs](08_Design_Specs.md) | 2026-02-15 | 2026-02-15 |
 | TST-001 | Testes unitários Domain | ⬜ | — | — | — | — |
 | CFG-002 | Integrar AdMob | ⬜ | — | — | — | — |
 | CFG-003 | Integrar Unity Analytics | ⬜ | — | — | — | — |
