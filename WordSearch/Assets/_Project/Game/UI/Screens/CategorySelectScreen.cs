@@ -71,6 +71,7 @@ namespace RagazziStudios.Game.UI.Screens
             foreach (var category in categoriesFile.categories)
             {
                 var buttonObj = Instantiate(_categoryButtonPrefab, _categoryContainer);
+                buttonObj.SetActive(true);
                 var item = buttonObj.GetComponent<CategoryButtonItem>();
 
                 if (item != null && levelManager != null)

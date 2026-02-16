@@ -98,7 +98,8 @@ namespace RagazziStudios.Game.UI.Screens
         {
             if (_settingsPopupPrefab == null || _popupParent == null) return;
 
-            Instantiate(_settingsPopupPrefab, _popupParent);
+            var popup = Instantiate(_settingsPopupPrefab, _popupParent);
+            popup.SetActive(true);
         }
     }
 }

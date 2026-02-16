@@ -69,6 +69,7 @@ namespace RagazziStudios.Game.UI.Components
                 for (int c = 0; c < _cols; c++)
                 {
                     var cellObj = Instantiate(_letterCellPrefab, _gridLayout.transform);
+                    cellObj.SetActive(true);
                     var cell = cellObj.GetComponent<LetterCell>();
 
                     if (cell != null)

@@ -29,14 +29,16 @@ namespace RagazziStudios.Game.UI.Screens
 
         private void OnEnable()
         {
-            _backButton.onClick.AddListener(OnBackClicked);
+            if (_backButton != null)
+                _backButton.onClick.AddListener(OnBackClicked);
             PopulateLevels();
             UpdateLocalization();
         }
 
         private void OnDisable()
         {
-            _backButton.onClick.RemoveListener(OnBackClicked);
+            if (_backButton != null)
+                _backButton.onClick.RemoveListener(OnBackClicked);
         }
 
         private void UpdateLocalization()
@@ -79,6 +81,7 @@ namespace RagazziStudios.Game.UI.Screens
             for (int i = 1; i <= levelManager.LevelsPerCategory; i++)
             {
                 var buttonObj = Instantiate(_levelButtonPrefab, _levelContainer);
+                buttonObj.SetActive(true);
                 var item = buttonObj.GetComponent<LevelButtonItem>();
 
                 if (item != null)

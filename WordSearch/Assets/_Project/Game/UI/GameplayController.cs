@@ -199,6 +199,7 @@ namespace RagazziStudios.Game.UI
             if (_winPopupPrefab != null && _popupParent != null)
             {
                 var popup = Instantiate(_winPopupPrefab, _popupParent);
+                popup.SetActive(true);
                 var winPopup = popup.GetComponent<Popups.WinPopup>();
 
                 if (winPopup != null)

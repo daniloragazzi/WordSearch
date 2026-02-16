@@ -34,6 +34,7 @@ namespace RagazziStudios.Game.UI.Components
             foreach (var placement in placements)
             {
                 var itemObj = Instantiate(_wordItemPrefab, _wordContainer);
+                itemObj.SetActive(true);
                 var item = itemObj.GetComponent<WordListItem>();
 
                 if (item != null)
