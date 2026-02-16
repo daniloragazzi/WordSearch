@@ -4,6 +4,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 using TMPro;
 
@@ -685,11 +686,11 @@ namespace RagazziStudios.Editor
 
             canvasGO.AddComponent<GraphicRaycaster>();
 
-            if (Object.FindObjectOfType<EventSystem>() == null)
+            if (Object.FindAnyObjectByType<EventSystem>() == null)
             {
                 var esGO = new GameObject("EventSystem");
                 esGO.AddComponent<EventSystem>();
-                esGO.AddComponent<StandaloneInputModule>();
+                esGO.AddComponent<InputSystemUIInputModule>();
             }
 
             return canvasGO;

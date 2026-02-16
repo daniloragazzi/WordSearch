@@ -94,7 +94,7 @@ namespace RagazziStudios.Editor
             Debug.Log($"Min SDK: {PlayerSettings.Android.minSdkVersion}");
             Debug.Log($"Target SDK: {PlayerSettings.Android.targetSdkVersion}");
             Debug.Log($"Target Arch: {PlayerSettings.Android.targetArchitectures}");
-            Debug.Log($"Scripting Backend: {PlayerSettings.GetScriptingBackend(BuildTargetGroup.Android)}");
+            Debug.Log($"Scripting Backend: {PlayerSettings.GetScriptingBackend(UnityEditor.Build.NamedBuildTarget.Android)}");
 
             // Scenes
             var scenes = EditorBuildSettings.scenes;
