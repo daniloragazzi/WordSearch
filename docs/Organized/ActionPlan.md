@@ -43,10 +43,10 @@
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| DEV-007 | Implementar IStorageService + PlayerPrefsStorage | ⬜ | CFG-001 | Salvar/carregar progresso |
-| DEV-008 | Implementar ILocalizationService + JsonLocalization | ⬜ | CFG-001 | Strings de UI externalizadas |
-| DEV-009 | Implementar IAdsService + AdMobService (placeholder) | ⬜ | CFG-001 | Interface + mock para dev |
-| DEV-010 | Implementar IAnalyticsService + UnityAnalytics | ⬜ | CFG-001 | Interface + implementação básica |
+| DEV-007 | Implementar IStorageService + PlayerPrefsStorage | ✅ | CFG-001 | + StorageKeys helper |
+| DEV-008 | Implementar ILocalizationService + JsonLocalization | ✅ | CFG-001 | + modelos JSON de localização |
+| DEV-009 | Implementar IAdsService + MockAdsService | ✅ | CFG-001 | Mock para dev, AdMob em CFG-005 |
+| DEV-010 | Implementar IAnalyticsService + MockAnalytics | ✅ | CFG-001 | Mock para dev, Unity Analytics em CFG-006 |
 
 ### 2.4 — Application Layer (Core)
 
@@ -122,14 +122,14 @@
 |-------|-------|-----|-----|-----|---|
 | 2.1 Setup | 4 | 0 | 0 | 4 | 100% |
 | 2.2 Domain | 6 | 0 | 0 | 6 | 100% |
-| 2.3 Infrastructure | 4 | 4 | 0 | 0 | 0% |
+| 2.3 Infrastructure | 4 | 0 | 0 | 4 | 100% |
 | 2.4 Application | 3 | 3 | 0 | 0 | 0% |
 | 2.5 Dados | 5 | 5 | 0 | 0 | 0% |
 | 2.6 UI/Cenas | 11 | 11 | 0 | 0 | 0% |
 | 2.7 Design | 5 | 5 | 0 | 0 | 0% |
 | 2.8 Testes/Integração | 6 | 6 | 0 | 0 | 0% |
 | 2.9 Build/Publicação | 5 | 5 | 0 | 0 | 0% |
-| **TOTAL** | **49** | **39** | **0** | **10** | **20%** |
+| **TOTAL** | **49** | **35** | **0** | **14** | **29%** |
 
 ---
 

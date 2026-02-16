@@ -71,7 +71,7 @@
 | DEV-002 | Implementar Domain/Words | ✅ | — | — | 2026-02-15 | 2026-02-15 |
 | DEV-003 | Implementar Domain/Level | ✅ | — | — | 2026-02-15 | 2026-02-15 |
 | DEV-004 | Implementar Application layer | ⬜ | — | — | — | — |
-| DEV-005 | Implementar Infrastructure layer | ⬜ | — | — | — | — |
+| DEV-005 | Implementar Infrastructure layer | ✅ | — | — | 2026-02-15 | 2026-02-15 |
 | DEV-006 | Implementar UI/Screens | ⬜ | — | — | — | — |
 | DEV-007 | Implementar UI/Components (Grid) | ⬜ | — | — | — | — |
 | DAT-001 | Gerar banco de palavras | ⬜ | — | — | — | — |
