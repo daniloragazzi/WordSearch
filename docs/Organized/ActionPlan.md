@@ -155,17 +155,17 @@
 |--------|------|--------|-------------|-------|
 | ANI-001 | Animação de transição entre telas (fade/slide) | ⬜ | — | CanvasGroup fade ou slide horizontal |
 | ANI-002 | Animação de célula selecionada (pulse/scale) | ⬜ | — | Feedback visual ao selecionar letras |
-| ANI-003 | Animação de palavra encontrada (flash + cor) | ⬜ | — | Células piscam antes de ficar verde |
+| ANI-003 | Animação de palavra encontrada (flash + cor) | ✅ | — | Pulso cascata nas células (scale 1→1.25→1, 40ms delay) |
 | ANI-004 | Celebração de vitória (partículas/confete) | ⬜ | — | Particle System ou UI animada |
-| ANI-005 | Feedback de seleção inválida (shake) | ⬜ | — | Leve tremor na seleção quando não é palavra |
+| ANI-005 | Feedback de seleção inválida (shake) | ✅ | — | Grid shake (sin 50Hz) + flash vermelho nas células |
 
 ### 3.5 — Gameplay e UX
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| UX-001 | Implementar Pause Popup | ⬜ | — | Popup com Continuar, Reiniciar, Sair |
-| UX-002 | Mostrar timer durante gameplay | ⬜ | — | Relógio visível no header (já calculado internamente) |
-| UX-003 | Melhorar visual da SelectionLine (endpoints arredondados) | ⬜ | — | Linhas mais bonitas sobre o grid |
+| UX-001 | Implementar Pause Popup | ✅ | — | PausePopup.cs com Time.timeScale=0, animações unscaled |
+| UX-002 | Mostrar timer durante gameplay | ✅ | — | Timer M:SS no header, atualiza via Update() |
+| UX-003 | Melhorar visual da SelectionLine (endpoints arredondados) | ✅ | — | Sprite pílula procedural 9-slice + linhas coloridas persistentes por palavra |
 | UX-004 | Tutorial de primeiro uso | ⬜ | — | Overlay simples mostrando como jogar |
 | UX-005 | Tela de loading entre cenas | ⬜ | ANI-001 | Progress bar ou spinner durante carregamento |
 
