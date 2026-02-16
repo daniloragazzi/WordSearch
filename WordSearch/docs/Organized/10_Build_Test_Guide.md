@@ -58,32 +58,13 @@ File → Build Settings:
 Menu: Build → Ragazzi Studios → 📋 Verify Build Settings
 ```
 
-### 2.4 Conectar Scripts aos GameObjects
-Após criar as cenas, abrir cada uma e arrastar os scripts:
+### 2.4 Scripts e Referências (Automático ✅)
+O `SceneCreator` já faz tudo automaticamente:
+- Adiciona **todos os scripts** (MonoBehaviours) aos GameObjects corretos
+- Conecta **todas as referências** (SerializeField) via `SerializedObject`
+- Cria **prefabs template** (LetterCell, CategoryButton, LevelButton, WordListItem)
 
-**Boot.unity:**
-| GameObject | Script |
-|-----------|--------|
-| GameManager | `GameManager.cs` |
-| BootLoader | `BootLoader.cs` (conectar _fadePanel ao FadePanel) |
-
-**MainMenu.unity:**
-| GameObject | Script |
-|-----------|--------|
-| NavigationController | `NavigationController.cs` (conectar screens) |
-| MainMenuScreen | `MainMenuScreen.cs` (conectar botões) |
-| CategorySelectScreen | `CategorySelectScreen.cs` (conectar grid/prefab) |
-| LevelSelectScreen | `LevelSelectScreen.cs` (conectar grid/prefab) |
-| SettingsPopup | `SettingsPopup.cs` (conectar toggles) |
-
-**Game.unity:**
-| GameObject | Script |
-|-----------|--------|
-| GameplayController | `GameplayController.cs` (conectar tudo) |
-| GridView | `GridView.cs` (conectar prefab LetterCell) |
-| SelectionLine | `SelectionLine.cs` |
-| WordListView | `WordListView.cs` (conectar prefab WordListItem) |
-| WinPopup | `WinPopup.cs` (conectar textos/botões) |
+> ✅ **Nenhuma configuração manual necessária!** As cenas já estão 100% funcionais.
 
 ---
 
