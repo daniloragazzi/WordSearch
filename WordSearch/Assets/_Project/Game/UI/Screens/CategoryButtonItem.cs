@@ -38,9 +38,6 @@ namespace RagazziStudios.Game.UI.Screens
             { "cores_formas", new Color(0.55f, 0.30f, 0.50f) }, // magenta
         };
 
-        private string _categoryId;
-        private Action<string> _onClickCallback;
-
         /// <summary>
         /// Configura o item da categoria.
         /// </summary>
