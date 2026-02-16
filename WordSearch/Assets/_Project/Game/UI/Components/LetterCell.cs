@@ -70,6 +70,7 @@ namespace RagazziStudios.Game.UI.Components
                 case CellState.Selected:
                     IsSelected = true;
                     SetColors(_selectedColor, _activeTextColor);
+                    PopSelect();
                     break;
 
                 case CellState.Found:
@@ -91,6 +92,42 @@ namespace RagazziStudios.Game.UI.Components
 
             if (_letterText != null)
                 _letterText.color = text;
+        }
+
+        /// <summary>
+        /// Micro-animação de "pop" ao selecionar (scale 1→1.15→1, rápido).
+        /// </summary>
+        private void PopSelect()
+        {
+            StopCoroutine(nameof(PopCoroutine));
+            StartCoroutine(PopCoroutine());
+        }
+
+        private IEnumerator PopCoroutine()
+        {
+            var rt = GetComponent<RectTransform>();
+            Vector3 orig = Vector3.one;
+            Vector3 big = orig * 1.15f;
+
+            float half = 0.06f;
+            float elapsed = 0f;
+
+            while (elapsed < half)
+            {
+                rt.localScale = Vector3.Lerp(orig, big, elapsed / half);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            elapsed = 0f;
+            while (elapsed < half)
+            {
+                rt.localScale = Vector3.Lerp(big, orig, elapsed / half);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            rt.localScale = orig;
         }
 
         /// <summary>
