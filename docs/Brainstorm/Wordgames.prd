@@ -1,0 +1,257 @@
+# Brainstorm — Indie Game Studio (Jogos Casuais Android)
+
+## Visão Geral
+
+Criar um **ecossistema de jogos casuais Android** (word games, puzzles, quizzes, jogos educativos), com foco em:
+
+* baixo custo inicial
+* produção em série
+* escalabilidade
+* monetização via anúncios + in-app purchases
+* renda recorrente (semi-passiva no médio prazo)
+
+O projeto nasce como **laboratório técnico + diversão + produto real**, combinando engenharia de software corporativa com desenvolvimento de jogos simples.
+
+---
+
+## Objetivo do Projeto
+
+### Objetivo principal
+
+Construir um **portfólio escalável de jogos simples**, não um único jogo isolado.
+
+### Objetivos secundários
+
+* Aprender game dev de forma prática
+* Usar IA como copiloto de desenvolvimento
+* Criar pipeline técnico profissional
+* Validar modelo de renda recorrente
+* Criar ativos digitais reutilizáveis
+
+---
+
+## Princípios do Projeto
+
+* CLI-first
+* VS Code como IDE principal
+* IA integrada ao fluxo
+* Arquitetura limpa
+* Código reutilizável
+* Data-driven
+* Automação
+* Escala por repetição
+* Produção em série
+
+---
+
+## Tipos de Jogos (Ideias Iniciais)
+
+* Caça-palavras
+* Termo-like (Wordle clone)
+* Quiz temático
+* Puzzle lógico
+* Jogos educativos
+* Jogos infantis
+* Jogos para público sênior
+* Jogos offline
+* Jogos temáticos (bíblico, concursos, técnico, idiomas)
+
+---
+
+## Modelo de Produto
+
+### Estratégia
+
+Criar uma **engine base reutilizável** e derivar múltiplos jogos:
+
+* Mesmo core
+* Mesma arquitetura
+* Mesmo pipeline
+* Mudam apenas:
+
+  * dados
+  * temas
+  * UI
+  * conteúdo
+
+---
+
+## Modelo de Negócio
+
+### Monetização
+
+* Anúncios (principal)
+
+  * banner
+  * interstitial
+  * rewarded ads
+* In-App Purchases
+
+  * remover anúncios
+  * packs de dicas
+  * conteúdo premium
+
+### Modelo financeiro
+
+* Produto digital
+* Custo marginal ~ zero
+* Alta margem
+* Receita recorrente
+* Escala por portfólio
+
+---
+
+## Posicionamento
+
+Não é um projeto de "um jogo"
+
+É um projeto de:
+
+> Estúdio indie digital de jogos casuais
+
+---
+
+## Arquitetura Conceitual
+
+### Camadas
+
+* Domain
+
+  * regras do jogo
+  * engine semântica
+  * lógica de palavras
+  * sistemas de pontuação
+
+* Application
+
+  * serviços de jogo
+  * progressão
+  * níveis
+
+* Infrastructure
+
+  * ads
+  * analytics
+  * storage
+  * backend
+
+* UI
+
+  * telas
+  * componentes
+  * controladores
+
+---
+
+## Pipeline Técnico
+
+* Unity como engine
+* VS Code como IDE
+* Git como versionamento
+* CLI como orquestração
+* IA como copiloto
+* Build automatizado
+* Deploy automatizado
+* Estrutura multi-app
+
+---
+
+## Estratégia de Produção
+
+1. Criar engine base
+2. Criar template de jogo
+3. Criar banco de dados de palavras
+4. Criar sistema de geração de níveis
+5. Criar sistema de temas
+6. Criar sistema de monetização
+7. Criar sistema de analytics
+8. Criar pipeline de build
+9. Criar pipeline de deploy
+10. Replicar
+
+---
+
+## Estratégia de Escala
+
+* Portfólio de apps
+* Cross-promotion
+* ASO
+* Tráfego orgânico
+* Reaproveitamento de código
+* Reaproveitamento de dados
+* Reaproveitamento de assets
+
+---
+
+## Indicadores-Chave (KPIs)
+
+* MAU (usuários ativos mensais)
+* Retenção
+* ARPU
+* CPM
+* LTV
+* CAC
+* Receita por jogo
+* Receita total do portfólio
+
+---
+
+## Visão de Longo Prazo
+
+Criar um **ecossistema próprio de jogos simples**, com:
+
+* engine proprietária
+* pipeline próprio
+* marca própria
+* rede interna de tráfego
+* múltiplos produtos
+* renda recorrente
+
+---
+
+## Motivação
+
+* Diversão técnica
+* Criação de produto real
+* Exploração de IA
+* Construção de ativos digitais
+* Aprendizado contínuo
+* Projeto escalável
+
+---
+
+## Estado Atual
+
+Fase: Brainstorm
+
+Status:
+
+* modelo de negócio definido
+* stack definida
+* arquitetura conceitual definida
+* estratégia definida
+* visão de produto definida
+
+Próxima fase:
+→ Organized
+
+---
+
+## Próximos Passos (pré-execução)
+
+* Definir primeiro tipo de jogo
+* Definir escopo do MVP
+* Definir engine base
+* Definir arquitetura de pastas
+* Definir pipeline técnico
+* Definir naming
+* Definir branding inicial
+* Definir estrutura de dados
+* Definir modelo de níveis
+
+---
+
+## Frase-guia do projeto
+
+> "Não estamos criando jogos.
+> Estamos criando uma fábrica de produtos digitais lúdicos."
