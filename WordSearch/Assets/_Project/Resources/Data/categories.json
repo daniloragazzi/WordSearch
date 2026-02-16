@@ -1,0 +1,44 @@
+{
+    "categories": [
+        {
+            "id": "animais",
+            "name": "Animais",
+            "icon": "cat_animais"
+        },
+        {
+            "id": "alimentos",
+            "name": "Alimentos",
+            "icon": "cat_alimentos"
+        },
+        {
+            "id": "corpo_humano",
+            "name": "Corpo Humano",
+            "icon": "cat_corpo_humano"
+        },
+        {
+            "id": "natureza",
+            "name": "Natureza",
+            "icon": "cat_natureza"
+        },
+        {
+            "id": "profissoes",
+            "name": "Profissões",
+            "icon": "cat_profissoes"
+        },
+        {
+            "id": "paises",
+            "name": "Países",
+            "icon": "cat_paises"
+        },
+        {
+            "id": "esportes",
+            "name": "Esportes",
+            "icon": "cat_esportes"
+        },
+        {
+            "id": "cores_formas",
+            "name": "Cores e Formas",
+            "icon": "cat_cores_formas"
+        }
+    ]
+}

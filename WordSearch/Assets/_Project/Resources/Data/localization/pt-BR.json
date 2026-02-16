@@ -1,0 +1,128 @@
+{
+    "entries": [
+        {
+            "key": "app_name",
+            "value": "Caça-Palavras"
+        },
+        {
+            "key": "btn_play",
+            "value": "Jogar"
+        },
+        {
+            "key": "btn_settings",
+            "value": "Configurações"
+        },
+        {
+            "key": "btn_back",
+            "value": "Voltar"
+        },
+        {
+            "key": "btn_next",
+            "value": "Próximo"
+        },
+        {
+            "key": "btn_hint",
+            "value": "Dica"
+        },
+        {
+            "key": "btn_pause",
+            "value": "Pausar"
+        },
+        {
+            "key": "btn_resume",
+            "value": "Continuar"
+        },
+        {
+            "key": "btn_quit",
+            "value": "Sair"
+        },
+        {
+            "key": "btn_retry",
+            "value": "Tentar novamente"
+        },
+        {
+            "key": "btn_next_level",
+            "value": "Próximo nível"
+        },
+        {
+            "key": "btn_menu",
+            "value": "Menu"
+        },
+        {
+            "key": "title_categories",
+            "value": "Categorias"
+        },
+        {
+            "key": "title_levels",
+            "value": "Níveis"
+        },
+        {
+            "key": "title_settings",
+            "value": "Configurações"
+        },
+        {
+            "key": "title_pause",
+            "value": "Pausado"
+        },
+        {
+            "key": "label_level",
+            "value": "Nível {0}"
+        },
+        {
+            "key": "label_progress",
+            "value": "{0}/{1}"
+        },
+        {
+            "key": "label_words_found",
+            "value": "{0} de {1} palavras"
+        },
+        {
+            "key": "label_locked",
+            "value": "Bloqueado"
+        },
+        {
+            "key": "label_completed",
+            "value": "Completo"
+        },
+        {
+            "key": "settings_sound",
+            "value": "Som"
+        },
+        {
+            "key": "settings_music",
+            "value": "Música"
+        },
+        {
+            "key": "settings_language",
+            "value": "Idioma"
+        },
+        {
+            "key": "win_title",
+            "value": "Parabéns!"
+        },
+        {
+            "key": "win_message",
+            "value": "Você completou o nível!"
+        },
+        {
+            "key": "win_all_complete",
+            "value": "Todos os níveis desta categoria foram completados!"
+        },
+        {
+            "key": "hint_watch_ad",
+            "value": "Assistir anúncio para revelar uma palavra"
+        },
+        {
+            "key": "hint_no_ad",
+            "value": "Anúncio não disponível"
+        },
+        {
+            "key": "loading",
+            "value": "Carregando..."
+        },
+        {
+            "key": "error_generic",
+            "value": "Algo deu errado. Tente novamente."
+        }
+    ]
+}

@@ -52,9 +52,9 @@
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| DEV-011 | Implementar GameState (state machine) | ⬜ | DEV-005 | Boot, Menu, Playing, Win |
-| DEV-012 | Implementar GameManager (orquestrador) | ⬜ | DEV-011 | Singleton, coordena tudo |
-| DEV-013 | Implementar LevelManager (progressão) | ⬜ | DEV-005, DEV-007 | Desbloqueio, save/load |
+| DEV-011 | Implementar GameState (state machine) | ✅ | DEV-005 | GameStateMachine + transições validadas |
+| DEV-012 | Implementar GameManager (orquestrador) | ✅ | DEV-011 | Singleton, serviços, ads, fluxo |
+| DEV-013 | Implementar LevelManager (progressão) | ✅ | DEV-005, DEV-007 | Save/load, desbloqueio, geração níveis |
 
 ### 2.5 — Dados e Conteúdo
 
@@ -123,13 +123,13 @@
 | 2.1 Setup | 4 | 0 | 0 | 4 | 100% |
 | 2.2 Domain | 6 | 0 | 0 | 6 | 100% |
 | 2.3 Infrastructure | 4 | 0 | 0 | 4 | 100% |
-| 2.4 Application | 3 | 3 | 0 | 0 | 0% |
+| 2.4 Application | 3 | 0 | 0 | 3 | 100% |
 | 2.5 Dados | 5 | 5 | 0 | 0 | 0% |
 | 2.6 UI/Cenas | 11 | 11 | 0 | 0 | 0% |
 | 2.7 Design | 5 | 5 | 0 | 0 | 0% |
 | 2.8 Testes/Integração | 6 | 6 | 0 | 0 | 0% |
 | 2.9 Build/Publicação | 5 | 5 | 0 | 0 | 0% |
-| **TOTAL** | **49** | **35** | **0** | **14** | **29%** |
+| **TOTAL** | **49** | **32** | **0** | **17** | **35%** |
 
 ---
 
