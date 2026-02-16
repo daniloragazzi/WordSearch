@@ -173,8 +173,8 @@
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| TST-006 | Teste completo no device (pós-melhorias) | ⬜ | 3.1–3.5 | Validar todas as melhorias no dispositivo |
-| BLD-006 | Novo build APK com melhorias | ⬜ | TST-006 | Build para teste final antes de publicar |
+| TST-006 | Teste completo no device (pós-melhorias) | ✅ | 3.1–3.5 | Todas melhorias visuais/UX validadas no device |
+| BLD-006 | Novo build APK com melhorias | ✅ | TST-006 | APK gerado e testado com sucesso |
 
 ---
 
@@ -196,8 +196,8 @@
 | 3.3 UI/Sprites | 6 | 0 | 0 | 0 | 6 | 100% |
 | 3.4 Animações | 5 | 0 | 0 | 0 | 5 | 100% |
 | 3.5 Gameplay/UX | 5 | 1 | 0 | 0 | 4 | 80% |
-| 3.6 Teste Final | 2 | 2 | 0 | 0 | 0 | 0% |
-| **TOTAL** | **76** | **8** | **4** | **0** | **64** | **84%** |
+| 3.6 Teste Final | 2 | 0 | 0 | 0 | 2 | 100% |
+| **TOTAL** | **76** | **6** | **4** | **0** | **66** | **87%** |
 
 ---
 
