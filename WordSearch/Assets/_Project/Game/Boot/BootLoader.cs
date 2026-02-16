@@ -100,8 +100,16 @@ namespace RagazziStudios.Game.Boot
                 }
             }
 
-            // Transicionar para MainMenu
-            SceneManager.LoadScene(MAIN_MENU_SCENE);
+            // Transicionar para MainMenu com fade
+            var gm = Core.Application.GameManager.Instance;
+            if (gm != null)
+            {
+                gm.LoadScene(MAIN_MENU_SCENE);
+            }
+            else
+            {
+                SceneManager.LoadScene(MAIN_MENU_SCENE);
+            }
         }
     }
 }

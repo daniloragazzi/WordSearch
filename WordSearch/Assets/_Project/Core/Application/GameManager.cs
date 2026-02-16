@@ -27,6 +27,9 @@ namespace RagazziStudios.Core.Application
         /// <summary>Gerenciador de progressão de níveis.</summary>
         public LevelManager LevelManager { get; private set; }
 
+        /// <summary>Componente de transição entre cenas.</summary>
+        public SceneTransition SceneTransition { get; private set; }
+
         /// <summary>Hora de início da sessão.</summary>
         private float _sessionStartTime;
 
@@ -115,6 +118,9 @@ namespace RagazziStudios.Core.Application
             StateMachine = new GameStateMachine();
             LevelManager = new LevelManager();
 
+            // Adicionar SceneTransition ao mesmo GO (DontDestroyOnLoad)
+            SceneTransition = gameObject.AddComponent<SceneTransition>();
+
             Debug.Log("[GameManager] Managers initialized.");
         }
 
@@ -164,11 +170,18 @@ namespace RagazziStudios.Core.Application
         // --- Ações públicas ---
 
         /// <summary>
-        /// Carrega uma cena pelo nome.
+        /// Carrega uma cena com transição suave (fade out → load → fade in).
         /// </summary>
         public void LoadScene(string sceneName)
         {
-            SceneManager.LoadScene(sceneName);
+            if (SceneTransition != null && !SceneTransition.IsTransitioning)
+            {
+                SceneTransition.TransitionTo(sceneName);
+            }
+            else
+            {
+                SceneManager.LoadScene(sceneName);
+            }
         }
 
         /// <summary>
