@@ -153,10 +153,10 @@
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| ANI-001 | Animação de transição entre telas (fade/slide) | ⬜ | — | CanvasGroup fade ou slide horizontal |
-| ANI-002 | Animação de célula selecionada (pulse/scale) | ⬜ | — | Feedback visual ao selecionar letras |
+| ANI-001 | Animação de transição entre telas (fade/slide) | ✅ | — | SceneTransition.cs com overlay fade 0.3s + LoadSceneAsync |
+| ANI-002 | Animação de célula selecionada (pulse/scale) | ✅ | — | Pop 1→1.15→1 em 120ms ao SetState(Selected) |
 | ANI-003 | Animação de palavra encontrada (flash + cor) | ✅ | — | Pulso cascata nas células (scale 1→1.25→1, 40ms delay) |
-| ANI-004 | Celebração de vitória (partículas/confete) | ⬜ | — | Particle System ou UI animada |
+| ANI-004 | Celebração de vitória (partículas/confete) | ✅ | — | ConfettiEffect.cs — 60 UI Images coloridas caindo com sway/rotação |
 | ANI-005 | Feedback de seleção inválida (shake) | ✅ | — | Grid shake (sin 50Hz) + flash vermelho nas células |
 
 ### 3.5 — Gameplay e UX
@@ -194,10 +194,10 @@
 | 3.1 Áudio | 5 | 5 | 0 | 0 | 0 | 0% |
 | 3.2 Fonte | 3 | 0 | 0 | 0 | 3 | 100% |
 | 3.3 UI/Sprites | 6 | 6 | 0 | 0 | 0 | 0% |
-| 3.4 Animações | 5 | 5 | 0 | 0 | 0 | 0% |
-| 3.5 Gameplay/UX | 5 | 5 | 0 | 0 | 0 | 0% |
+| 3.4 Animações | 5 | 0 | 0 | 0 | 5 | 100% |
+| 3.5 Gameplay/UX | 5 | 2 | 0 | 0 | 3 | 60% |
 | 3.6 Teste Final | 2 | 2 | 0 | 0 | 0 | 0% |
-| **TOTAL** | **76** | **23** | **4** | **0** | **49** | **64%** |
+| **TOTAL** | **76** | **15** | **4** | **0** | **57** | **75%** |
 
 ---
 
