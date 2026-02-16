@@ -242,14 +242,70 @@ namespace RagazziStudios.Editor
             // ═══ LevelSelect Screen ═══
             var lvlScreenGO = CreateScreen(canvasGO.transform, "LevelSelectScreen");
 
-            var lvlTitleGO = CreateTextElement(lvlScreenGO.transform, "Title",
-                "NIVEIS", 36, TextAlignmentOptions.Center, new Vector2(0, 380));
-            var lvlCatNameGO = CreateTextElement(lvlScreenGO.transform, "CategoryName",
-                "", 24, TextAlignmentOptions.Center, new Vector2(0, 330));
-            var lvlBackBtnGO = CreateButton(lvlScreenGO.transform, "BackButton",
-                "<", new Vector2(-300, 380));
-            SetButtonSize(lvlBackBtnGO, new Vector2(80, 60));
+            // --- Header area (top 15%) ---
+            var lvlHeader = new GameObject("Header");
+            lvlHeader.transform.SetParent(lvlScreenGO.transform, false);
+            var lvlHeaderRect = lvlHeader.AddComponent<RectTransform>();
+            lvlHeaderRect.anchorMin = new Vector2(0f, 0.85f);
+            lvlHeaderRect.anchorMax = new Vector2(1f, 1f);
+            lvlHeaderRect.offsetMin = Vector2.zero;
+            lvlHeaderRect.offsetMax = Vector2.zero;
 
+            // Back button (left side of header)
+            var lvlBackBtnGO = new GameObject("BackButton");
+            lvlBackBtnGO.transform.SetParent(lvlHeader.transform, false);
+            var lvlBackImg = lvlBackBtnGO.AddComponent<Image>();
+            lvlBackImg.color = new Color(0.29f, 0.56f, 0.89f, 1f);
+            lvlBackBtnGO.AddComponent<Button>().targetGraphic = lvlBackImg;
+            var lvlBackRect = lvlBackBtnGO.GetComponent<RectTransform>();
+            lvlBackRect.anchorMin = new Vector2(0.02f, 0.55f);
+            lvlBackRect.anchorMax = new Vector2(0.14f, 0.95f);
+            lvlBackRect.offsetMin = Vector2.zero;
+            lvlBackRect.offsetMax = Vector2.zero;
+            var lvlBackLabel = new GameObject("Label");
+            lvlBackLabel.transform.SetParent(lvlBackBtnGO.transform, false);
+            var lvlBackTMP = lvlBackLabel.AddComponent<TextMeshProUGUI>();
+            lvlBackTMP.text = "<";
+            lvlBackTMP.fontSize = 28;
+            lvlBackTMP.alignment = TextAlignmentOptions.Center;
+            lvlBackTMP.color = Color.white;
+            lvlBackTMP.raycastTarget = false;
+            var lvlBackLabelRect = lvlBackLabel.GetComponent<RectTransform>();
+            lvlBackLabelRect.anchorMin = Vector2.zero;
+            lvlBackLabelRect.anchorMax = Vector2.one;
+            lvlBackLabelRect.sizeDelta = Vector2.zero;
+
+            // Title "Níveis" (center-top of header)
+            var lvlTitleGO = new GameObject("Title");
+            lvlTitleGO.transform.SetParent(lvlHeader.transform, false);
+            var lvlTitleTMP = lvlTitleGO.AddComponent<TextMeshProUGUI>();
+            lvlTitleTMP.text = "Níveis";
+            lvlTitleTMP.fontSize = 32;
+            lvlTitleTMP.alignment = TextAlignmentOptions.Center;
+            lvlTitleTMP.color = Color.white;
+            lvlTitleTMP.raycastTarget = false;
+            var lvlTitleRect = lvlTitleGO.GetComponent<RectTransform>();
+            lvlTitleRect.anchorMin = new Vector2(0.15f, 0.5f);
+            lvlTitleRect.anchorMax = new Vector2(0.85f, 1f);
+            lvlTitleRect.offsetMin = Vector2.zero;
+            lvlTitleRect.offsetMax = Vector2.zero;
+
+            // Category name (center-bottom of header)
+            var lvlCatNameGO = new GameObject("CategoryName");
+            lvlCatNameGO.transform.SetParent(lvlHeader.transform, false);
+            var lvlCatNameTMP = lvlCatNameGO.AddComponent<TextMeshProUGUI>();
+            lvlCatNameTMP.text = "";
+            lvlCatNameTMP.fontSize = 20;
+            lvlCatNameTMP.alignment = TextAlignmentOptions.Center;
+            lvlCatNameTMP.color = new Color(0.8f, 0.8f, 0.8f, 1f);
+            lvlCatNameTMP.raycastTarget = false;
+            var lvlCatNameRect = lvlCatNameGO.GetComponent<RectTransform>();
+            lvlCatNameRect.anchorMin = new Vector2(0.15f, 0f);
+            lvlCatNameRect.anchorMax = new Vector2(0.85f, 0.5f);
+            lvlCatNameRect.offsetMin = Vector2.zero;
+            lvlCatNameRect.offsetMax = Vector2.zero;
+
+            // --- Level grid (below header) ---
             var lvlGrid = new GameObject("LevelGrid");
             lvlGrid.transform.SetParent(lvlScreenGO.transform, false);
             var lvlGridLayout = lvlGrid.AddComponent<GridLayoutGroup>();
@@ -258,10 +314,12 @@ namespace RagazziStudios.Editor
             lvlGridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             lvlGridLayout.constraintCount = 5;
             lvlGridLayout.childAlignment = TextAnchor.UpperCenter;
+            lvlGridLayout.padding = new RectOffset(10, 10, 10, 10);
             var lvlGridRect = lvlGrid.GetComponent<RectTransform>();
-            lvlGridRect.anchorMin = new Vector2(0.1f, 0.2f);
-            lvlGridRect.anchorMax = new Vector2(0.9f, 0.85f);
-            lvlGridRect.sizeDelta = Vector2.zero;
+            lvlGridRect.anchorMin = new Vector2(0.02f, 0.02f);
+            lvlGridRect.anchorMax = new Vector2(0.98f, 0.84f);
+            lvlGridRect.offsetMin = Vector2.zero;
+            lvlGridRect.offsetMax = Vector2.zero;
 
             // LevelButtonItem prefab template
             var lvlButtonPrefab = CreateLevelButtonPrefab(lvlScreenGO.transform);
@@ -270,8 +328,8 @@ namespace RagazziStudios.Editor
             var lvlScript = lvlScreenGO.AddComponent<Game.UI.Screens.LevelSelectScreen>();
             Wire(lvlScript, "_levelContainer", lvlGrid.transform);
             Wire(lvlScript, "_levelButtonPrefab", lvlButtonPrefab);
-            Wire(lvlScript, "_headerText", lvlTitleGO.GetComponent<TMP_Text>());
-            Wire(lvlScript, "_categoryNameText", lvlCatNameGO.GetComponent<TMP_Text>());
+            Wire(lvlScript, "_headerText", lvlTitleTMP);
+            Wire(lvlScript, "_categoryNameText", lvlCatNameTMP);
             Wire(lvlScript, "_backButton", lvlBackBtnGO.GetComponent<Button>());
 
             // ═══ Settings Popup (hidden) ═══
