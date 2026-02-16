@@ -5,7 +5,9 @@
         "RagazziStudios.Core.Domain",
         "RagazziStudios.Core.Infrastructure",
         "RagazziStudios.Core.Application",
-        "RagazziStudios.Game"
+        "RagazziStudios.Game",
+        "Unity.TextMeshPro",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [
         "Editor"
