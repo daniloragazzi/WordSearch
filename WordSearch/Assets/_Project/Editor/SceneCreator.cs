@@ -26,12 +26,20 @@ namespace RagazziStudios.Editor
         private static TMP_FontAsset _fontBold;
         private static TMP_FontAsset _fontExtraBold;
 
+        // Sprites (loaded once per CreateAllScenes call)
+        private static Sprite _btnPrimary;
+        private static Sprite _btnCircle;
+        private static Sprite _panelPopup;
+        private static Sprite _panelCard;
+        private static Sprite _cellBg;
+
         [MenuItem("Build/Ragazzi Studios/🎬 Create All Scenes", priority = 1)]
         public static void CreateAllScenes()
         {
             EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
 
             LoadFonts();
+            LoadSprites();
 
             CreateBootScene();
             CreateMainMenuScene();
@@ -183,6 +191,7 @@ namespace RagazziStudios.Editor
             catBackBtnGO.transform.SetParent(catHeader.transform, false);
             var catBackImg = catBackBtnGO.AddComponent<Image>();
             catBackImg.color = new Color(0.29f, 0.56f, 0.89f, 1f);
+            ApplySprite(catBackImg, _btnCircle);
             var catBackBtn = catBackBtnGO.AddComponent<Button>();
             catBackBtn.targetGraphic = catBackImg;
             var catBackRect = catBackBtnGO.GetComponent<RectTransform>();
@@ -265,6 +274,7 @@ namespace RagazziStudios.Editor
             lvlBackBtnGO.transform.SetParent(lvlHeader.transform, false);
             var lvlBackImg = lvlBackBtnGO.AddComponent<Image>();
             lvlBackImg.color = new Color(0.29f, 0.56f, 0.89f, 1f);
+            ApplySprite(lvlBackImg, _btnCircle);
             lvlBackBtnGO.AddComponent<Button>().targetGraphic = lvlBackImg;
             var lvlBackRect = lvlBackBtnGO.GetComponent<RectTransform>();
             lvlBackRect.anchorMin = new Vector2(0.02f, 0.55f);
@@ -349,6 +359,7 @@ namespace RagazziStudios.Editor
             settingsPanel.transform.SetParent(settingsGO.transform, false);
             var settingsPanelImg = settingsPanel.AddComponent<Image>();
             settingsPanelImg.color = new Color(0.2f, 0.22f, 0.35f, 1f);
+            ApplySprite(settingsPanelImg, _panelPopup);
             var settingsPanelRect = settingsPanel.GetComponent<RectTransform>();
             settingsPanelRect.anchorMin = new Vector2(0.1f, 0.2f);
             settingsPanelRect.anchorMax = new Vector2(0.9f, 0.8f);
@@ -437,12 +448,14 @@ namespace RagazziStudios.Editor
             var backBtnGO = CreateButton(header.transform, "BackButton",
                 "<", new Vector2(-400, 0));
             SetButtonSize(backBtnGO, new Vector2(70, 50));
+            ApplySprite(backBtnGO.GetComponent<Image>(), _btnCircle);
             var hintBtnGO = CreateButton(header.transform, "HintButton",
                 "Dica", new Vector2(400, 0));
             SetButtonSize(hintBtnGO, new Vector2(100, 50));
             var pauseBtnGO = CreateButton(header.transform, "PauseButton",
                 "||", new Vector2(330, 0));
             SetButtonSize(pauseBtnGO, new Vector2(70, 50));
+            ApplySprite(pauseBtnGO.GetComponent<Image>(), _btnCircle);
 
             // ═══ GridView ═══
             var gridViewGO = new GameObject("GridView");
@@ -537,6 +550,7 @@ namespace RagazziStudios.Editor
             winPanel.transform.SetParent(winPopupGO.transform, false);
             var winPanelImg = winPanel.AddComponent<Image>();
             winPanelImg.color = new Color(0.2f, 0.22f, 0.35f, 1f);
+            ApplySprite(winPanelImg, _panelPopup);
             var winPanelRect = winPanel.GetComponent<RectTransform>();
             winPanelRect.anchorMin = new Vector2(0.1f, 0.25f);
             winPanelRect.anchorMax = new Vector2(0.9f, 0.75f);
@@ -582,6 +596,7 @@ namespace RagazziStudios.Editor
             pausePanel.transform.SetParent(pausePopupGO.transform, false);
             var pausePanelImg = pausePanel.AddComponent<Image>();
             pausePanelImg.color = new Color(0.2f, 0.22f, 0.35f, 1f);
+            ApplySprite(pausePanelImg, _panelPopup);
             var pausePanelRect = pausePanel.GetComponent<RectTransform>();
             pausePanelRect.anchorMin = new Vector2(0.1f, 0.3f);
             pausePanelRect.anchorMax = new Vector2(0.9f, 0.7f);
@@ -647,6 +662,7 @@ namespace RagazziStudios.Editor
 
             var image = go.AddComponent<Image>();
             image.color = new Color(0.25f, 0.28f, 0.45f, 1f);
+            ApplySprite(image, _panelCard);
             var btn = go.AddComponent<Button>();
             btn.targetGraphic = image;
 
@@ -669,6 +685,20 @@ namespace RagazziStudios.Editor
             iconRect.anchorMax = new Vector2(0.18f, 1);
             iconRect.offsetMin = new Vector2(8, 8);
             iconRect.offsetMax = new Vector2(0, -8);
+
+            // Icon image (sprite, same area as IconText)
+            var iconImgGO = new GameObject("IconImage");
+            iconImgGO.transform.SetParent(go.transform, false);
+            var iconImg = iconImgGO.AddComponent<Image>();
+            iconImg.color = Color.white;
+            iconImg.raycastTarget = false;
+            iconImg.preserveAspect = true;
+            var iconImgRect = iconImgGO.GetComponent<RectTransform>();
+            iconImgRect.anchorMin = new Vector2(0.02f, 0.15f);
+            iconImgRect.anchorMax = new Vector2(0.16f, 0.85f);
+            iconImgRect.offsetMin = Vector2.zero;
+            iconImgRect.offsetMax = Vector2.zero;
+            iconImgGO.SetActive(false);
 
             // Name text (middle-right, top half)
             var nameGO = new GameObject("NameText");
@@ -708,6 +738,7 @@ namespace RagazziStudios.Editor
             var catItem = go.AddComponent<Game.UI.Screens.CategoryButtonItem>();
             Wire(catItem, "_button", btn);
             Wire(catItem, "_iconText", iconTMP);
+            Wire(catItem, "_iconImage", iconImg);
             Wire(catItem, "_nameText", nameTMP);
             Wire(catItem, "_progressText", progressTMP);
 
@@ -725,6 +756,7 @@ namespace RagazziStudios.Editor
 
             var image = go.AddComponent<Image>();
             image.color = Color.white;
+            ApplySprite(image, _cellBg);
             var btn = go.AddComponent<Button>();
             btn.targetGraphic = image;
 
@@ -793,6 +825,7 @@ namespace RagazziStudios.Editor
 
             var bgImage = go.AddComponent<Image>();
             bgImage.color = new Color(0.95f, 0.95f, 0.95f);
+            ApplySprite(bgImage, _cellBg);
 
             var letterGO = new GameObject("Letter");
             letterGO.transform.SetParent(go.transform, false);
@@ -900,6 +933,35 @@ namespace RagazziStudios.Editor
             return go;
         }
 
+        private static void LoadSprites()
+        {
+            _btnPrimary = LoadSprite("Assets/_Project/Art/UI/Buttons/btn_primary.png");
+            _btnCircle = LoadSprite("Assets/_Project/Art/UI/Buttons/btn_circle.png");
+            _panelPopup = LoadSprite("Assets/_Project/Art/UI/Panels/panel_popup.png");
+            _panelCard = LoadSprite("Assets/_Project/Art/UI/Panels/panel_card.png");
+            _cellBg = LoadSprite("Assets/_Project/Art/UI/Grid/cell_bg.png");
+
+            int loaded = 0;
+            if (_btnPrimary != null) loaded++;
+            if (_btnCircle != null) loaded++;
+            if (_panelPopup != null) loaded++;
+            if (_panelCard != null) loaded++;
+            if (_cellBg != null) loaded++;
+            Debug.Log($"[SceneCreator] Sprites loaded: {loaded}/5 (run Generate Sprites first if 0)");
+        }
+
+        private static Sprite LoadSprite(string assetPath)
+        {
+            return AssetDatabase.LoadAssetAtPath<Sprite>(assetPath);
+        }
+
+        private static void ApplySprite(Image image, Sprite sprite)
+        {
+            if (image == null || sprite == null) return;
+            image.sprite = sprite;
+            image.type = Image.Type.Sliced;
+        }
+
         private static GameObject CreateTextElement(Transform parent, string name,
             string text, int fontSize, TextAlignmentOptions alignment,
             Vector2 position = default)
@@ -929,6 +991,7 @@ namespace RagazziStudios.Editor
 
             var image = go.AddComponent<Image>();
             image.color = new Color(0.29f, 0.56f, 0.89f, 1f);
+            ApplySprite(image, _btnPrimary);
 
             var button = go.AddComponent<Button>();
             button.targetGraphic = image;
