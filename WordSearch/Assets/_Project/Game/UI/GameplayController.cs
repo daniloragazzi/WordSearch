@@ -249,6 +249,10 @@ namespace RagazziStudios.Game.UI
         {
             Debug.Log("[Gameplay] All words found! Level complete!");
 
+            // Celebração: confete!
+            if (_popupParent != null)
+                Components.ConfettiEffect.Create(_popupParent);
+
             // SFX de vitória
             if (_sfxSource != null && _allWordsFoundClip != null)
                 _sfxSource.PlayOneShot(_allWordsFoundClip);
