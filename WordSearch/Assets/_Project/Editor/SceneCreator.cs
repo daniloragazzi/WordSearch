@@ -1,3 +1,4 @@
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -10,7 +11,8 @@ namespace RagazziStudios.Editor
 {
     /// <summary>
     /// Cria as 3 cenas do jogo (Boot, MainMenu, Game) com hierarquia completa.
-    /// Adiciona TODOS os scripts e conecta TODAS as referências automaticamente.
+    /// Adiciona TODOS os scripts e conecta TODAS as referências automaticamente
+    /// usando C# Reflection para garantir que os valores são persistidos na cena.
     /// Menu: Build → Ragazzi Studios → 🎬 Create All Scenes
     /// </summary>
     public static class SceneCreator
@@ -29,7 +31,7 @@ namespace RagazziStudios.Editor
             BuildScript.ConfigureScenes();
 
             Debug.Log("══════════════════════════════════════════════════════");
-            Debug.Log("[SceneCreator] ✅ 3 cenas criadas com scripts conectados!");
+            Debug.Log("[SceneCreator] ✅ 3 cenas criadas com todos os scripts conectados!");
             Debug.Log("[SceneCreator] 📋 Abra Boot.unity e aperte Play (▶️)");
             Debug.Log("══════════════════════════════════════════════════════");
         }
@@ -53,10 +55,13 @@ namespace RagazziStudios.Editor
 
             // --- GameManager (DontDestroyOnLoad) ---
             var gmGO = new GameObject("GameManager");
+            gmGO.SetActive(false); // Desativar antes de AddComponent para evitar Awake/OnEnable prematuro
             gmGO.AddComponent<Core.Application.GameManager>();
+            gmGO.SetActive(true);
 
             // --- BootLoader ---
             var bootGO = new GameObject("BootLoader");
+            bootGO.SetActive(false);
             var bootLoader = bootGO.AddComponent<Game.Boot.BootLoader>();
 
             // --- Canvas ---
@@ -82,7 +87,8 @@ namespace RagazziStudios.Editor
             fadeRect.sizeDelta = Vector2.zero;
 
             // --- Wiring: BootLoader ---
-            SetPrivateField(bootLoader, "_loadingCanvasGroup", loadingCG);
+            Wire(bootLoader, "_loadingCanvasGroup", loadingCG);
+            bootGO.SetActive(true);
 
             SaveScene(scene, "Boot");
         }
@@ -118,34 +124,35 @@ namespace RagazziStudios.Editor
             var playBtnGO = CreateButton(menuScreenGO.transform, "PlayButton",
                 "JOGAR", new Vector2(0, -20));
             var settingsBtnGO = CreateButton(menuScreenGO.transform, "SettingsButton",
-                "⚙ CONFIGURAÇÕES", new Vector2(0, -100));
-
-            // Version text
+                "Configuracoes", new Vector2(0, -100));
             var versionGO = CreateTextElement(menuScreenGO.transform, "VersionText",
                 "v0.1.0", 16, TextAlignmentOptions.Bottom, new Vector2(0, -400));
 
-            // MainMenuScreen script
+            // MainMenuScreen script (desativado durante wiring)
+            menuScreenGO.SetActive(false);
             var mainMenuScript = menuScreenGO.AddComponent<Game.UI.Screens.MainMenuScreen>();
-            SetPrivateField(mainMenuScript, "_playButton", playBtnGO.GetComponent<Button>());
-            SetPrivateField(mainMenuScript, "_settingsButton", settingsBtnGO.GetComponent<Button>());
-            SetPrivateField(mainMenuScript, "_titleText", titleGO.GetComponent<TMP_Text>());
-            SetPrivateField(mainMenuScript, "_playButtonText",
+
+            Wire(mainMenuScript, "_playButton", playBtnGO.GetComponent<Button>());
+            Wire(mainMenuScript, "_settingsButton", settingsBtnGO.GetComponent<Button>());
+            Wire(mainMenuScript, "_titleText", titleGO.GetComponent<TMP_Text>());
+            Wire(mainMenuScript, "_playButtonText",
                 playBtnGO.transform.Find("Label").GetComponent<TMP_Text>());
-            SetPrivateField(mainMenuScript, "_versionText", versionGO.GetComponent<TMP_Text>());
-            SetPrivateField(mainMenuScript, "_popupParent", canvasGO.transform);
-            SetPrivateField(mainMenuScript, "_canvasGroup", menuCanvasGroup);
+            Wire(mainMenuScript, "_settingsButtonText",
+                settingsBtnGO.transform.Find("Label").GetComponent<TMP_Text>());
+            Wire(mainMenuScript, "_versionText", versionGO.GetComponent<TMP_Text>());
+            Wire(mainMenuScript, "_popupParent", canvasGO.transform);
+            Wire(mainMenuScript, "_canvasGroup", menuCanvasGroup);
+
+            menuScreenGO.SetActive(true);
 
             // ═══ CategorySelect Screen ═══
             var catScreenGO = CreateScreen(canvasGO.transform, "CategorySelectScreen");
-            catScreenGO.SetActive(false);
 
             var catTitleGO = CreateTextElement(catScreenGO.transform, "Title", "CATEGORIAS", 36,
                 TextAlignmentOptions.Center, new Vector2(0, 380));
             var catBackBtnGO = CreateButton(catScreenGO.transform, "BackButton",
-                "←", new Vector2(-300, 380));
+                "<", new Vector2(-300, 380));
             SetButtonSize(catBackBtnGO, new Vector2(80, 60));
-
-            var catHeaderTMP = catTitleGO.GetComponent<TMP_Text>();
 
             var catGrid = new GameObject("CategoryGrid");
             catGrid.transform.SetParent(catScreenGO.transform, false);
@@ -160,26 +167,25 @@ namespace RagazziStudios.Editor
             catGridRect.anchorMax = new Vector2(0.95f, 0.85f);
             catGridRect.sizeDelta = Vector2.zero;
 
-            // CategoryButtonItem prefab placeholder
-            var catButtonPrefab = CreateCategoryButtonPrefab();
-            catButtonPrefab.transform.SetParent(catScreenGO.transform, false);
+            // CategoryButtonItem prefab template
+            var catButtonPrefab = CreateCategoryButtonPrefab(catScreenGO.transform);
 
+            catScreenGO.SetActive(false);
             var catScript = catScreenGO.AddComponent<Game.UI.Screens.CategorySelectScreen>();
-            SetPrivateField(catScript, "_categoryContainer", catGrid.transform);
-            SetPrivateField(catScript, "_categoryButtonPrefab", catButtonPrefab);
-            SetPrivateField(catScript, "_headerText", catHeaderTMP);
-            SetPrivateField(catScript, "_backButton", catBackBtnGO.GetComponent<Button>());
+            Wire(catScript, "_categoryContainer", catGrid.transform);
+            Wire(catScript, "_categoryButtonPrefab", catButtonPrefab);
+            Wire(catScript, "_headerText", catTitleGO.GetComponent<TMP_Text>());
+            Wire(catScript, "_backButton", catBackBtnGO.GetComponent<Button>());
 
             // ═══ LevelSelect Screen ═══
             var lvlScreenGO = CreateScreen(canvasGO.transform, "LevelSelectScreen");
-            lvlScreenGO.SetActive(false);
 
             var lvlTitleGO = CreateTextElement(lvlScreenGO.transform, "Title",
-                "NÍVEIS", 36, TextAlignmentOptions.Center, new Vector2(0, 380));
+                "NIVEIS", 36, TextAlignmentOptions.Center, new Vector2(0, 380));
             var lvlCatNameGO = CreateTextElement(lvlScreenGO.transform, "CategoryName",
                 "", 24, TextAlignmentOptions.Center, new Vector2(0, 330));
             var lvlBackBtnGO = CreateButton(lvlScreenGO.transform, "BackButton",
-                "←", new Vector2(-300, 380));
+                "<", new Vector2(-300, 380));
             SetButtonSize(lvlBackBtnGO, new Vector2(80, 60));
 
             var lvlGrid = new GameObject("LevelGrid");
@@ -195,23 +201,21 @@ namespace RagazziStudios.Editor
             lvlGridRect.anchorMax = new Vector2(0.9f, 0.85f);
             lvlGridRect.sizeDelta = Vector2.zero;
 
-            // LevelButtonItem prefab placeholder
-            var lvlButtonPrefab = CreateLevelButtonPrefab();
-            lvlButtonPrefab.transform.SetParent(lvlScreenGO.transform, false);
+            // LevelButtonItem prefab template
+            var lvlButtonPrefab = CreateLevelButtonPrefab(lvlScreenGO.transform);
 
+            lvlScreenGO.SetActive(false);
             var lvlScript = lvlScreenGO.AddComponent<Game.UI.Screens.LevelSelectScreen>();
-            SetPrivateField(lvlScript, "_levelContainer", lvlGrid.transform);
-            SetPrivateField(lvlScript, "_levelButtonPrefab", lvlButtonPrefab);
-            SetPrivateField(lvlScript, "_headerText", lvlTitleGO.GetComponent<TMP_Text>());
-            SetPrivateField(lvlScript, "_categoryNameText", lvlCatNameGO.GetComponent<TMP_Text>());
-            SetPrivateField(lvlScript, "_backButton", lvlBackBtnGO.GetComponent<Button>());
+            Wire(lvlScript, "_levelContainer", lvlGrid.transform);
+            Wire(lvlScript, "_levelButtonPrefab", lvlButtonPrefab);
+            Wire(lvlScript, "_headerText", lvlTitleGO.GetComponent<TMP_Text>());
+            Wire(lvlScript, "_categoryNameText", lvlCatNameGO.GetComponent<TMP_Text>());
+            Wire(lvlScript, "_backButton", lvlBackBtnGO.GetComponent<Button>());
 
             // ═══ Settings Popup (hidden) ═══
             var settingsGO = CreateScreen(canvasGO.transform, "SettingsPopup");
-            settingsGO.SetActive(false);
             var settingsCG = settingsGO.AddComponent<CanvasGroup>();
 
-            // Popup panel interior
             var settingsPanel = new GameObject("PopupPanel");
             settingsPanel.transform.SetParent(settingsGO.transform, false);
             var settingsPanelImg = settingsPanel.AddComponent<Image>();
@@ -222,47 +226,44 @@ namespace RagazziStudios.Editor
             settingsPanelRect.sizeDelta = Vector2.zero;
 
             var settTitleGO = CreateTextElement(settingsPanel.transform, "Title",
-                "CONFIGURAÇÕES", 30, TextAlignmentOptions.Center, new Vector2(0, 200));
+                "CONFIGURACOES", 30, TextAlignmentOptions.Center, new Vector2(0, 200));
             var settSoundLabelGO = CreateTextElement(settingsPanel.transform, "SoundLabel",
                 "Som", 22, TextAlignmentOptions.MidlineLeft, new Vector2(-100, 80));
             var settMusicLabelGO = CreateTextElement(settingsPanel.transform, "MusicLabel",
-                "Música", 22, TextAlignmentOptions.MidlineLeft, new Vector2(-100, 20));
+                "Musica", 22, TextAlignmentOptions.MidlineLeft, new Vector2(-100, 20));
             var settLangLabelGO = CreateTextElement(settingsPanel.transform, "LanguageLabel",
                 "Idioma", 22, TextAlignmentOptions.MidlineLeft, new Vector2(-100, -40));
 
-            // Toggles
             var soundToggleGO = CreateToggle(settingsPanel.transform, "SoundToggle", new Vector2(150, 80));
             var musicToggleGO = CreateToggle(settingsPanel.transform, "MusicToggle", new Vector2(150, 20));
-
-            // Dropdown
             var langDropdownGO = CreateDropdown(settingsPanel.transform, "LanguageDropdown",
                 new Vector2(100, -40));
-
             var settCloseBtnGO = CreateButton(settingsPanel.transform, "CloseButton",
-                "✕", new Vector2(280, 200));
+                "X", new Vector2(280, 200));
             SetButtonSize(settCloseBtnGO, new Vector2(60, 60));
 
+            settingsGO.SetActive(false);
             var settScript = settingsGO.AddComponent<Game.UI.Popups.SettingsPopup>();
-            SetPrivateField(settScript, "_titleText", settTitleGO.GetComponent<TMP_Text>());
-            SetPrivateField(settScript, "_soundLabel", settSoundLabelGO.GetComponent<TMP_Text>());
-            SetPrivateField(settScript, "_musicLabel", settMusicLabelGO.GetComponent<TMP_Text>());
-            SetPrivateField(settScript, "_languageLabel", settLangLabelGO.GetComponent<TMP_Text>());
-            SetPrivateField(settScript, "_soundToggle", soundToggleGO.GetComponent<Toggle>());
-            SetPrivateField(settScript, "_musicToggle", musicToggleGO.GetComponent<Toggle>());
-            SetPrivateField(settScript, "_languageDropdown", langDropdownGO.GetComponent<TMP_Dropdown>());
-            SetPrivateField(settScript, "_closeButton", settCloseBtnGO.GetComponent<Button>());
-            SetPrivateField(settScript, "_canvasGroup", settingsCG);
-            SetPrivateField(settScript, "_popupPanel", settingsPanelRect);
+            Wire(settScript, "_titleText", settTitleGO.GetComponent<TMP_Text>());
+            Wire(settScript, "_soundLabel", settSoundLabelGO.GetComponent<TMP_Text>());
+            Wire(settScript, "_musicLabel", settMusicLabelGO.GetComponent<TMP_Text>());
+            Wire(settScript, "_languageLabel", settLangLabelGO.GetComponent<TMP_Text>());
+            Wire(settScript, "_soundToggle", soundToggleGO.GetComponent<Toggle>());
+            Wire(settScript, "_musicToggle", musicToggleGO.GetComponent<Toggle>());
+            Wire(settScript, "_languageDropdown", langDropdownGO.GetComponent<TMP_Dropdown>());
+            Wire(settScript, "_closeButton", settCloseBtnGO.GetComponent<Button>());
+            Wire(settScript, "_canvasGroup", settingsCG);
+            Wire(settScript, "_popupPanel", settingsPanelRect);
 
             // Wire SettingsPopup reference in MainMenuScreen
-            SetPrivateField(mainMenuScript, "_settingsPopupPrefab", settingsGO);
+            Wire(mainMenuScript, "_settingsPopupPrefab", settingsGO);
 
             // ═══ NavigationController ═══
             var navGO = new GameObject("NavigationController");
             var navScript = navGO.AddComponent<Game.UI.Screens.NavigationController>();
-            SetPrivateField(navScript, "_mainMenuScreen", menuScreenGO);
-            SetPrivateField(navScript, "_categorySelectScreen", catScreenGO);
-            SetPrivateField(navScript, "_levelSelectScreen", lvlScreenGO);
+            Wire(navScript, "_mainMenuScreen", menuScreenGO);
+            Wire(navScript, "_categorySelectScreen", catScreenGO);
+            Wire(navScript, "_levelSelectScreen", lvlScreenGO);
 
             SaveScene(scene, "MainMenu");
         }
@@ -298,17 +299,17 @@ namespace RagazziStudios.Editor
             var catTitleGO = CreateTextElement(header.transform, "CategoryTitle",
                 "ANIMAIS", 24, TextAlignmentOptions.Center, Vector2.zero);
             var levelTextGO = CreateTextElement(header.transform, "LevelText",
-                "Nível 1", 18, TextAlignmentOptions.Center, new Vector2(0, -30));
+                "Nivel 1", 18, TextAlignmentOptions.Center, new Vector2(0, -30));
             var progressTextGO = CreateTextElement(header.transform, "ProgressText",
                 "0/5", 18, TextAlignmentOptions.Right, new Vector2(300, -30));
             var backBtnGO = CreateButton(header.transform, "BackButton",
-                "←", new Vector2(-400, 0));
+                "<", new Vector2(-400, 0));
             SetButtonSize(backBtnGO, new Vector2(70, 50));
             var hintBtnGO = CreateButton(header.transform, "HintButton",
-                "💡", new Vector2(400, 0));
-            SetButtonSize(hintBtnGO, new Vector2(70, 50));
+                "Dica", new Vector2(400, 0));
+            SetButtonSize(hintBtnGO, new Vector2(100, 50));
             var pauseBtnGO = CreateButton(header.transform, "PauseButton",
-                "⏸", new Vector2(330, 0));
+                "||", new Vector2(330, 0));
             SetButtonSize(pauseBtnGO, new Vector2(70, 50));
 
             // ═══ GridView ═══
@@ -319,7 +320,6 @@ namespace RagazziStudios.Editor
             gridViewRect.anchorMax = new Vector2(0.98f, 0.88f);
             gridViewRect.sizeDelta = Vector2.zero;
 
-            // Grid container with GridLayoutGroup
             var gridContainer = new GameObject("GridContainer");
             gridContainer.transform.SetParent(gridViewGO.transform, false);
             var gridLayout = gridContainer.AddComponent<GridLayoutGroup>();
@@ -330,14 +330,15 @@ namespace RagazziStudios.Editor
             gridContainerRect.sizeDelta = Vector2.zero;
 
             // LetterCell prefab
-            var letterCellPrefab = CreateLetterCellPrefab();
-            letterCellPrefab.transform.SetParent(gridViewGO.transform, false);
+            var letterCellPrefab = CreateLetterCellPrefab(gridViewGO.transform);
 
             // GridView script
+            gridViewGO.SetActive(false);
             var gridViewScript = gridViewGO.AddComponent<Game.UI.Components.GridView>();
-            SetPrivateField(gridViewScript, "_letterCellPrefab", letterCellPrefab);
-            SetPrivateField(gridViewScript, "_gridLayout", gridLayout);
-            SetPrivateField(gridViewScript, "_gridContainer", gridViewRect);
+            Wire(gridViewScript, "_letterCellPrefab", letterCellPrefab);
+            Wire(gridViewScript, "_gridLayout", gridLayout);
+            Wire(gridViewScript, "_gridContainer", gridViewRect);
+            gridViewGO.SetActive(true);
 
             // ═══ SelectionLine ═══
             var selectionLineGO = new GameObject("SelectionLine");
@@ -346,12 +347,10 @@ namespace RagazziStudios.Editor
             slRect.anchorMin = Vector2.zero;
             slRect.anchorMax = Vector2.one;
             slRect.sizeDelta = Vector2.zero;
-            // Transparent image for raycasting
             var slImage = selectionLineGO.AddComponent<Image>();
             slImage.color = new Color(0, 0, 0, 0);
             slImage.raycastTarget = true;
 
-            // Line visual element
             var lineVisualGO = new GameObject("LineVisual");
             lineVisualGO.transform.SetParent(selectionLineGO.transform, false);
             var lineImage = lineVisualGO.AddComponent<Image>();
@@ -361,10 +360,12 @@ namespace RagazziStudios.Editor
             lineVisualRect.sizeDelta = new Vector2(0, 40);
             lineVisualGO.SetActive(false);
 
+            selectionLineGO.SetActive(false);
             var selLineScript = selectionLineGO.AddComponent<Game.UI.Components.SelectionLine>();
-            SetPrivateField(selLineScript, "_gridView", gridViewScript);
-            SetPrivateField(selLineScript, "_lineVisual", lineVisualRect);
-            SetPrivateField(selLineScript, "_lineImage", lineImage);
+            Wire(selLineScript, "_gridView", gridViewScript);
+            Wire(selLineScript, "_lineVisual", lineVisualRect);
+            Wire(selLineScript, "_lineImage", lineImage);
+            selectionLineGO.SetActive(true);
 
             // ═══ WordListView ═══
             var wordListGO = new GameObject("WordListView");
@@ -386,22 +387,20 @@ namespace RagazziStudios.Editor
             wgRect.anchorMax = Vector2.one;
             wgRect.sizeDelta = Vector2.zero;
 
-            // WordListItem prefab
-            var wordItemPrefab = CreateWordListItemPrefab();
-            wordItemPrefab.transform.SetParent(wordListGO.transform, false);
+            var wordItemPrefab = CreateWordListItemPrefab(wordListGO.transform);
 
+            wordListGO.SetActive(false);
             var wordListScript = wordListGO.AddComponent<Game.UI.Components.WordListView>();
-            SetPrivateField(wordListScript, "_wordContainer", wordGrid.transform);
-            SetPrivateField(wordListScript, "_wordItemPrefab", wordItemPrefab);
+            Wire(wordListScript, "_wordContainer", wordGrid.transform);
+            Wire(wordListScript, "_wordItemPrefab", wordItemPrefab);
+            wordListGO.SetActive(true);
 
             // ═══ WinPopup (hidden) ═══
             var winPopupGO = CreateScreen(canvasGO.transform, "WinPopup");
-            winPopupGO.SetActive(false);
             var winBg = winPopupGO.GetComponent<Image>();
             if (winBg != null) winBg.color = new Color(0, 0, 0, 0.7f);
             var winCG = winPopupGO.AddComponent<CanvasGroup>();
 
-            // Popup panel
             var winPanel = new GameObject("PopupPanel");
             winPanel.transform.SetParent(winPopupGO.transform, false);
             var winPanelImg = winPanel.AddComponent<Image>();
@@ -412,55 +411,60 @@ namespace RagazziStudios.Editor
             winPanelRect.sizeDelta = Vector2.zero;
 
             var winTitleGO = CreateTextElement(winPanel.transform, "Title",
-                "🎉 PARABÉNS!", 42, TextAlignmentOptions.Center, new Vector2(0, 150));
+                "PARABENS!", 42, TextAlignmentOptions.Center, new Vector2(0, 150));
             var winMsgGO = CreateTextElement(winPanel.transform, "Message",
-                "Nível Completo!", 24, TextAlignmentOptions.Center, new Vector2(0, 80));
+                "Nivel Completo!", 24, TextAlignmentOptions.Center, new Vector2(0, 80));
             var winStatsGO = CreateTextElement(winPanel.transform, "Stats",
-                "5 palavras • 1:23", 22, TextAlignmentOptions.Center, new Vector2(0, 30));
+                "5 palavras - 1:23", 22, TextAlignmentOptions.Center, new Vector2(0, 30));
             var winNextBtnGO = CreateButton(winPanel.transform, "NextButton",
-                "PRÓXIMO NÍVEL", new Vector2(0, -50));
+                "Proximo Nivel", new Vector2(0, -50));
             var winLvlBtnGO = CreateButton(winPanel.transform, "LevelSelectButton",
-                "SELECIONAR NÍVEL", new Vector2(0, -120));
+                "Selecionar Nivel", new Vector2(0, -120));
 
+            winPopupGO.SetActive(false);
             var winScript = winPopupGO.AddComponent<Game.UI.Popups.WinPopup>();
-            SetPrivateField(winScript, "_titleText", winTitleGO.GetComponent<TMP_Text>());
-            SetPrivateField(winScript, "_messageText", winMsgGO.GetComponent<TMP_Text>());
-            SetPrivateField(winScript, "_statsText", winStatsGO.GetComponent<TMP_Text>());
-            SetPrivateField(winScript, "_nextLevelButton", winNextBtnGO.GetComponent<Button>());
-            SetPrivateField(winScript, "_nextLevelButtonText",
+            Wire(winScript, "_titleText", winTitleGO.GetComponent<TMP_Text>());
+            Wire(winScript, "_messageText", winMsgGO.GetComponent<TMP_Text>());
+            Wire(winScript, "_statsText", winStatsGO.GetComponent<TMP_Text>());
+            Wire(winScript, "_nextLevelButton", winNextBtnGO.GetComponent<Button>());
+            Wire(winScript, "_nextLevelButtonText",
                 winNextBtnGO.transform.Find("Label").GetComponent<TMP_Text>());
-            SetPrivateField(winScript, "_levelSelectButton", winLvlBtnGO.GetComponent<Button>());
-            SetPrivateField(winScript, "_levelSelectButtonText",
+            Wire(winScript, "_levelSelectButton", winLvlBtnGO.GetComponent<Button>());
+            Wire(winScript, "_levelSelectButtonText",
                 winLvlBtnGO.transform.Find("Label").GetComponent<TMP_Text>());
-            SetPrivateField(winScript, "_canvasGroup", winCG);
-            SetPrivateField(winScript, "_popupPanel", winPanelRect);
+            Wire(winScript, "_canvasGroup", winCG);
+            Wire(winScript, "_popupPanel", winPanelRect);
 
             // ═══ GameplayController ═══
             var gpGO = new GameObject("GameplayController");
             var gpScript = gpGO.AddComponent<Game.UI.GameplayController>();
-            SetPrivateField(gpScript, "_gridView", gridViewScript);
-            SetPrivateField(gpScript, "_selectionLine", selLineScript);
-            SetPrivateField(gpScript, "_wordListView", wordListScript);
-            SetPrivateField(gpScript, "_categoryText", catTitleGO.GetComponent<TMP_Text>());
-            SetPrivateField(gpScript, "_levelText", levelTextGO.GetComponent<TMP_Text>());
-            SetPrivateField(gpScript, "_progressText", progressTextGO.GetComponent<TMP_Text>());
-            SetPrivateField(gpScript, "_hintButton", hintBtnGO.GetComponent<Button>());
-            SetPrivateField(gpScript, "_pauseButton", pauseBtnGO.GetComponent<Button>());
-            SetPrivateField(gpScript, "_backButton", backBtnGO.GetComponent<Button>());
-            SetPrivateField(gpScript, "_winPopupPrefab", winPopupGO);
-            SetPrivateField(gpScript, "_popupParent", canvasGO.transform);
+            Wire(gpScript, "_gridView", gridViewScript);
+            Wire(gpScript, "_selectionLine", selLineScript);
+            Wire(gpScript, "_wordListView", wordListScript);
+            Wire(gpScript, "_categoryText", catTitleGO.GetComponent<TMP_Text>());
+            Wire(gpScript, "_levelText", levelTextGO.GetComponent<TMP_Text>());
+            Wire(gpScript, "_progressText", progressTextGO.GetComponent<TMP_Text>());
+            Wire(gpScript, "_hintButton", hintBtnGO.GetComponent<Button>());
+            Wire(gpScript, "_pauseButton", pauseBtnGO.GetComponent<Button>());
+            Wire(gpScript, "_backButton", backBtnGO.GetComponent<Button>());
+            Wire(gpScript, "_winPopupPrefab", winPopupGO);
+            Wire(gpScript, "_popupParent", canvasGO.transform);
 
             SaveScene(scene, "Game");
         }
 
         // ═══════════════════════════════════════════════════
-        //  Prefab Factories (runtime scene objects as templates)
+        //  Prefab Factories (with scripts and wired fields)
         // ═══════════════════════════════════════════════════
 
-        private static GameObject CreateCategoryButtonPrefab()
+        /// <summary>
+        /// Cria um CategoryButtonItem como template na cena.
+        /// Inclui o script CategoryButtonItem com campos conectados.
+        /// </summary>
+        private static GameObject CreateCategoryButtonPrefab(Transform parent)
         {
             var go = new GameObject("CategoryButtonPrefab");
-            go.SetActive(false);
+            go.transform.SetParent(parent, false);
 
             var image = go.AddComponent<Image>();
             image.color = new Color(0.25f, 0.28f, 0.45f, 1f);
@@ -470,11 +474,15 @@ namespace RagazziStudios.Editor
             var rect = go.GetComponent<RectTransform>();
             rect.sizeDelta = new Vector2(300, 120);
 
-            // Icon placeholder
-            var iconGO = new GameObject("Icon");
+            // Icon (emoji text)
+            var iconGO = new GameObject("IconText");
             iconGO.transform.SetParent(go.transform, false);
-            var iconImg = iconGO.AddComponent<Image>();
-            iconImg.color = Color.white;
+            var iconTMP = iconGO.AddComponent<TextMeshProUGUI>();
+            iconTMP.text = "";
+            iconTMP.fontSize = 32;
+            iconTMP.alignment = TextAlignmentOptions.Center;
+            iconTMP.color = Color.white;
+            iconTMP.raycastTarget = false;
             var iconRect = iconGO.GetComponent<RectTransform>();
             iconRect.anchoredPosition = new Vector2(-100, 0);
             iconRect.sizeDelta = new Vector2(50, 50);
@@ -487,6 +495,7 @@ namespace RagazziStudios.Editor
             nameTMP.fontSize = 22;
             nameTMP.alignment = TextAlignmentOptions.MidlineLeft;
             nameTMP.color = Color.white;
+            nameTMP.raycastTarget = false;
             var nameRect = nameGO.GetComponent<RectTransform>();
             nameRect.anchoredPosition = new Vector2(20, 10);
             nameRect.sizeDelta = new Vector2(200, 40);
@@ -499,17 +508,31 @@ namespace RagazziStudios.Editor
             progressTMP.fontSize = 16;
             progressTMP.alignment = TextAlignmentOptions.MidlineLeft;
             progressTMP.color = new Color(0.7f, 0.7f, 0.7f);
+            progressTMP.raycastTarget = false;
             var progressRect = progressGO.GetComponent<RectTransform>();
             progressRect.anchoredPosition = new Vector2(20, -20);
             progressRect.sizeDelta = new Vector2(200, 30);
 
+            // CategoryButtonItem script
+            go.SetActive(false);
+            var catItem = go.AddComponent<Game.UI.Screens.CategoryButtonItem>();
+            Wire(catItem, "_button", btn);
+            Wire(catItem, "_iconText", iconTMP);
+            Wire(catItem, "_nameText", nameTMP);
+            Wire(catItem, "_progressText", progressTMP);
+            // _progressFill is optional (not essential for MVP)
+
             return go;
         }
 
-        private static GameObject CreateLevelButtonPrefab()
+        /// <summary>
+        /// Cria um LevelButtonItem como template na cena.
+        /// Inclui o script LevelButtonItem com campos conectados.
+        /// </summary>
+        private static GameObject CreateLevelButtonPrefab(Transform parent)
         {
             var go = new GameObject("LevelButtonPrefab");
-            go.SetActive(false);
+            go.transform.SetParent(parent, false);
 
             var image = go.AddComponent<Image>();
             image.color = Color.white;
@@ -519,6 +542,7 @@ namespace RagazziStudios.Editor
             var rect = go.GetComponent<RectTransform>();
             rect.sizeDelta = new Vector2(120, 120);
 
+            // Number label
             var labelGO = new GameObject("Label");
             labelGO.transform.SetParent(go.transform, false);
             var labelTMP = labelGO.AddComponent<TextMeshProUGUI>();
@@ -526,18 +550,57 @@ namespace RagazziStudios.Editor
             labelTMP.fontSize = 28;
             labelTMP.alignment = TextAlignmentOptions.Center;
             labelTMP.color = new Color(0.15f, 0.15f, 0.15f);
+            labelTMP.raycastTarget = false;
             var labelRect = labelGO.GetComponent<RectTransform>();
             labelRect.anchorMin = Vector2.zero;
             labelRect.anchorMax = Vector2.one;
             labelRect.sizeDelta = Vector2.zero;
 
+            // Completed icon (checkmark)
+            var completedGO = new GameObject("CompletedIcon");
+            completedGO.transform.SetParent(go.transform, false);
+            var completedTMP = completedGO.AddComponent<TextMeshProUGUI>();
+            completedTMP.text = "OK";
+            completedTMP.fontSize = 14;
+            completedTMP.alignment = TextAlignmentOptions.Center;
+            completedTMP.color = new Color(0.3f, 0.8f, 0.3f);
+            completedTMP.raycastTarget = false;
+            var completedRect = completedGO.GetComponent<RectTransform>();
+            completedRect.anchorMin = new Vector2(0.5f, 0);
+            completedRect.anchorMax = new Vector2(1, 0.3f);
+            completedRect.sizeDelta = Vector2.zero;
+            completedGO.SetActive(false);
+
+            // Locked icon
+            var lockedGO = new GameObject("LockedIcon");
+            lockedGO.transform.SetParent(go.transform, false);
+            var lockedImg = lockedGO.AddComponent<Image>();
+            lockedImg.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+            var lockedRect = lockedGO.GetComponent<RectTransform>();
+            lockedRect.anchorMin = Vector2.zero;
+            lockedRect.anchorMax = Vector2.one;
+            lockedRect.sizeDelta = Vector2.zero;
+            lockedGO.SetActive(false);
+
+            // LevelButtonItem script
+            go.SetActive(false);
+            var lvlItem = go.AddComponent<Game.UI.Screens.LevelButtonItem>();
+            Wire(lvlItem, "_button", btn);
+            Wire(lvlItem, "_numberText", labelTMP);
+            Wire(lvlItem, "_backgroundImage", image);
+            Wire(lvlItem, "_completedIcon", completedGO);
+            Wire(lvlItem, "_lockedIcon", lockedGO);
+
             return go;
         }
 
-        private static GameObject CreateLetterCellPrefab()
+        /// <summary>
+        /// Cria um LetterCell como template na cena.
+        /// </summary>
+        private static GameObject CreateLetterCellPrefab(Transform parent)
         {
             var go = new GameObject("LetterCellPrefab");
-            go.SetActive(false);
+            go.transform.SetParent(parent, false);
 
             var bgImage = go.AddComponent<Image>();
             bgImage.color = new Color(0.95f, 0.95f, 0.95f);
@@ -555,17 +618,23 @@ namespace RagazziStudios.Editor
             letterRect.anchorMax = Vector2.one;
             letterRect.sizeDelta = Vector2.zero;
 
+            go.SetActive(false);
             var cellScript = go.AddComponent<Game.UI.Components.LetterCell>();
-            SetPrivateField(cellScript, "_letterText", letterTMP);
-            SetPrivateField(cellScript, "_backgroundImage", bgImage);
+            Wire(cellScript, "_letterText", letterTMP);
+            Wire(cellScript, "_backgroundImage", bgImage);
 
             return go;
         }
 
-        private static GameObject CreateWordListItemPrefab()
+        /// <summary>
+        /// Cria um WordListItem como template na cena.
+        /// </summary>
+        private static GameObject CreateWordListItemPrefab(Transform parent)
         {
             var go = new GameObject("WordListItemPrefab");
-            go.SetActive(false);
+            go.transform.SetParent(parent, false);
+
+            go.AddComponent<RectTransform>();
 
             var wordGO = new GameObject("WordText");
             wordGO.transform.SetParent(go.transform, false);
@@ -574,12 +643,12 @@ namespace RagazziStudios.Editor
             wordTMP.fontSize = 18;
             wordTMP.alignment = TextAlignmentOptions.MidlineLeft;
             wordTMP.color = Color.white;
+            wordTMP.raycastTarget = false;
             var wordRect = wordGO.GetComponent<RectTransform>();
             wordRect.anchorMin = Vector2.zero;
             wordRect.anchorMax = Vector2.one;
             wordRect.sizeDelta = Vector2.zero;
 
-            // Strikethrough line
             var strikeGO = new GameObject("StrikethroughLine");
             strikeGO.transform.SetParent(go.transform, false);
             var strikeImg = strikeGO.AddComponent<Image>();
@@ -590,9 +659,10 @@ namespace RagazziStudios.Editor
             strikeRect.sizeDelta = Vector2.zero;
             strikeGO.SetActive(false);
 
+            go.SetActive(false);
             var itemScript = go.AddComponent<Game.UI.Components.WordListItem>();
-            SetPrivateField(itemScript, "_wordText", wordTMP);
-            SetPrivateField(itemScript, "_strikethroughLine", strikeGO);
+            Wire(itemScript, "_wordText", wordTMP);
+            Wire(itemScript, "_strikethroughLine", strikeGO);
 
             return go;
         }
@@ -711,7 +781,6 @@ namespace RagazziStudios.Editor
             rect.anchoredPosition = position;
             rect.sizeDelta = new Vector2(60, 30);
 
-            // Background
             var bgGO = new GameObject("Background");
             bgGO.transform.SetParent(go.transform, false);
             var bgImage = bgGO.AddComponent<Image>();
@@ -721,7 +790,6 @@ namespace RagazziStudios.Editor
             bgRect.anchorMax = Vector2.one;
             bgRect.sizeDelta = Vector2.zero;
 
-            // Checkmark
             var checkGO = new GameObject("Checkmark");
             checkGO.transform.SetParent(bgGO.transform, false);
             var checkImage = checkGO.AddComponent<Image>();
@@ -751,11 +819,10 @@ namespace RagazziStudios.Editor
             var bgImage = go.AddComponent<Image>();
             bgImage.color = new Color(0.3f, 0.3f, 0.45f);
 
-            // Caption label
             var labelGO = new GameObject("Label");
             labelGO.transform.SetParent(go.transform, false);
             var labelTMP = labelGO.AddComponent<TextMeshProUGUI>();
-            labelTMP.text = "Português (BR)";
+            labelTMP.text = "Portugues (BR)";
             labelTMP.fontSize = 18;
             labelTMP.alignment = TextAlignmentOptions.Center;
             labelTMP.color = Color.white;
@@ -764,7 +831,6 @@ namespace RagazziStudios.Editor
             labelRect.anchorMax = Vector2.one;
             labelRect.sizeDelta = Vector2.zero;
 
-            // Template
             var templateGO = new GameObject("Template");
             templateGO.transform.SetParent(go.transform, false);
             var templateRect = templateGO.AddComponent<RectTransform>();
@@ -776,7 +842,6 @@ namespace RagazziStudios.Editor
             templateImage.color = new Color(0.25f, 0.25f, 0.4f);
             var scrollRect = templateGO.AddComponent<ScrollRect>();
 
-            // Viewport
             var viewportGO = new GameObject("Viewport");
             viewportGO.transform.SetParent(templateGO.transform, false);
             var viewportRect = viewportGO.AddComponent<RectTransform>();
@@ -788,7 +853,6 @@ namespace RagazziStudios.Editor
             viewportImage.color = Color.white;
             viewportMask.showMaskGraphic = false;
 
-            // Content
             var contentGO = new GameObject("Content");
             contentGO.transform.SetParent(viewportGO.transform, false);
             var contentRect = contentGO.AddComponent<RectTransform>();
@@ -800,7 +864,6 @@ namespace RagazziStudios.Editor
             scrollRect.viewport = viewportRect;
             scrollRect.content = contentRect;
 
-            // Item
             var itemGO = new GameObject("Item");
             itemGO.transform.SetParent(contentGO.transform, false);
             var itemRect = itemGO.AddComponent<RectTransform>();
@@ -844,7 +907,6 @@ namespace RagazziStudios.Editor
 
             templateGO.SetActive(false);
 
-            // TMP_Dropdown component
             var dropdown = go.AddComponent<TMP_Dropdown>();
             dropdown.targetGraphic = bgImage;
             dropdown.template = templateRect;
@@ -855,25 +917,29 @@ namespace RagazziStudios.Editor
         }
 
         // ═══════════════════════════════════════════════════
-        //  Reflection Helper
+        //  Reflection Wiring (MUST use this instead of SerializedObject)
         // ═══════════════════════════════════════════════════
 
         /// <summary>
-        /// Define um campo privado [SerializeField] via SerializedObject.
-        /// Funciona como arrastar no Inspector — persiste na cena salva.
+        /// Define um campo privado [SerializeField] via C# Reflection.
+        /// Isso funciona de forma confiável durante criação de cenas,
+        /// diferente de SerializedObject que não persiste neste cenário.
         /// </summary>
-        private static void SetPrivateField(Object target, string fieldName, Object value)
+        private static void Wire(Component target, string fieldName, object value)
         {
-            var so = new SerializedObject(target);
-            var prop = so.FindProperty(fieldName);
-            if (prop != null)
+            var type = target.GetType();
+            var field = type.GetField(fieldName,
+                BindingFlags.NonPublic | BindingFlags.Instance);
+
+            if (field != null)
             {
-                prop.objectReferenceValue = value;
-                so.ApplyModifiedPropertiesWithoutUndo();
+                field.SetValue(target, value);
+                EditorUtility.SetDirty(target);
             }
             else
             {
-                Debug.LogWarning($"[SceneCreator] ⚠️ Field '{fieldName}' not found on {target.GetType().Name}");
+                Debug.LogWarning(
+                    $"[SceneCreator] ⚠️ Field '{fieldName}' not found on {type.Name}");
             }
         }
 

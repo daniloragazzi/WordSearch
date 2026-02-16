@@ -19,6 +19,7 @@ namespace RagazziStudios.Game.UI.Screens
         [Header("Textos")]
         [SerializeField] private TMPro.TMP_Text _titleText;
         [SerializeField] private TMPro.TMP_Text _playButtonText;
+        [SerializeField] private TMPro.TMP_Text _settingsButtonText;
         [SerializeField] private TMPro.TMP_Text _versionText;
 
         [Header("Referências")]
@@ -31,8 +32,10 @@ namespace RagazziStudios.Game.UI.Screens
 
         private void OnEnable()
         {
-            _playButton.onClick.AddListener(OnPlayClicked);
-            _settingsButton.onClick.AddListener(OnSettingsClicked);
+            if (_playButton != null)
+                _playButton.onClick.AddListener(OnPlayClicked);
+            if (_settingsButton != null)
+                _settingsButton.onClick.AddListener(OnSettingsClicked);
 
             UpdateLocalization();
             PlayFadeIn();
@@ -40,8 +43,10 @@ namespace RagazziStudios.Game.UI.Screens
 
         private void OnDisable()
         {
-            _playButton.onClick.RemoveListener(OnPlayClicked);
-            _settingsButton.onClick.RemoveListener(OnSettingsClicked);
+            if (_playButton != null)
+                _playButton.onClick.RemoveListener(OnPlayClicked);
+            if (_settingsButton != null)
+                _settingsButton.onClick.RemoveListener(OnSettingsClicked);
         }
 
         private void UpdateLocalization()
@@ -54,6 +59,9 @@ namespace RagazziStudios.Game.UI.Screens
 
             if (_playButtonText != null)
                 _playButtonText.text = loc.Get("btn_play");
+
+            if (_settingsButtonText != null)
+                _settingsButtonText.text = loc.Get("btn_settings");
 
             if (_versionText != null)
                 _versionText.text = $"v{UnityEngine.Application.version}";

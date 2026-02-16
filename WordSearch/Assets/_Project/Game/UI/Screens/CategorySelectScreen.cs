@@ -26,14 +26,16 @@ namespace RagazziStudios.Game.UI.Screens
 
         private void OnEnable()
         {
-            _backButton.onClick.AddListener(OnBackClicked);
+            if (_backButton != null)
+                _backButton.onClick.AddListener(OnBackClicked);
             PopulateCategories();
             UpdateLocalization();
         }
 
         private void OnDisable()
         {
-            _backButton.onClick.RemoveListener(OnBackClicked);
+            if (_backButton != null)
+                _backButton.onClick.RemoveListener(OnBackClicked);
         }
 
         private void UpdateLocalization()
