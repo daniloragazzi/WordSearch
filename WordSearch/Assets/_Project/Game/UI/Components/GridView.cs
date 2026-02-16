@@ -40,9 +40,24 @@ namespace RagazziStudios.Game.UI.Components
             _cols = gridData.Cols;
             _cells = new LetterCell[_rows, _cols];
 
-            // Calcular tamanho da célula baseado no espaço disponível
-            float availableWidth = _maxGridSize - (_cellSpacing * (_cols - 1));
-            float availableHeight = _maxGridSize - (_cellSpacing * (_rows - 1));
+            // Forçar atualização do layout para obter dimensões reais do container
+            Canvas.ForceUpdateCanvases();
+
+            // Usar tamanho real do container (stretch anchors) em vez de valor fixo
+            float containerWidth = _gridContainer != null ? _gridContainer.rect.width : 0;
+            float containerHeight = _gridContainer != null ? _gridContainer.rect.height : 0;
+
+            // Fallback para _maxGridSize se o rect ainda não foi computado
+            if (containerWidth <= 0) containerWidth = _maxGridSize;
+            if (containerHeight <= 0) containerHeight = _maxGridSize;
+
+            // Reduzir espaçamento dinamicamente para grids muito densos
+            float spacing = _cellSpacing;
+            int maxDim = Mathf.Max(_rows, _cols);
+            if (maxDim > 16) spacing = Mathf.Max(1f, _cellSpacing * (16f / maxDim));
+
+            float availableWidth = containerWidth - (spacing * (_cols - 1));
+            float availableHeight = containerHeight - (spacing * (_rows - 1));
             float cellSize = Mathf.Min(availableWidth / _cols, availableHeight / _rows);
             cellSize = Mathf.Floor(cellSize); // Pixel-perfect
 
@@ -50,18 +65,13 @@ namespace RagazziStudios.Game.UI.Components
             if (_gridLayout != null)
             {
                 _gridLayout.cellSize = new Vector2(cellSize, cellSize);
-                _gridLayout.spacing = new Vector2(_cellSpacing, _cellSpacing);
+                _gridLayout.spacing = new Vector2(spacing, spacing);
                 _gridLayout.constraintCount = _cols;
                 _gridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             }
 
-            // Redimensionar container
-            if (_gridContainer != null)
-            {
-                float totalWidth = _cols * cellSize + (_cols - 1) * _cellSpacing;
-                float totalHeight = _rows * cellSize + (_rows - 1) * _cellSpacing;
-                _gridContainer.sizeDelta = new Vector2(totalWidth, totalHeight);
-            }
+            // Não modificar _gridContainer.sizeDelta em modo stretch.
+            // O GridLayoutGroup com childAlignment = MiddleCenter centraliza o conteúdo.
 
             // Instanciar células
             for (int r = 0; r < _rows; r++)

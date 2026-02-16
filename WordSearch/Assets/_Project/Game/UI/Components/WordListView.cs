@@ -17,8 +17,8 @@ namespace RagazziStudios.Game.UI.Components
         [SerializeField] private GameObject _wordItemPrefab;
 
         [Header("Visual")]
-        [SerializeField] private Color _normalColor = new Color(0.2f, 0.2f, 0.2f);
-        [SerializeField] private Color _foundColor = new Color(0.3f, 0.8f, 0.3f);
+        [SerializeField] private Color _normalColor = Color.white;
+        [SerializeField] private Color _foundColor = new Color(0.3f, 0.85f, 0.3f);
 
         private readonly Dictionary<string, WordListItem> _items =
             new Dictionary<string, WordListItem>();
