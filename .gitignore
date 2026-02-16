@@ -47,7 +47,11 @@
 
 # Visual Studio / VS Code
 .vs/
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
 *.csproj
 *.sln
 *.suo

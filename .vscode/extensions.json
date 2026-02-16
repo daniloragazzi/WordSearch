@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "ms-dotnettools.csharp",
+        "visualstudiotoolsforunity.vstuc",
+        "ms-dotnettools.csdevkit",
+        "eamodio.gitlens",
+        "wayou.vscode-todo-highlight",
+        "yzhang.markdown-all-in-one"
+    ]
+}

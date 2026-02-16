@@ -1,0 +1,44 @@
+{
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "files.encoding": "utf8",
+    "files.eol": "\r\n",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "WordSearch/Library/": true,
+        "WordSearch/Temp/": true,
+        "WordSearch/Logs/": true,
+        "WordSearch/UserSettings/": true,
+        "WordSearch/obj/": true
+    },
+    "search.exclude": {
+        "WordSearch/Library/": true,
+        "WordSearch/Temp/": true,
+        "WordSearch/Logs/": true,
+        "WordSearch/UserSettings/": true,
+        "**/node_modules": true
+    },
+    "omnisharp.useModernNet": true,
+    "dotnet.defaultSolution": "WordSearch/WordSearch.sln",
+    "todo-highlight.keywords": [
+        {
+            "text": "TODO:",
+            "color": "#fff",
+            "backgroundColor": "#ffbd2a"
+        },
+        {
+            "text": "FIXME:",
+            "color": "#fff",
+            "backgroundColor": "#f06292"
+        },
+        {
+            "text": "HACK:",
+            "color": "#fff",
+            "backgroundColor": "#e040fb"
+        }
+    ]
+}
