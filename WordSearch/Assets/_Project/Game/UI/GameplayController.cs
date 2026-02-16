@@ -169,8 +169,51 @@ namespace RagazziStudios.Game.UI
         {
             if (_wordFinder == null) return;
 
-            // Verificar se a seleção é uma palavra válida
-            _wordFinder.CheckSelection(positions);
+            var result = _wordFinder.CheckSelection(positions);
+
+            // Seleção inválida com mais de 1 célula? Feedback visual
+            if (result == null && positions.Count > 1)
+            {
+                var posCopy = new List<(int row, int col)>(positions);
+                StartCoroutine(InvalidSelectionFeedback(posCopy));
+            }
+        }
+
+        /// <summary>
+        /// Pisca as células em vermelho e treme o grid levemente.
+        /// </summary>
+        private IEnumerator InvalidSelectionFeedback(List<(int row, int col)> positions)
+        {
+            // Esperar 1 frame — ClearVisualSelection já rodou
+            yield return null;
+
+            var cells = new List<Components.LetterCell>();
+            foreach (var pos in positions)
+            {
+                var cell = _gridView.GetCell(pos.row, pos.col);
+                if (cell != null && !cell.IsFound)
+                    cells.Add(cell);
+            }
+
+            // Flash vermelho nas células
+            foreach (var cell in cells)
+                cell.FlashInvalid(0.35f);
+
+            // Shake leve no grid
+            var gridRT = _gridView.GetComponent<RectTransform>();
+            Vector3 origPos = gridRT.localPosition;
+            float duration = 0.3f;
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                float offset = Mathf.Sin(elapsed * 50f) * 5f * (1f - elapsed / duration);
+                gridRT.localPosition = origPos + new Vector3(offset, 0, 0);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            gridRT.localPosition = origPos;
         }
 
         private void OnWordFound(WordPlacement placement)

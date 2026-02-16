@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -90,6 +91,26 @@ namespace RagazziStudios.Game.UI.Components
 
             if (_letterText != null)
                 _letterText.color = text;
+        }
+
+        /// <summary>
+        /// Pisca a célula em vermelho brevemente (seleção inválida).
+        /// </summary>
+        public void FlashInvalid(float duration = 0.3f)
+        {
+            if (!IsFound)
+                StartCoroutine(FlashInvalidCoroutine(duration));
+        }
+
+        private IEnumerator FlashInvalidCoroutine(float duration)
+        {
+            Color invalidColor = new Color(1f, 0.3f, 0.3f, 0.85f);
+            SetColors(invalidColor, _activeTextColor);
+
+            yield return new WaitForSeconds(duration);
+
+            if (!IsFound && !IsSelected)
+                SetColors(_normalColor, _normalTextColor);
         }
 
         /// <summary>
