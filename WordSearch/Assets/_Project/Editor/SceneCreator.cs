@@ -141,8 +141,10 @@ namespace RagazziStudios.Editor
                 "por Ragazzi Studios", 20, TextAlignmentOptions.Center, new Vector2(0, 140));
             var playBtnGO = CreateButton(menuScreenGO.transform, "PlayButton",
                 "JOGAR", new Vector2(0, -20));
+            var challengeBtnGO = CreateButton(menuScreenGO.transform, "ChallengeButton",
+                "DESAFIO", new Vector2(0, -100));
             var settingsBtnGO = CreateButton(menuScreenGO.transform, "SettingsButton",
-                "Configuracoes", new Vector2(0, -100));
+                "Configuracoes", new Vector2(0, -180));
             var versionGO = CreateTextElement(menuScreenGO.transform, "VersionText",
                 "v0.1.0", 16, TextAlignmentOptions.Bottom, new Vector2(0, -400));
 
@@ -151,10 +153,13 @@ namespace RagazziStudios.Editor
             var mainMenuScript = menuScreenGO.AddComponent<Game.UI.Screens.MainMenuScreen>();
 
             Wire(mainMenuScript, "_playButton", playBtnGO.GetComponent<Button>());
+            Wire(mainMenuScript, "_challengeButton", challengeBtnGO.GetComponent<Button>());
             Wire(mainMenuScript, "_settingsButton", settingsBtnGO.GetComponent<Button>());
             Wire(mainMenuScript, "_titleText", titleGO.GetComponent<TMP_Text>());
             Wire(mainMenuScript, "_playButtonText",
                 playBtnGO.transform.Find("Label").GetComponent<TMP_Text>());
+            Wire(mainMenuScript, "_challengeButtonText",
+                challengeBtnGO.transform.Find("Label").GetComponent<TMP_Text>());
             Wire(mainMenuScript, "_settingsButtonText",
                 settingsBtnGO.transform.Find("Label").GetComponent<TMP_Text>());
             Wire(mainMenuScript, "_versionText", versionGO.GetComponent<TMP_Text>());
@@ -398,12 +403,96 @@ namespace RagazziStudios.Editor
             // Wire SettingsPopup reference in MainMenuScreen
             Wire(mainMenuScript, "_settingsPopupPrefab", settingsGO);
 
+            // ═══ ChallengeSelect Screen ═══
+            var chalScreenGO = CreateScreen(canvasGO.transform, "ChallengeSelectScreen");
+
+            // Header
+            var chalHeader = new GameObject("Header");
+            chalHeader.transform.SetParent(chalScreenGO.transform, false);
+            var chalHeaderRect = chalHeader.AddComponent<RectTransform>();
+            chalHeaderRect.anchorMin = new Vector2(0, 0.92f);
+            chalHeaderRect.anchorMax = Vector2.one;
+            chalHeaderRect.sizeDelta = Vector2.zero;
+
+            var chalTitleGO = new GameObject("Title");
+            chalTitleGO.transform.SetParent(chalHeader.transform, false);
+            var chalTitleTMP = chalTitleGO.AddComponent<TextMeshProUGUI>();
+            chalTitleTMP.text = "DESAFIO";
+            chalTitleTMP.fontSize = 32;
+            chalTitleTMP.alignment = TextAlignmentOptions.Center;
+            chalTitleTMP.color = Color.white;
+            chalTitleTMP.raycastTarget = false;
+            var chalTitleRect = chalTitleGO.GetComponent<RectTransform>();
+            chalTitleRect.anchorMin = Vector2.zero;
+            chalTitleRect.anchorMax = Vector2.one;
+            chalTitleRect.sizeDelta = Vector2.zero;
+
+            var chalBackBtnGO = new GameObject("BackButton");
+            chalBackBtnGO.transform.SetParent(chalHeader.transform, false);
+            var chalBackImg = chalBackBtnGO.AddComponent<Image>();
+            chalBackImg.color = new Color(0.29f, 0.56f, 0.89f, 1f);
+            ApplySprite(chalBackImg, _btnCircle);
+            var chalBackBtn = chalBackBtnGO.AddComponent<Button>();
+            chalBackBtn.targetGraphic = chalBackImg;
+            var chalBackRect = chalBackBtnGO.GetComponent<RectTransform>();
+            chalBackRect.anchorMin = new Vector2(0, 0);
+            chalBackRect.anchorMax = new Vector2(0, 1);
+            chalBackRect.pivot = new Vector2(0, 0.5f);
+            chalBackRect.anchoredPosition = new Vector2(10, 0);
+            chalBackRect.sizeDelta = new Vector2(70, 0);
+            var chalBackLabel = new GameObject("Label");
+            chalBackLabel.transform.SetParent(chalBackBtnGO.transform, false);
+            var chalBackTMP = chalBackLabel.AddComponent<TextMeshProUGUI>();
+            chalBackTMP.text = "<";
+            chalBackTMP.fontSize = 28;
+            chalBackTMP.alignment = TextAlignmentOptions.Center;
+            chalBackTMP.color = Color.white;
+            chalBackTMP.raycastTarget = false;
+            var chalBackLabelRect = chalBackLabel.GetComponent<RectTransform>();
+            chalBackLabelRect.anchorMin = Vector2.zero;
+            chalBackLabelRect.anchorMax = Vector2.one;
+            chalBackLabelRect.sizeDelta = Vector2.zero;
+
+            // Description text
+            var chalDescGO = CreateTextElement(chalScreenGO.transform, "Description",
+                "Escolha o tamanho do grid\n10 palavras de todas as categorias",
+                20, TextAlignmentOptions.Center, new Vector2(0, 250));
+
+            // Challenge buttons (3 sizes)
+            var chal14GO = CreateButton(chalScreenGO.transform, "Challenge14x22",
+                "14 x 22", new Vector2(0, 100));
+            SetButtonSize(chal14GO, new Vector2(400, 80));
+            // Subtitle for 14x22
+            var chal14Sub = CreateTextElement(chalScreenGO.transform, "Sub14",
+                "Normal", 16, TextAlignmentOptions.Center, new Vector2(0, 50));
+
+            var chal18GO = CreateButton(chalScreenGO.transform, "Challenge18x22",
+                "18 x 22", new Vector2(0, -30));
+            SetButtonSize(chal18GO, new Vector2(400, 80));
+            var chal18Sub = CreateTextElement(chalScreenGO.transform, "Sub18",
+                "Dificil", 16, TextAlignmentOptions.Center, new Vector2(0, -80));
+
+            var chal20GO = CreateButton(chalScreenGO.transform, "Challenge20x22",
+                "20 x 22", new Vector2(0, -160));
+            SetButtonSize(chal20GO, new Vector2(400, 80));
+            var chal20Sub = CreateTextElement(chalScreenGO.transform, "Sub20",
+                "Extremo", 16, TextAlignmentOptions.Center, new Vector2(0, -210));
+
+            chalScreenGO.SetActive(false);
+            var chalScript = chalScreenGO.AddComponent<Game.UI.Screens.ChallengeSelectScreen>();
+            Wire(chalScript, "_challenge14x22", chal14GO.GetComponent<Button>());
+            Wire(chalScript, "_challenge18x22", chal18GO.GetComponent<Button>());
+            Wire(chalScript, "_challenge20x22", chal20GO.GetComponent<Button>());
+            Wire(chalScript, "_backButton", chalBackBtn);
+            Wire(chalScript, "_titleText", chalTitleTMP);
+
             // ═══ NavigationController ═══
             var navGO = new GameObject("NavigationController");
             var navScript = navGO.AddComponent<Game.UI.Screens.NavigationController>();
             Wire(navScript, "_mainMenuScreen", menuScreenGO);
             Wire(navScript, "_categorySelectScreen", catScreenGO);
             Wire(navScript, "_levelSelectScreen", lvlScreenGO);
+            Wire(navScript, "_challengeSelectScreen", chalScreenGO);
 
             ApplyFontsToScene();
             SaveScene(scene, "MainMenu");

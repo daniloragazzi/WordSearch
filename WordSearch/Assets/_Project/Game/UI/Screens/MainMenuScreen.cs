@@ -14,11 +14,13 @@ namespace RagazziStudios.Game.UI.Screens
     {
         [Header("Botões")]
         [SerializeField] private Button _playButton;
+        [SerializeField] private Button _challengeButton;
         [SerializeField] private Button _settingsButton;
 
         [Header("Textos")]
         [SerializeField] private TMPro.TMP_Text _titleText;
         [SerializeField] private TMPro.TMP_Text _playButtonText;
+        [SerializeField] private TMPro.TMP_Text _challengeButtonText;
         [SerializeField] private TMPro.TMP_Text _settingsButtonText;
         [SerializeField] private TMPro.TMP_Text _versionText;
 
@@ -34,6 +36,8 @@ namespace RagazziStudios.Game.UI.Screens
         {
             if (_playButton != null)
                 _playButton.onClick.AddListener(OnPlayClicked);
+            if (_challengeButton != null)
+                _challengeButton.onClick.AddListener(OnChallengeClicked);
             if (_settingsButton != null)
                 _settingsButton.onClick.AddListener(OnSettingsClicked);
 
@@ -45,6 +49,8 @@ namespace RagazziStudios.Game.UI.Screens
         {
             if (_playButton != null)
                 _playButton.onClick.RemoveListener(OnPlayClicked);
+            if (_challengeButton != null)
+                _challengeButton.onClick.RemoveListener(OnChallengeClicked);
             if (_settingsButton != null)
                 _settingsButton.onClick.RemoveListener(OnSettingsClicked);
         }
@@ -62,6 +68,9 @@ namespace RagazziStudios.Game.UI.Screens
 
             if (_settingsButtonText != null)
                 _settingsButtonText.text = loc.Get("btn_settings");
+
+            if (_challengeButtonText != null)
+                _challengeButtonText.text = "Desafio";
 
             if (_versionText != null)
                 _versionText.text = $"v{UnityEngine.Application.version}";
@@ -92,6 +101,13 @@ namespace RagazziStudios.Game.UI.Screens
             if (GameManager.Instance == null) return;
 
             GameManager.Instance.StateMachine.TransitionTo(GameStateType.CategorySelect);
+        }
+
+        private void OnChallengeClicked()
+        {
+            if (GameManager.Instance == null) return;
+
+            GameManager.Instance.StateMachine.TransitionTo(GameStateType.ChallengeSelect);
         }
 
         private void OnSettingsClicked()

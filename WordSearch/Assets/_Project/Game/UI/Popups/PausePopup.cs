@@ -159,7 +159,11 @@ namespace RagazziStudios.Game.UI.Popups
             if (levelManager != null)
                 levelManager.QuitLevel(0);
 
-            GameManager.Instance?.StateMachine.TransitionTo(GameStateType.LevelSelect);
+            var targetState = (levelManager != null && levelManager.IsChallengeMode)
+                ? GameStateType.ChallengeSelect
+                : GameStateType.LevelSelect;
+
+            GameManager.Instance?.StateMachine.TransitionTo(targetState);
             GameManager.Instance?.LoadScene("MainMenu");
 
             OnMenu?.Invoke();

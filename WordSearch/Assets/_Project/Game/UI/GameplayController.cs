@@ -124,7 +124,20 @@ namespace RagazziStudios.Game.UI
 
         private void UpdateHeader()
         {
-            if (ServiceLocator.TryGet<ILocalizationService>(out var loc))
+            if (_levelManager.IsChallengeMode)
+            {
+                // Modo desafio: mostrar tamanho do grid
+                if (_categoryText != null)
+                    _categoryText.text = "Desafio";
+                if (_levelText != null)
+                {
+                    var grid = _levelManager.CurrentLevel?.Difficulty;
+                    _levelText.text = grid != null
+                        ? $"{grid.GridRows}x{grid.GridCols}"
+                        : "Desafio";
+                }
+            }
+            else if (ServiceLocator.TryGet<ILocalizationService>(out var loc))
             {
                 // Carregar nome da categoria
                 var categoriesAsset = Resources.Load<TextAsset>("Data/categories");
@@ -330,7 +343,11 @@ namespace RagazziStudios.Game.UI
             // Registrar que saiu sem completar
             _levelManager.QuitLevel(_wordFinder.FoundCount);
 
-            GameManager.Instance?.StateMachine.TransitionTo(GameStateType.LevelSelect);
+            var targetState = _levelManager.IsChallengeMode
+                ? GameStateType.ChallengeSelect
+                : GameStateType.LevelSelect;
+
+            GameManager.Instance?.StateMachine.TransitionTo(targetState);
             GameManager.Instance?.LoadScene("MainMenu");
         }
     }

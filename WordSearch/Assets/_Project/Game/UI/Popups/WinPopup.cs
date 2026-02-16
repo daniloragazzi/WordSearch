@@ -139,15 +139,27 @@ namespace RagazziStudios.Game.UI.Popups
             if (GameManager.Instance == null) return;
 
             var levelManager = GameManager.Instance.LevelManager;
-            int nextLevel = levelManager.NextLevelNumber;
 
-            if (nextLevel > 0)
+            if (levelManager.IsChallengeMode)
             {
-                levelManager.StartLevel(nextLevel);
-                GameManager.Instance.StateMachine.TransitionTo(GameStateType.Playing);
+                // Gerar novo desafio com mesmo tamanho de grid
+                var diff = levelManager.CurrentLevel?.Difficulty;
+                if (diff != null)
+                    levelManager.StartChallengeLevel(diff.GridRows, diff.GridCols, 10);
 
-                // Recarregar cena Game
+                GameManager.Instance.StateMachine.TransitionTo(GameStateType.Playing);
                 GameManager.Instance.LoadScene("Game");
+            }
+            else
+            {
+                int nextLevel = levelManager.NextLevelNumber;
+
+                if (nextLevel > 0)
+                {
+                    levelManager.StartLevel(nextLevel);
+                    GameManager.Instance.StateMachine.TransitionTo(GameStateType.Playing);
+                    GameManager.Instance.LoadScene("Game");
+                }
             }
 
             Destroy(gameObject);
@@ -157,7 +169,12 @@ namespace RagazziStudios.Game.UI.Popups
         {
             if (GameManager.Instance == null) return;
 
-            GameManager.Instance.StateMachine.TransitionTo(GameStateType.LevelSelect);
+            var levelManager = GameManager.Instance.LevelManager;
+            var targetState = levelManager.IsChallengeMode
+                ? GameStateType.ChallengeSelect
+                : GameStateType.LevelSelect;
+
+            GameManager.Instance.StateMachine.TransitionTo(targetState);
             GameManager.Instance.LoadScene("MainMenu");
 
             Destroy(gameObject);

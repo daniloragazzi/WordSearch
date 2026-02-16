@@ -11,6 +11,7 @@ namespace RagazziStudios.Core.Application
         MainMenu,
         CategorySelect,
         LevelSelect,
+        ChallengeSelect,
         Playing,
         Win,
         Pause
@@ -75,10 +76,15 @@ namespace RagazziStudios.Core.Application
                     return to == GameStateType.MainMenu;
 
                 case GameStateType.MainMenu:
-                    return to == GameStateType.CategorySelect;
+                    return to == GameStateType.CategorySelect
+                        || to == GameStateType.ChallengeSelect;
 
                 case GameStateType.CategorySelect:
                     return to == GameStateType.LevelSelect
+                        || to == GameStateType.MainMenu;
+
+                case GameStateType.ChallengeSelect:
+                    return to == GameStateType.Playing
                         || to == GameStateType.MainMenu;
 
                 case GameStateType.LevelSelect:
@@ -88,15 +94,18 @@ namespace RagazziStudios.Core.Application
                 case GameStateType.Playing:
                     return to == GameStateType.Win
                         || to == GameStateType.Pause
-                        || to == GameStateType.LevelSelect;
+                        || to == GameStateType.LevelSelect
+                        || to == GameStateType.ChallengeSelect;
 
                 case GameStateType.Win:
                     return to == GameStateType.Playing
-                        || to == GameStateType.LevelSelect;
+                        || to == GameStateType.LevelSelect
+                        || to == GameStateType.ChallengeSelect;
 
                 case GameStateType.Pause:
                     return to == GameStateType.Playing
                         || to == GameStateType.LevelSelect
+                        || to == GameStateType.ChallengeSelect
                         || to == GameStateType.MainMenu;
 
                 default:
@@ -112,6 +121,8 @@ namespace RagazziStudios.Core.Application
             switch (current)
             {
                 case GameStateType.CategorySelect:
+                    return GameStateType.MainMenu;
+                case GameStateType.ChallengeSelect:
                     return GameStateType.MainMenu;
                 case GameStateType.LevelSelect:
                     return GameStateType.CategorySelect;

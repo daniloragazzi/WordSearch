@@ -14,6 +14,7 @@ namespace RagazziStudios.Game.UI.Screens
         [SerializeField] private GameObject _mainMenuScreen;
         [SerializeField] private GameObject _categorySelectScreen;
         [SerializeField] private GameObject _levelSelectScreen;
+        [SerializeField] private GameObject _challengeSelectScreen;
 
         private Core.Application.GameStateMachine _stateMachine;
 
@@ -50,6 +51,7 @@ namespace RagazziStudios.Game.UI.Screens
             _mainMenuScreen?.SetActive(state == Core.Application.GameStateType.MainMenu);
             _categorySelectScreen?.SetActive(state == Core.Application.GameStateType.CategorySelect);
             _levelSelectScreen?.SetActive(state == Core.Application.GameStateType.LevelSelect);
+            _challengeSelectScreen?.SetActive(state == Core.Application.GameStateType.ChallengeSelect);
 
             // Se entrou em Playing, carregar cena Game
             if (state == Core.Application.GameStateType.Playing)

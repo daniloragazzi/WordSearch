@@ -89,6 +89,7 @@ namespace RagazziStudios.Core.Application
 
             CurrentLevelNumber = levelNumber;
             HintsUsedInLevel = 0;
+            IsChallengeMode = false;
             LevelStartTime = Time.realtimeSinceStartup;
 
             var category = _wordDatabase.GetCategory(CurrentCategoryId);
@@ -108,6 +109,90 @@ namespace RagazziStudios.Core.Application
             Debug.Log($"[LevelManager] Level started: {CurrentCategoryId} #{levelNumber} " +
                       $"(grid {CurrentLevel.Difficulty.GridRows}x{CurrentLevel.Difficulty.GridCols}, " +
                       $"{CurrentLevel.Placements.Count} words)");
+
+            return CurrentLevel;
+        }
+
+        /// <summary>
+        /// Indica se o modo atual é Desafio.
+        /// </summary>
+        public bool IsChallengeMode { get; private set; }
+
+        /// <summary>
+        /// Gera um nível de desafio com grid grande e palavras mistas de todas as categorias.
+        /// </summary>
+        /// <param name="gridRows">Linhas do grid (ex: 14, 18, 20).</param>
+        /// <param name="gridCols">Colunas do grid (ex: 22).</param>
+        /// <param name="wordCount">Quantidade de palavras (10).</param>
+        public LevelData StartChallengeLevel(int gridRows, int gridCols, int wordCount = 10)
+        {
+            IsChallengeMode = true;
+            CurrentCategoryId = "desafio";
+            CurrentLevelNumber = 1;
+            HintsUsedInLevel = 0;
+            LevelStartTime = Time.realtimeSinceStartup;
+
+            // Coletar palavras de todas as categorias carregadas
+            var allNormalized = new List<string>();
+            var allDisplay = new List<string>();
+
+            foreach (var catId in _wordDatabase.GetCategoryIds())
+            {
+                var cat = _wordDatabase.GetCategory(catId);
+                allNormalized.AddRange(cat.NormalizedWords);
+                allDisplay.AddRange(cat.DisplayWords);
+            }
+
+            if (allNormalized.Count == 0)
+            {
+                Debug.LogError("[LevelManager] No words available for challenge!");
+                return null;
+            }
+
+            // Criar DifficultyConfig customizado
+            var difficulty = new DifficultyConfig(gridRows, gridCols, wordCount, wordCount);
+
+            // Seed baseado no tempo para variar cada partida
+            int seed = System.Environment.TickCount;
+            var random = new System.Random(seed);
+
+            // Selecionar palavras aleatórias que caibam no grid
+            var validIndices = new List<int>();
+            int maxLen = Mathf.Max(gridRows, gridCols);
+            for (int i = 0; i < allNormalized.Count; i++)
+            {
+                if (allNormalized[i].Length >= 3 && allNormalized[i].Length <= maxLen)
+                    validIndices.Add(i);
+            }
+
+            // Shuffle
+            for (int i = validIndices.Count - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+                int tmp = validIndices[i];
+                validIndices[i] = validIndices[j];
+                validIndices[j] = tmp;
+            }
+
+            int count = Mathf.Min(wordCount, validIndices.Count);
+            var selectedNorm = new List<string>(count);
+            var selectedDisp = new List<string>(count);
+            for (int i = 0; i < count; i++)
+            {
+                int idx = validIndices[i];
+                selectedNorm.Add(allNormalized[idx]);
+                selectedDisp.Add(allDisplay[idx]);
+            }
+
+            // Gerar grid
+            var gridGen = new Domain.Grid.GridGenerator(seed);
+            var (grid, placements) = gridGen.Generate(gridRows, gridCols,
+                selectedNorm, selectedDisp);
+
+            CurrentLevel = new LevelData("desafio", 1, seed, difficulty, grid, placements);
+
+            Debug.Log($"[LevelManager] Challenge started: {gridRows}x{gridCols}, " +
+                      $"{CurrentLevel.Placements.Count} words from all categories");
 
             return CurrentLevel;
         }
