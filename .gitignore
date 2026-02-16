@@ -25,6 +25,7 @@
 
 # Builds
 /WordSearch/Builds/
+/WordSearch/.utmp/
 *.apk
 *.aab
 *.unitypackage
