@@ -64,6 +64,9 @@
 | Código | Ação | Status | Doc Brainstorm | Doc Organized | Data Início | Data Fim |
 |--------|------|--------|----------------|---------------|-------------|----------|
 | CFG-001 | Setup projeto Unity | ✅ | — | — | 2026-02-15 | 2026-02-15 |
+| CFG-002 | Configurar Git (init, .gitignore, .gitattributes) | ✅ | — | — | 2026-02-15 | 2026-02-15 |
+| CFG-003 | Criar repositório GitHub | ✅ | — | — | 2026-02-15 | 2026-02-15 |
+| CFG-004 | Configurar VS Code para Unity | ✅ | — | — | 2026-02-15 | 2026-02-15 |
 | DEV-001 | Implementar Domain/Grid | ⬜ | — | — | — | — |
 | DEV-002 | Implementar Domain/Words | ⬜ | — | — | — | — |
 | DEV-003 | Implementar Domain/Level | ⬜ | — | — | — | — |
@@ -106,6 +109,10 @@
 | 2026-02-15 | — | Modelo de portfólio: apps independentes | 1 jogo = 1 app, deploy separado, cross-promotion |
 | 2026-02-15 | — | **FASE 1 CONCLUÍDA** | Todas as definições aprovadas, documentos criados |
 | 2026-02-15 | DOC-008 | ActionPlan.md criado | Plano de ações detalhado para Fase 2 (49 ações) |
+| 2026-02-15 | CFG-001 | Setup Unity concluído | Projeto criado, pastas, ProjectSettings configurado |
+| 2026-02-15 | CFG-002 | Git configurado | git init, .gitignore, .gitattributes, README, CHANGELOG, commit inicial |
+| 2026-02-15 | CFG-003 | Repositório GitHub criado | github.com/daniloragazzi/WordSearch, push main+develop |
+| 2026-02-15 | CFG-004 | VS Code configurado | .vscode/settings.json, extensions.json, .editorconfig, extensões instaladas |
 
 ---
 

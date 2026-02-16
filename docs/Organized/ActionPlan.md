@@ -24,9 +24,9 @@
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
 | CFG-001 | Criar projeto Unity e estrutura de pastas | ✅ | — | Unity 6.3 LTS, template 2D, pastas conforme 03_Architecture |
-| CFG-002 | Configurar Git (.gitignore, .gitattributes) | ⬜ | CFG-001 | Unity-specific gitignore |
-| CFG-003 | Criar repositório GitHub | ⬜ | CFG-002 | Remote origin, branch develop |
-| CFG-004 | Configurar VS Code para Unity | ⬜ | CFG-001 | Extensões C#, Unity, settings |
+| CFG-002 | Configurar Git (.gitignore, .gitattributes) | ✅ | CFG-001 | git init, commit inicial, branches main+develop |
+| CFG-003 | Criar repositório GitHub | ✅ | CFG-002 | github.com/daniloragazzi/WordSearch |
+| CFG-004 | Configurar VS Code para Unity | ✅ | CFG-001 | .vscode/, .editorconfig, extensões C#/Unity |
 
 ### 2.2 — Domain Layer (Core)
 
@@ -120,7 +120,7 @@
 
 | Etapa | Total | ⬜ | 🔵 | ✅ | % |
 |-------|-------|-----|-----|-----|---|
-| 2.1 Setup | 4 | 3 | 0 | 1 | 25% |
+| 2.1 Setup | 4 | 0 | 0 | 4 | 100% |
 | 2.2 Domain | 6 | 6 | 0 | 0 | 0% |
 | 2.3 Infrastructure | 4 | 4 | 0 | 0 | 0% |
 | 2.4 Application | 3 | 3 | 0 | 0 | 0% |
@@ -129,7 +129,7 @@
 | 2.7 Design | 5 | 5 | 0 | 0 | 0% |
 | 2.8 Testes/Integração | 6 | 6 | 0 | 0 | 0% |
 | 2.9 Build/Publicação | 5 | 5 | 0 | 0 | 0% |
-| **TOTAL** | **49** | **48** | **0** | **1** | **2%** |
+| **TOTAL** | **49** | **45** | **0** | **4** | **8%** |
 
 ---
 
