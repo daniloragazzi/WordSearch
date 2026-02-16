@@ -1,7 +1,6 @@
 using UnityEditor;
 using UnityEngine;
 using TMPro;
-using TMPro.EditorUtilities;
 using System.IO;
 
 namespace RagazziStudios.Editor
