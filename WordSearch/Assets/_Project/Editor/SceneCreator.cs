@@ -1147,21 +1147,23 @@ namespace RagazziStudios.Editor
         {
             if (_fontRegular == null) return;
 
-            var allTexts = Resources.FindObjectsOfTypeAll<TMP_Text>();
+            var scene = EditorSceneManager.GetActiveScene();
             int count = 0;
-            foreach (var tmp in allTexts)
+            foreach (var rootGO in scene.GetRootGameObjects())
             {
-                // Only process objects in the active scene
-                if (tmp.gameObject.scene != SceneManager.GetActiveScene()) continue;
-
-                var font = GetFontForSize(tmp.fontSize);
-                if (font != null)
+                // GetComponentsInChildren with includeInactive=true to catch disabled objects
+                var texts = rootGO.GetComponentsInChildren<TMP_Text>(true);
+                foreach (var tmp in texts)
                 {
-                    tmp.font = font;
-                    count++;
+                    var font = GetFontForSize(tmp.fontSize);
+                    if (font != null)
+                    {
+                        tmp.font = font;
+                        count++;
+                    }
                 }
             }
-            Debug.Log($"[SceneCreator] 🔤 Fonte Nunito aplicada em {count} textos.");
+            Debug.Log($"[SceneCreator] Fonte Nunito aplicada em {count} textos.");
         }
     }
 }
