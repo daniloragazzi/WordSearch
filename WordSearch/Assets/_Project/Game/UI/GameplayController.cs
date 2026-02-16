@@ -27,6 +27,7 @@ namespace RagazziStudios.Game.UI
         [SerializeField] private TMP_Text _categoryText;
         [SerializeField] private TMP_Text _levelText;
         [SerializeField] private TMP_Text _progressText;
+        [SerializeField] private TMP_Text _timerText;
 
         [Header("Botões")]
         [SerializeField] private Button _hintButton;
@@ -35,6 +36,7 @@ namespace RagazziStudios.Game.UI
 
         [Header("Popups")]
         [SerializeField] private GameObject _winPopupPrefab;
+        [SerializeField] private GameObject _pausePopupPrefab;
         [SerializeField] private Transform _popupParent;
 
         [Header("Feedback")]
@@ -96,6 +98,11 @@ namespace RagazziStudios.Game.UI
             UpdateHeader();
         }
 
+        private void Update()
+        {
+            UpdateTimer();
+        }
+
         private void OnDestroy()
         {
             if (_wordFinder != null)
@@ -144,6 +151,16 @@ namespace RagazziStudios.Game.UI
             if (_progressText == null || _wordFinder == null) return;
 
             _progressText.text = $"{_wordFinder.FoundCount}/{_wordFinder.TotalWords}";
+        }
+
+        private void UpdateTimer()
+        {
+            if (_timerText == null || _levelManager == null) return;
+
+            float elapsed = Time.realtimeSinceStartup - _levelManager.LevelStartTime;
+            int minutes = Mathf.FloorToInt(elapsed / 60f);
+            int seconds = Mathf.FloorToInt(elapsed % 60f);
+            _timerText.text = $"{minutes}:{seconds:D2}";
         }
 
         // --- Callbacks ---
@@ -239,8 +256,14 @@ namespace RagazziStudios.Game.UI
 
         private void OnPauseClicked()
         {
-            // TODO: Implementar popup de pausa
             GameManager.Instance?.StateMachine.TransitionTo(GameStateType.Pause);
+            Time.timeScale = 0f;
+
+            if (_pausePopupPrefab != null && _popupParent != null)
+            {
+                var popup = Instantiate(_pausePopupPrefab, _popupParent);
+                popup.SetActive(true);
+            }
         }
 
         private void OnBackClicked()

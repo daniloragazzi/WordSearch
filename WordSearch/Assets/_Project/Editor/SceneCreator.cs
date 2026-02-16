@@ -432,6 +432,8 @@ namespace RagazziStudios.Editor
                 "Nivel 1", 18, TextAlignmentOptions.Center, new Vector2(0, -30));
             var progressTextGO = CreateTextElement(header.transform, "ProgressText",
                 "0/5", 18, TextAlignmentOptions.Right, new Vector2(300, -30));
+            var timerTextGO = CreateTextElement(header.transform, "TimerText",
+                "0:00", 18, TextAlignmentOptions.Left, new Vector2(-300, -30));
             var backBtnGO = CreateButton(header.transform, "BackButton",
                 "<", new Vector2(-400, 0));
             SetButtonSize(backBtnGO, new Vector2(70, 50));
@@ -565,6 +567,50 @@ namespace RagazziStudios.Editor
             Wire(winScript, "_canvasGroup", winCG);
             Wire(winScript, "_popupPanel", winPanelRect);
 
+            // ═══ PausePopup (hidden) ═══
+            var pausePopupGO = new GameObject("PausePopup");
+            pausePopupGO.transform.SetParent(canvasGO.transform, false);
+            var pausePopupRect = pausePopupGO.AddComponent<RectTransform>();
+            pausePopupRect.anchorMin = Vector2.zero;
+            pausePopupRect.anchorMax = Vector2.one;
+            pausePopupRect.sizeDelta = Vector2.zero;
+            var pauseBg = pausePopupGO.AddComponent<Image>();
+            pauseBg.color = new Color(0, 0, 0, 0.7f);
+            var pauseCG = pausePopupGO.AddComponent<CanvasGroup>();
+
+            var pausePanel = new GameObject("PopupPanel");
+            pausePanel.transform.SetParent(pausePopupGO.transform, false);
+            var pausePanelImg = pausePanel.AddComponent<Image>();
+            pausePanelImg.color = new Color(0.2f, 0.22f, 0.35f, 1f);
+            var pausePanelRect = pausePanel.GetComponent<RectTransform>();
+            pausePanelRect.anchorMin = new Vector2(0.1f, 0.3f);
+            pausePanelRect.anchorMax = new Vector2(0.9f, 0.7f);
+            pausePanelRect.sizeDelta = Vector2.zero;
+
+            var pauseTitleGO = CreateTextElement(pausePanel.transform, "Title",
+                "Pausado", 36, TextAlignmentOptions.Center, new Vector2(0, 120));
+            var pauseContinueBtnGO = CreateButton(pausePanel.transform, "ContinueButton",
+                "Continuar", new Vector2(0, 30));
+            var pauseRestartBtnGO = CreateButton(pausePanel.transform, "RestartButton",
+                "Reiniciar", new Vector2(0, -40));
+            var pauseMenuBtnGO = CreateButton(pausePanel.transform, "MenuButton",
+                "Menu", new Vector2(0, -110));
+
+            pausePopupGO.SetActive(false);
+            var pauseScript = pausePopupGO.AddComponent<Game.UI.Popups.PausePopup>();
+            Wire(pauseScript, "_titleText", pauseTitleGO.GetComponent<TMP_Text>());
+            Wire(pauseScript, "_continueButton", pauseContinueBtnGO.GetComponent<Button>());
+            Wire(pauseScript, "_continueButtonText",
+                pauseContinueBtnGO.transform.Find("Label").GetComponent<TMP_Text>());
+            Wire(pauseScript, "_restartButton", pauseRestartBtnGO.GetComponent<Button>());
+            Wire(pauseScript, "_restartButtonText",
+                pauseRestartBtnGO.transform.Find("Label").GetComponent<TMP_Text>());
+            Wire(pauseScript, "_menuButton", pauseMenuBtnGO.GetComponent<Button>());
+            Wire(pauseScript, "_menuButtonText",
+                pauseMenuBtnGO.transform.Find("Label").GetComponent<TMP_Text>());
+            Wire(pauseScript, "_canvasGroup", pauseCG);
+            Wire(pauseScript, "_popupPanel", pausePanelRect);
+
             // ═══ GameplayController ═══
             var gpGO = new GameObject("GameplayController");
             var gpScript = gpGO.AddComponent<Game.UI.GameplayController>();
@@ -574,10 +620,12 @@ namespace RagazziStudios.Editor
             Wire(gpScript, "_categoryText", catTitleGO.GetComponent<TMP_Text>());
             Wire(gpScript, "_levelText", levelTextGO.GetComponent<TMP_Text>());
             Wire(gpScript, "_progressText", progressTextGO.GetComponent<TMP_Text>());
+            Wire(gpScript, "_timerText", timerTextGO.GetComponent<TMP_Text>());
             Wire(gpScript, "_hintButton", hintBtnGO.GetComponent<Button>());
             Wire(gpScript, "_pauseButton", pauseBtnGO.GetComponent<Button>());
             Wire(gpScript, "_backButton", backBtnGO.GetComponent<Button>());
             Wire(gpScript, "_winPopupPrefab", winPopupGO);
+            Wire(gpScript, "_pausePopupPrefab", pausePopupGO);
             Wire(gpScript, "_popupParent", canvasGO.transform);
 
             ApplyFontsToScene();
