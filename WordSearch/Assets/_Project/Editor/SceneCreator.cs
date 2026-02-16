@@ -545,7 +545,7 @@ namespace RagazziStudios.Editor
             iconTMP.alignment = TextAlignmentOptions.Center;
             iconTMP.color = Color.white;
             iconTMP.raycastTarget = false;
-            iconTMP.enableWordWrapping = false;
+            iconTMP.textWrappingMode = TextWrappingModes.NoWrap;
             iconTMP.overflowMode = TextOverflowModes.Truncate;
             var iconRect = iconGO.GetComponent<RectTransform>();
             iconRect.anchorMin = new Vector2(0, 0);
@@ -562,7 +562,7 @@ namespace RagazziStudios.Editor
             nameTMP.alignment = TextAlignmentOptions.MidlineLeft;
             nameTMP.color = Color.white;
             nameTMP.raycastTarget = false;
-            nameTMP.enableWordWrapping = true;
+            nameTMP.textWrappingMode = TextWrappingModes.Normal;
             nameTMP.overflowMode = TextOverflowModes.Ellipsis;
             var nameRect = nameGO.GetComponent<RectTransform>();
             nameRect.anchorMin = new Vector2(0.20f, 0.35f);
@@ -579,7 +579,7 @@ namespace RagazziStudios.Editor
             progressTMP.alignment = TextAlignmentOptions.MidlineLeft;
             progressTMP.color = new Color(0.7f, 0.7f, 0.7f);
             progressTMP.raycastTarget = false;
-            progressTMP.enableWordWrapping = false;
+            progressTMP.textWrappingMode = TextWrappingModes.NoWrap;
             var progressRect = progressGO.GetComponent<RectTransform>();
             progressRect.anchorMin = new Vector2(0.20f, 0.05f);
             progressRect.anchorMax = new Vector2(0.98f, 0.35f);
