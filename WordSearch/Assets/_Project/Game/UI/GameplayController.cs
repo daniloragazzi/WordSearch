@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using RagazziStudios.Core.Application;
@@ -46,7 +47,15 @@ namespace RagazziStudios.Game.UI
 
         private void Start()
         {
-            _levelManager = GameManager.Instance?.LevelManager;
+            // Se GameManager não existe, a cena Boot nunca rodou. Redirecionar.
+            if (GameManager.Instance == null)
+            {
+                Debug.LogWarning("[GameplayController] GameManager not found. Redirecting to Boot scene...");
+                SceneManager.LoadScene("Boot");
+                return;
+            }
+
+            _levelManager = GameManager.Instance.LevelManager;
             if (_levelManager == null)
             {
                 Debug.LogError("[GameplayController] LevelManager not found!");
@@ -75,9 +84,9 @@ namespace RagazziStudios.Game.UI
             _selectionLine.OnSelectionComplete += OnSelectionComplete;
 
             // Configurar botões
-            _hintButton.onClick.AddListener(OnHintClicked);
-            _pauseButton.onClick.AddListener(OnPauseClicked);
-            _backButton.onClick.AddListener(OnBackClicked);
+            if (_hintButton != null) _hintButton.onClick.AddListener(OnHintClicked);
+            if (_pauseButton != null) _pauseButton.onClick.AddListener(OnPauseClicked);
+            if (_backButton != null) _backButton.onClick.AddListener(OnBackClicked);
 
             // Escutar evento de dica usada do GameManager
             if (GameManager.Instance != null)
@@ -98,9 +107,9 @@ namespace RagazziStudios.Game.UI
             if (_selectionLine != null)
                 _selectionLine.OnSelectionComplete -= OnSelectionComplete;
 
-            _hintButton.onClick.RemoveListener(OnHintClicked);
-            _pauseButton.onClick.RemoveListener(OnPauseClicked);
-            _backButton.onClick.RemoveListener(OnBackClicked);
+            if (_hintButton != null) _hintButton.onClick.RemoveListener(OnHintClicked);
+            if (_pauseButton != null) _pauseButton.onClick.RemoveListener(OnPauseClicked);
+            if (_backButton != null) _backButton.onClick.RemoveListener(OnBackClicked);
 
             if (GameManager.Instance != null)
                 GameManager.Instance.OnHintUsed -= OnHintGranted;

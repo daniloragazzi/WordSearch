@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace RagazziStudios.Game.UI.Screens
@@ -20,7 +21,8 @@ namespace RagazziStudios.Game.UI.Screens
         {
             if (Core.Application.GameManager.Instance == null)
             {
-                Debug.LogError("[NavigationController] GameManager not found!");
+                Debug.LogWarning("[NavigationController] GameManager not found. Redirecting to Boot scene...");
+                SceneManager.LoadScene("Boot");
                 return;
             }
 
