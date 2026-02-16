@@ -114,6 +114,47 @@ namespace RagazziStudios.Game.UI.Components
         }
 
         /// <summary>
+        /// Animação de pulso (escala) ao encontrar palavra.
+        /// </summary>
+        public void PulseFound(float delay = 0f)
+        {
+            StartCoroutine(PulseCoroutine(delay));
+        }
+
+        private IEnumerator PulseCoroutine(float delay)
+        {
+            if (delay > 0f)
+                yield return new WaitForSeconds(delay);
+
+            var rt = GetComponent<RectTransform>();
+            Vector3 orig = rt.localScale;
+            Vector3 big = orig * 1.25f;
+
+            // Crescer
+            float half = 0.12f;
+            float elapsed = 0f;
+            while (elapsed < half)
+            {
+                float t = elapsed / half;
+                rt.localScale = Vector3.Lerp(orig, big, t);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            // Encolher de volta
+            elapsed = 0f;
+            while (elapsed < half)
+            {
+                float t = elapsed / half;
+                rt.localScale = Vector3.Lerp(big, orig, t);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            rt.localScale = orig;
+        }
+
+        /// <summary>
         /// Reseta completamente a célula.
         /// </summary>
         public void ResetCell()

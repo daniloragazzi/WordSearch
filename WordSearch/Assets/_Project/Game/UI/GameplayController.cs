@@ -224,6 +224,14 @@ namespace RagazziStudios.Game.UI
             // Linha colorida persistente sobre a palavra
             _selectionLine.ShowFoundLine(placement);
 
+            // Animação de pulso sequencial nas células
+            var cellPositions = placement.GetCellPositions();
+            for (int i = 0; i < cellPositions.Length; i++)
+            {
+                var cell = _gridView.GetCell(cellPositions[i].row, cellPositions[i].col);
+                cell?.PulseFound(i * 0.04f); // cascata com 40ms de atraso
+            }
+
             // Marcar na lista de palavras
             _wordListView.MarkWordFound(placement);
 
