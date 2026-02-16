@@ -142,12 +142,12 @@
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| DSN-006 | Criar sprites de botões (9-slice) | ⬜ | — | Rounded rect, hover/pressed states |
-| DSN-007 | Criar sprites de painéis/cards | ⬜ | — | Backgrounds com bordas arredondadas |
-| DSN-008 | Criar ícones de categoria (8 ícones) | ⬜ | — | Ícones simples para cada categoria |
-| DSN-009 | Criar ícone do app (adaptive icon) | ⬜ | — | Foreground + background layers, 512x512 |
-| DSN-010 | Criar splash screen art | ⬜ | — | Logo Ragazzi Studios |
-| DSN-011 | Aplicar cores por categoria | ⬜ | DSN-008 | Cada categoria com cor/gradiente próprio |
+| DSN-006 | Criar sprites de botões (9-slice) | ✅ | — | SpriteGenerator.cs: btn_primary (256x96), btn_secondary, btn_circle (96x96) |
+| DSN-007 | Criar sprites de painéis/cards | ✅ | — | panel_popup (256x256), panel_card (192x192), panel_overlay, cell_bg (96x96) |
+| DSN-008 | Criar ícones de categoria (8 ícones) | ✅ | — | 8 ícones procedurais 128x128 (pata, maçã, coração, folha, estrela, globo, bola, quadrados) |
+| DSN-009 | Criar ícone do app (adaptive icon) | ✅ | — | 512x512 gradiente radial azul + grid 3x3 + linha de seleção diagonal |
+| DSN-010 | Criar splash screen art | ✅ | — | 512x512 com "R" estilizado Ragazzi Studios |
+| DSN-011 | Aplicar cores por categoria | ✅ | DSN-008 | CategoryButtonItem.cs com 8 cores únicas + ApplyCategoryColor/Icon |
 
 ### 3.4 — Animações e Feedback Visual
 
@@ -193,11 +193,11 @@
 | 2.9 Build/Publicação | 6 | 0 | 4 | 0 | 2 | 33% |
 | 3.1 Áudio | 5 | 5 | 0 | 0 | 0 | 0% |
 | 3.2 Fonte | 3 | 0 | 0 | 0 | 3 | 100% |
-| 3.3 UI/Sprites | 6 | 6 | 0 | 0 | 0 | 0% |
+| 3.3 UI/Sprites | 6 | 0 | 0 | 0 | 6 | 100% |
 | 3.4 Animações | 5 | 0 | 0 | 0 | 5 | 100% |
 | 3.5 Gameplay/UX | 5 | 2 | 0 | 0 | 3 | 60% |
 | 3.6 Teste Final | 2 | 2 | 0 | 0 | 0 | 0% |
-| **TOTAL** | **76** | **15** | **4** | **0** | **57** | **75%** |
+| **TOTAL** | **76** | **9** | **4** | **0** | **63** | **83%** |
 
 ---
 
