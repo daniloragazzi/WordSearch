@@ -107,9 +107,9 @@
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| BLD-001 | Primeiro build Android (APK) | ⬜ | TST-004 | Configurações Android |
-| TST-005 | Teste no device real | ⬜ | BLD-001 | Gameplay, ads, performance |
-| BLD-002 | Criar conta Google Play Developer | ⬜ | — | Ragazzi Studios, taxa $25 |
+| BLD-001 | Primeiro build Android (APK) | ✅ | TST-004 | BuildScript.cs, SceneCreator.cs, PlayerSettings Android, doc 10_Build_Test_Guide.md |
+| TST-005 | Teste no device real | 🔵 | BLD-001 | Pronto para testar — criar cenas no Unity e gerar APK |
+| BLD-002 | Criar conta Google Play Developer | 🔵 | — | Conta criada, pendente validação de documentação |
 | BLD-003 | Preparar assets Play Store (screenshots, descrição) | ⬜ | TST-005 | Listing da loja |
 | BLD-004 | Build AAB (Android App Bundle) | ⬜ | TST-005 | Formato exigido pela Play Store |
 | BLD-005 | Publicar na Play Store | ⬜ | BLD-003, BLD-004 | Closed testing → Production |
@@ -128,8 +128,8 @@
 | 2.6 UI/Cenas | 11 | 0 | 0 | 11 | 100% |
 | 2.7 Design | 5 | 0 | 0 | 5 | 100% |
 | 2.8 Testes/Integração | 6 | 0 | 0 | 6 | 100% |
-| 2.9 Build/Publicação | 5 | 5 | 0 | 0 | 0% |
-| **TOTAL** | **49** | **5** | **0** | **44** | **90%** |
+| 2.9 Build/Publicação | 5 | 2 | 2 | 1 | 20% |
+| **TOTAL** | **49** | **2** | **2** | **45** | **92%** |
 
 ---
 

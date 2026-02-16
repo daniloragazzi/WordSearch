@@ -24,6 +24,7 @@
 /WordSearch/sysinfo.txt
 
 # Builds
+/WordSearch/Builds/
 *.apk
 *.aab
 *.unitypackage

@@ -1,0 +1,21 @@
+{
+    "name": "RagazziStudios.Editor",
+    "rootNamespace": "RagazziStudios.Editor",
+    "references": [
+        "RagazziStudios.Core.Domain",
+        "RagazziStudios.Core.Infrastructure",
+        "RagazziStudios.Core.Application",
+        "RagazziStudios.Game"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

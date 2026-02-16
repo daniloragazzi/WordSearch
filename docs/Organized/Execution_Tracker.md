@@ -80,9 +80,9 @@
 | CFG-005 | Integrar AdMob | ✅ | — | [09_SDK_Integration_Guide](09_SDK_Integration_Guide.md) | 2026-02-15 | 2026-02-15 |
 | CFG-006 | Integrar Unity Analytics | ✅ | — | [09_SDK_Integration_Guide](09_SDK_Integration_Guide.md) | 2026-02-15 | 2026-02-15 |
 | TST-004 | Teste integrado completo | ✅ | — | — | 2026-02-15 | 2026-02-15 |
-| BLD-001 | Primeiro build Android (APK) | ⬜ | — | — | — | — |
-| TST-005 | Teste no device real | ⬜ | — | — | — | — |
-| BLD-002 | Publicar na Play Store | ⬜ | — | — | — | — |
+| BLD-001 | Primeiro build Android (APK) | ✅ | — | [10_Build_Test_Guide](10_Build_Test_Guide.md) | 2026-02-15 | 2026-02-15 |
+| BLD-002 | Conta Google Play Developer | 🔵 | — | — | 2026-02-15 | — |
+| TST-005 | Teste no device/emulador | 🔵 | — | — | 2026-02-15 | — |
 
 ---
 
