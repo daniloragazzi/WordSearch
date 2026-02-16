@@ -17,7 +17,7 @@ namespace RagazziStudios.Editor
         private const string APP_ICON_PATH = "Assets/_Project/Art/Icons";
         private const string SPLASH_PATH = "Assets/_Project/Art/Splash";
 
-        [MenuItem("Build/Ragazzi Studios/Generate Sprites")]
+        [MenuItem("Build/Ragazzi Studios/Generate Sprites", priority = 3)]
         public static void GenerateAll()
         {
             GenerateButtonSprites();
