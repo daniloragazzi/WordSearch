@@ -402,12 +402,12 @@ namespace RagazziStudios.Editor
             Wire(gridViewScript, "_gridContainer", gridViewRect);
             gridViewGO.SetActive(true);
 
-            // ═══ SelectionLine ═══
+            // ═══ SelectionLine (covers only the grid area, not the header/footer) ═══
             var selectionLineGO = new GameObject("SelectionLine");
             selectionLineGO.transform.SetParent(canvasGO.transform, false);
             var slRect = selectionLineGO.AddComponent<RectTransform>();
-            slRect.anchorMin = Vector2.zero;
-            slRect.anchorMax = Vector2.one;
+            slRect.anchorMin = new Vector2(0.02f, 0.25f);
+            slRect.anchorMax = new Vector2(0.98f, 0.88f);
             slRect.sizeDelta = Vector2.zero;
             var slImage = selectionLineGO.AddComponent<Image>();
             slImage.color = new Color(0, 0, 0, 0);
