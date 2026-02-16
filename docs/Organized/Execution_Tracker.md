@@ -74,7 +74,7 @@
 | DEV-005 | Implementar Infrastructure layer | ✅ | — | — | 2026-02-15 | 2026-02-15 |
 | DEV-006 | Implementar UI/Screens | ⬜ | — | — | — | — |
 | DEV-007 | Implementar UI/Components (Grid) | ⬜ | — | — | — | — |
-| DAT-001 | Gerar banco de palavras | ⬜ | — | — | — | — |
+| DAT-001 | Gerar banco de palavras | ✅ | — | — | 2026-02-15 | 2026-02-15 |
 | DSN-001 | Criar assets visuais MVP | ⬜ | — | — | — | — |
 | TST-001 | Testes unitários Domain | ⬜ | — | — | — | — |
 | CFG-002 | Integrar AdMob | ⬜ | — | — | — | — |

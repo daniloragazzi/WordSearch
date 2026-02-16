@@ -60,11 +60,11 @@
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| DAT-001 | Criar script Python para gerar palavras | ⬜ | — | Geração + curadoria com IA |
-| DAT-002 | Gerar banco de palavras (8 categorias, ~50+/cat) | ⬜ | DAT-001 | Validação: sem duplicatas, min 3 letras |
-| DAT-003 | Criar categories.json | ⬜ | DAT-002 | Estrutura i18n pronta |
-| DAT-004 | Criar JSONs de palavras por categoria | ⬜ | DAT-002 | 8 arquivos JSON |
-| DAT-005 | Criar script Python de validação | ⬜ | DAT-004 | Validar integridade dos JSONs |
+| DAT-001 | Criar script Python para gerar palavras | ✅ | — | Geração curada diretamente |
+| DAT-002 | Gerar banco de palavras (8 categorias, ~50+/cat) | ✅ | DAT-001 | 440 palavras, 55/categoria, 0 erros |
+| DAT-003 | Criar categories.json | ✅ | DAT-002 | 8 categorias com id, name, icon |
+| DAT-004 | Criar JSONs de palavras por categoria | ✅ | DAT-002 | 8 arquivos JSON validados |
+| DAT-005 | Criar script Python de validação | ✅ | DAT-004 | validate_words.py: formato, dups, tamanho |
 
 ### 2.6 — UI e Cenas
 
@@ -124,12 +124,12 @@
 | 2.2 Domain | 6 | 0 | 0 | 6 | 100% |
 | 2.3 Infrastructure | 4 | 0 | 0 | 4 | 100% |
 | 2.4 Application | 3 | 0 | 0 | 3 | 100% |
-| 2.5 Dados | 5 | 5 | 0 | 0 | 0% |
+| 2.5 Dados | 5 | 0 | 0 | 5 | 100% |
 | 2.6 UI/Cenas | 11 | 11 | 0 | 0 | 0% |
 | 2.7 Design | 5 | 5 | 0 | 0 | 0% |
 | 2.8 Testes/Integração | 6 | 6 | 0 | 0 | 0% |
 | 2.9 Build/Publicação | 5 | 5 | 0 | 0 | 0% |
-| **TOTAL** | **49** | **32** | **0** | **17** | **35%** |
+| **TOTAL** | **49** | **27** | **0** | **22** | **45%** |
 
 ---
 

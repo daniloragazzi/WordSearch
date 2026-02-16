@@ -109,6 +109,10 @@
             "value": "Todos os níveis desta categoria foram completados!"
         },
         {
+            "key": "win_stats",
+            "value": "{0} palavras • {1}:{2:D2}"
+        },
+        {
             "key": "hint_watch_ad",
             "value": "Assistir anúncio para revelar uma palavra"
         },
