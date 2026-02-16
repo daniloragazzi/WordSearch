@@ -176,6 +176,12 @@
 | TST-006 | Teste completo no device (pós-melhorias) | ✅ | 3.1–3.5 | Todas melhorias visuais/UX validadas no device |
 | BLD-006 | Novo build APK com melhorias | ✅ | TST-006 | APK gerado e testado com sucesso |
 
+### 3.7 — Funcionalidades Extras
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| FT-001 | Modo Desafio — tela de seleção + grids grandes | ✅ | — | ChallengeSelectScreen, 3 tamanhos (14x22, 18x22, 20x22), 10 palavras mistas de todas as categorias |
+
 ---
 
 ## Resumo de Progresso
