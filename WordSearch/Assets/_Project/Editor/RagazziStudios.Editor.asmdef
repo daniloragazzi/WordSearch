@@ -6,7 +6,6 @@
         "RagazziStudios.Core.Infrastructure",
         "RagazziStudios.Core.Application",
         "RagazziStudios.Game",
-        "Unity.TextMeshPro",
         "Unity.TextMeshPro"
     ],
     "includePlatforms": [
