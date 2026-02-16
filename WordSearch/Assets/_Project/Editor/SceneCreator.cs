@@ -149,24 +149,85 @@ namespace RagazziStudios.Editor
             // ═══ CategorySelect Screen ═══
             var catScreenGO = CreateScreen(canvasGO.transform, "CategorySelectScreen");
 
-            var catTitleGO = CreateTextElement(catScreenGO.transform, "Title", "CATEGORIAS", 36,
-                TextAlignmentOptions.Center, new Vector2(0, 380));
-            var catBackBtnGO = CreateButton(catScreenGO.transform, "BackButton",
-                "<", new Vector2(-300, 380));
-            SetButtonSize(catBackBtnGO, new Vector2(80, 60));
+            // Header bar (top 8%)
+            var catHeader = new GameObject("Header");
+            catHeader.transform.SetParent(catScreenGO.transform, false);
+            var catHeaderRect = catHeader.AddComponent<RectTransform>();
+            catHeaderRect.anchorMin = new Vector2(0, 0.92f);
+            catHeaderRect.anchorMax = Vector2.one;
+            catHeaderRect.sizeDelta = Vector2.zero;
 
+            var catTitleGO = new GameObject("Title");
+            catTitleGO.transform.SetParent(catHeader.transform, false);
+            var catTitleTMP = catTitleGO.AddComponent<TextMeshProUGUI>();
+            catTitleTMP.text = "CATEGORIAS";
+            catTitleTMP.fontSize = 32;
+            catTitleTMP.alignment = TextAlignmentOptions.Center;
+            catTitleTMP.color = Color.white;
+            catTitleTMP.raycastTarget = false;
+            var catTitleRect = catTitleGO.GetComponent<RectTransform>();
+            catTitleRect.anchorMin = Vector2.zero;
+            catTitleRect.anchorMax = Vector2.one;
+            catTitleRect.sizeDelta = Vector2.zero;
+
+            var catBackBtnGO = new GameObject("BackButton");
+            catBackBtnGO.transform.SetParent(catHeader.transform, false);
+            var catBackImg = catBackBtnGO.AddComponent<Image>();
+            catBackImg.color = new Color(0.29f, 0.56f, 0.89f, 1f);
+            var catBackBtn = catBackBtnGO.AddComponent<Button>();
+            catBackBtn.targetGraphic = catBackImg;
+            var catBackRect = catBackBtnGO.GetComponent<RectTransform>();
+            catBackRect.anchorMin = new Vector2(0, 0);
+            catBackRect.anchorMax = new Vector2(0, 1);
+            catBackRect.pivot = new Vector2(0, 0.5f);
+            catBackRect.anchoredPosition = new Vector2(10, 0);
+            catBackRect.sizeDelta = new Vector2(70, 0);
+            var catBackLabel = new GameObject("Label");
+            catBackLabel.transform.SetParent(catBackBtnGO.transform, false);
+            var catBackTMP = catBackLabel.AddComponent<TextMeshProUGUI>();
+            catBackTMP.text = "<";
+            catBackTMP.fontSize = 28;
+            catBackTMP.alignment = TextAlignmentOptions.Center;
+            catBackTMP.color = Color.white;
+            catBackTMP.raycastTarget = false;
+            var catBackLabelRect = catBackLabel.GetComponent<RectTransform>();
+            catBackLabelRect.anchorMin = Vector2.zero;
+            catBackLabelRect.anchorMax = Vector2.one;
+            catBackLabelRect.sizeDelta = Vector2.zero;
+
+            // ScrollView for categories (below header)
+            var catScrollGO = new GameObject("ScrollView");
+            catScrollGO.transform.SetParent(catScreenGO.transform, false);
+            var catScrollRect = catScrollGO.AddComponent<RectTransform>();
+            catScrollRect.anchorMin = new Vector2(0.03f, 0.02f);
+            catScrollRect.anchorMax = new Vector2(0.97f, 0.90f);
+            catScrollRect.sizeDelta = Vector2.zero;
+            var catScrollView = catScrollGO.AddComponent<ScrollRect>();
+            catScrollView.horizontal = false;
+            catScrollView.vertical = true;
+            var catScrollMask = catScrollGO.AddComponent<UnityEngine.UI.Mask>();
+            catScrollMask.showMaskGraphic = false;
+            var catScrollImg = catScrollGO.AddComponent<Image>();
+            catScrollImg.color = new Color(0, 0, 0, 0.01f);
+
+            // Content container inside scroll
             var catGrid = new GameObject("CategoryGrid");
-            catGrid.transform.SetParent(catScreenGO.transform, false);
+            catGrid.transform.SetParent(catScrollGO.transform, false);
             var catGridLayout = catGrid.AddComponent<GridLayoutGroup>();
-            catGridLayout.cellSize = new Vector2(300, 120);
-            catGridLayout.spacing = new Vector2(20, 20);
+            catGridLayout.cellSize = new Vector2(460, 100);
+            catGridLayout.spacing = new Vector2(16, 16);
             catGridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             catGridLayout.constraintCount = 2;
             catGridLayout.childAlignment = TextAnchor.UpperCenter;
+            catGridLayout.padding = new RectOffset(8, 8, 8, 8);
             var catGridRect = catGrid.GetComponent<RectTransform>();
-            catGridRect.anchorMin = new Vector2(0.05f, 0.05f);
-            catGridRect.anchorMax = new Vector2(0.95f, 0.85f);
-            catGridRect.sizeDelta = Vector2.zero;
+            catGridRect.anchorMin = new Vector2(0, 1);
+            catGridRect.anchorMax = new Vector2(1, 1);
+            catGridRect.pivot = new Vector2(0.5f, 1);
+            catGridRect.sizeDelta = new Vector2(0, 0);
+            var catContentSizeFitter = catGrid.AddComponent<ContentSizeFitter>();
+            catContentSizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            catScrollView.content = catGridRect;
 
             // CategoryButtonItem prefab template
             var catButtonPrefab = CreateCategoryButtonPrefab(catScreenGO.transform);
@@ -175,8 +236,8 @@ namespace RagazziStudios.Editor
             var catScript = catScreenGO.AddComponent<Game.UI.Screens.CategorySelectScreen>();
             Wire(catScript, "_categoryContainer", catGrid.transform);
             Wire(catScript, "_categoryButtonPrefab", catButtonPrefab);
-            Wire(catScript, "_headerText", catTitleGO.GetComponent<TMP_Text>());
-            Wire(catScript, "_backButton", catBackBtnGO.GetComponent<Button>());
+            Wire(catScript, "_headerText", catTitleTMP);
+            Wire(catScript, "_backButton", catBackBtn);
 
             // ═══ LevelSelect Screen ═══
             var lvlScreenGO = CreateScreen(canvasGO.transform, "LevelSelectScreen");
@@ -473,46 +534,57 @@ namespace RagazziStudios.Editor
             btn.targetGraphic = image;
 
             var rect = go.GetComponent<RectTransform>();
-            rect.sizeDelta = new Vector2(300, 120);
+            rect.sizeDelta = new Vector2(460, 100);
 
-            // Icon (emoji text)
+            // Icon area (left 20% of the button)
             var iconGO = new GameObject("IconText");
             iconGO.transform.SetParent(go.transform, false);
             var iconTMP = iconGO.AddComponent<TextMeshProUGUI>();
             iconTMP.text = "";
-            iconTMP.fontSize = 32;
+            iconTMP.fontSize = 28;
             iconTMP.alignment = TextAlignmentOptions.Center;
             iconTMP.color = Color.white;
             iconTMP.raycastTarget = false;
+            iconTMP.enableWordWrapping = false;
+            iconTMP.overflowMode = TextOverflowModes.Truncate;
             var iconRect = iconGO.GetComponent<RectTransform>();
-            iconRect.anchoredPosition = new Vector2(-100, 0);
-            iconRect.sizeDelta = new Vector2(50, 50);
+            iconRect.anchorMin = new Vector2(0, 0);
+            iconRect.anchorMax = new Vector2(0.18f, 1);
+            iconRect.offsetMin = new Vector2(8, 8);
+            iconRect.offsetMax = new Vector2(0, -8);
 
-            // Name text
+            // Name text (middle-right, top half)
             var nameGO = new GameObject("NameText");
             nameGO.transform.SetParent(go.transform, false);
             var nameTMP = nameGO.AddComponent<TextMeshProUGUI>();
             nameTMP.text = "Categoria";
-            nameTMP.fontSize = 22;
+            nameTMP.fontSize = 20;
             nameTMP.alignment = TextAlignmentOptions.MidlineLeft;
             nameTMP.color = Color.white;
             nameTMP.raycastTarget = false;
+            nameTMP.enableWordWrapping = true;
+            nameTMP.overflowMode = TextOverflowModes.Ellipsis;
             var nameRect = nameGO.GetComponent<RectTransform>();
-            nameRect.anchoredPosition = new Vector2(20, 10);
-            nameRect.sizeDelta = new Vector2(200, 40);
+            nameRect.anchorMin = new Vector2(0.20f, 0.35f);
+            nameRect.anchorMax = new Vector2(0.98f, 0.95f);
+            nameRect.offsetMin = Vector2.zero;
+            nameRect.offsetMax = Vector2.zero;
 
-            // Progress text
+            // Progress text (middle-right, bottom)
             var progressGO = new GameObject("ProgressText");
             progressGO.transform.SetParent(go.transform, false);
             var progressTMP = progressGO.AddComponent<TextMeshProUGUI>();
             progressTMP.text = "0/15";
-            progressTMP.fontSize = 16;
+            progressTMP.fontSize = 14;
             progressTMP.alignment = TextAlignmentOptions.MidlineLeft;
             progressTMP.color = new Color(0.7f, 0.7f, 0.7f);
             progressTMP.raycastTarget = false;
+            progressTMP.enableWordWrapping = false;
             var progressRect = progressGO.GetComponent<RectTransform>();
-            progressRect.anchoredPosition = new Vector2(20, -20);
-            progressRect.sizeDelta = new Vector2(200, 30);
+            progressRect.anchorMin = new Vector2(0.20f, 0.05f);
+            progressRect.anchorMax = new Vector2(0.98f, 0.35f);
+            progressRect.offsetMin = Vector2.zero;
+            progressRect.offsetMax = Vector2.zero;
 
             // CategoryButtonItem script
             go.SetActive(false);
@@ -521,7 +593,6 @@ namespace RagazziStudios.Editor
             Wire(catItem, "_iconText", iconTMP);
             Wire(catItem, "_nameText", nameTMP);
             Wire(catItem, "_progressText", progressTMP);
-            // _progressFill is optional (not essential for MVP)
 
             return go;
         }
