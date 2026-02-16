@@ -82,7 +82,7 @@
 | TST-004 | Teste integrado completo | ✅ | — | — | 2026-02-15 | 2026-02-15 |
 | BLD-001 | Primeiro build Android (APK) | ✅ | — | [10_Build_Test_Guide](10_Build_Test_Guide.md) | 2026-02-15 | 2026-02-15 |
 | BLD-002 | Conta Google Play Developer | 🔵 | — | — | 2026-02-15 | — |
-| TST-005 | Teste no device/emulador | 🔵 | — | — | 2026-02-15 | — |
+| TST-005 | Teste no device real | ✅ | — | — | 2026-02-15 | 2026-02-16 |
 
 ---
 
@@ -98,6 +98,8 @@
 | 2026-02-15 | DOC-002 | Documento 02_MVP_Scope criado | Formalização da DEF-002 |
 | 2026-02-15 | DEF-002 | Dados: JSON embarcado + geração runtime | Atualização da DEF-002 com decisão de armazenamento |
 | 2026-02-15 | DEF-003 | Arquitetura: Clean Architecture 5 camadas | Core/ vs Game/, C# Events, Interfaces, State Machine |
+| 2026-02-16 | TST-005 | Teste no device real concluído | Checklists 6.1, 6.2, 6.3 OK. Bugs corrigidos: orientation, layout categorias/níveis, botões bloqueados |
+| 2026-02-16 | — | Play Store pausada, Fase 3 (Melhorias) iniciada | Foco em áudio, fonte, sprites, animações, UX antes de publicar |
 | 2026-02-15 | DOC-003 | Documento 03_Architecture criado | Formalização da DEF-003 |
 | 2026-02-15 | DEF-004 | Pastas Unity definidas | Coberto integralmente na DEF-003 |
 | 2026-02-15 | DEF-007 | Estrutura de dados definida | Coberto na DEF-002 (JSON embarcado) |

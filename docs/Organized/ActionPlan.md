@@ -108,28 +108,96 @@
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
 | BLD-001 | Primeiro build Android (APK) | ✅ | TST-004 | BuildScript.cs, SceneCreator.cs, PlayerSettings Android, doc 10_Build_Test_Guide.md |
-| TST-005 | Teste no device real | 🔵 | BLD-001 | Pronto para testar — criar cenas no Unity e gerar APK |
-| BLD-002 | Criar conta Google Play Developer | 🔵 | — | Conta criada, pendente validação de documentação |
-| BLD-003 | Preparar assets Play Store (screenshots, descrição) | ⬜ | TST-005 | Listing da loja |
-| BLD-004 | Build AAB (Android App Bundle) | ⬜ | TST-005 | Formato exigido pela Play Store |
-| BLD-005 | Publicar na Play Store | ⬜ | BLD-003, BLD-004 | Closed testing → Production |
+| TST-005 | Teste no device real | ✅ | BLD-001 | Checklists 6.1, 6.2, 6.3 OK. Bugs corrigidos (orientation, layout, botões) |
+| BLD-002 | Criar conta Google Play Developer | ⏸️ | — | Conta criada, pendente validação — pausado para melhorias |
+| BLD-003 | Preparar assets Play Store (screenshots, descrição) | ⏸️ | TST-005 | Pausado — retomar após Fase 3 |
+| BLD-004 | Build AAB (Android App Bundle) | ⏸️ | TST-005 | Pausado — retomar após Fase 3 |
+| BLD-005 | Publicar na Play Store | ⏸️ | BLD-003, BLD-004 | Pausado — retomar após Fase 3 |
+
+---
+
+## Fase 3 — Melhorias e Polimento
+
+> Foco em qualidade visual, áudio, UX e funcionalidades faltantes antes da publicação.
+
+### 3.1 — Áudio (SFX e Música)
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| AUD-001 | Criar/obter SFX (word found, all found, tap, hint, error) | ⬜ | — | Assets royalty-free ou gerados (sfxr/jsfxr) |
+| AUD-002 | Criar/obter música de fundo (loop) | ⬜ | — | 1-2 tracks ambient/lo-fi, royalty-free |
+| AUD-003 | Integrar SFX no gameplay | ⬜ | AUD-001 | Conectar AudioClips aos eventos existentes |
+| AUD-004 | Implementar MusicManager (play/pause/volume) | ⬜ | AUD-002 | Singleton, crossfade, respeitar toggle Settings |
+| AUD-005 | Corrigir toggle Som/Música no Settings | ⬜ | AUD-003, AUD-004 | Separar volume SFX vs Music (não usar AudioListener global) |
+
+### 3.2 — Fonte e Tipografia
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| FNT-001 | Importar fonte Nunito (TTF, 4 pesos) | ⬜ | — | Download Google Fonts, colocar em Art/Fonts/ |
+| FNT-002 | Gerar TMP SDF Font Assets | ⬜ | FNT-001 | Via TMP Font Asset Creator no Unity |
+| FNT-003 | Aplicar Nunito em todos os textos (SceneCreator) | ⬜ | FNT-002 | Substituir fonte padrão TMP por Nunito |
+
+### 3.3 — UI Visual e Sprites
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| DSN-006 | Criar sprites de botões (9-slice) | ⬜ | — | Rounded rect, hover/pressed states |
+| DSN-007 | Criar sprites de painéis/cards | ⬜ | — | Backgrounds com bordas arredondadas |
+| DSN-008 | Criar ícones de categoria (8 ícones) | ⬜ | — | Ícones simples para cada categoria |
+| DSN-009 | Criar ícone do app (adaptive icon) | ⬜ | — | Foreground + background layers, 512x512 |
+| DSN-010 | Criar splash screen art | ⬜ | — | Logo Ragazzi Studios |
+| DSN-011 | Aplicar cores por categoria | ⬜ | DSN-008 | Cada categoria com cor/gradiente próprio |
+
+### 3.4 — Animações e Feedback Visual
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| ANI-001 | Animação de transição entre telas (fade/slide) | ⬜ | — | CanvasGroup fade ou slide horizontal |
+| ANI-002 | Animação de célula selecionada (pulse/scale) | ⬜ | — | Feedback visual ao selecionar letras |
+| ANI-003 | Animação de palavra encontrada (flash + cor) | ⬜ | — | Células piscam antes de ficar verde |
+| ANI-004 | Celebração de vitória (partículas/confete) | ⬜ | — | Particle System ou UI animada |
+| ANI-005 | Feedback de seleção inválida (shake) | ⬜ | — | Leve tremor na seleção quando não é palavra |
+
+### 3.5 — Gameplay e UX
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| UX-001 | Implementar Pause Popup | ⬜ | — | Popup com Continuar, Reiniciar, Sair |
+| UX-002 | Mostrar timer durante gameplay | ⬜ | — | Relógio visível no header (já calculado internamente) |
+| UX-003 | Melhorar visual da SelectionLine (endpoints arredondados) | ⬜ | — | Linhas mais bonitas sobre o grid |
+| UX-004 | Tutorial de primeiro uso | ⬜ | — | Overlay simples mostrando como jogar |
+| UX-005 | Tela de loading entre cenas | ⬜ | ANI-001 | Progress bar ou spinner durante carregamento |
+
+### 3.6 — Teste e Build Final
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| TST-006 | Teste completo no device (pós-melhorias) | ⬜ | 3.1–3.5 | Validar todas as melhorias no dispositivo |
+| BLD-006 | Novo build APK com melhorias | ⬜ | TST-006 | Build para teste final antes de publicar |
 
 ---
 
 ## Resumo de Progresso
 
-| Etapa | Total | ⬜ | 🔵 | ✅ | % |
-|-------|-------|-----|-----|-----|---|
-| 2.1 Setup | 4 | 0 | 0 | 4 | 100% |
-| 2.2 Domain | 6 | 0 | 0 | 6 | 100% |
-| 2.3 Infrastructure | 4 | 0 | 0 | 4 | 100% |
-| 2.4 Application | 3 | 0 | 0 | 3 | 100% |
-| 2.5 Dados | 5 | 0 | 0 | 5 | 100% |
-| 2.6 UI/Cenas | 11 | 0 | 0 | 11 | 100% |
-| 2.7 Design | 5 | 0 | 0 | 5 | 100% |
-| 2.8 Testes/Integração | 6 | 0 | 0 | 6 | 100% |
-| 2.9 Build/Publicação | 5 | 2 | 2 | 1 | 20% |
-| **TOTAL** | **49** | **2** | **2** | **45** | **92%** |
+| Etapa | Total | ⬜ | ⏸️ | 🔵 | ✅ | % |
+|-------|-------|-----|-----|-----|-----|---|
+| 2.1 Setup | 4 | 0 | 0 | 0 | 4 | 100% |
+| 2.2 Domain | 6 | 0 | 0 | 0 | 6 | 100% |
+| 2.3 Infrastructure | 4 | 0 | 0 | 0 | 4 | 100% |
+| 2.4 Application | 3 | 0 | 0 | 0 | 3 | 100% |
+| 2.5 Dados | 5 | 0 | 0 | 0 | 5 | 100% |
+| 2.6 UI/Cenas | 11 | 0 | 0 | 0 | 11 | 100% |
+| 2.7 Design | 5 | 0 | 0 | 0 | 5 | 100% |
+| 2.8 Testes/Integração | 6 | 0 | 0 | 0 | 6 | 100% |
+| 2.9 Build/Publicação | 6 | 0 | 4 | 0 | 2 | 33% |
+| 3.1 Áudio | 5 | 5 | 0 | 0 | 0 | 0% |
+| 3.2 Fonte | 3 | 3 | 0 | 0 | 0 | 0% |
+| 3.3 UI/Sprites | 6 | 6 | 0 | 0 | 0 | 0% |
+| 3.4 Animações | 5 | 5 | 0 | 0 | 0 | 0% |
+| 3.5 Gameplay/UX | 5 | 5 | 0 | 0 | 0 | 0% |
+| 3.6 Teste Final | 2 | 2 | 0 | 0 | 0 | 0% |
+| **TOTAL** | **76** | **26** | **4** | **0** | **46** | **61%** |
 
 ---
 
