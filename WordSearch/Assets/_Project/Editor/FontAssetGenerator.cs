@@ -31,7 +31,7 @@ namespace RagazziStudios.Editor
             "\u00E0\u00E1\u00E2\u00E3\u00E7\u00E9\u00EA\u00ED\u00F3\u00F4\u00F5\u00FA\u00FC" +
             "\u2026\u2013\u2014\u2018\u2019\u201C\u201D\u2022\u20AC\u2122";
 
-        [MenuItem("Build/Ragazzi Studios/🔤 Generate Font Assets", priority = 2)]
+        [MenuItem("Build/Ragazzi Studios/Generate Font Assets", priority = 2)]
         public static void GenerateAll()
         {
             if (!Directory.Exists(SDF_PATH))
