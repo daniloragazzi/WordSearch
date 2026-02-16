@@ -178,6 +178,9 @@ namespace RagazziStudios.Game.UI
             // Marcar no grid visual
             _gridView.MarkWordFound(placement);
 
+            // Linha colorida persistente sobre a palavra
+            _selectionLine.ShowFoundLine(placement);
+
             // Marcar na lista de palavras
             _wordListView.MarkWordFound(placement);
 
@@ -248,6 +251,7 @@ namespace RagazziStudios.Game.UI
 
             _wordFinder.RevealWord(hint);
             _gridView.HighlightHint(hint);
+            _selectionLine.ShowFoundLine(hint);
             _wordListView.MarkWordFound(hint);
             _levelManager.RegisterHint();
 

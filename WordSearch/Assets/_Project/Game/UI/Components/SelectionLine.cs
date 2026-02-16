@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using RagazziStudios.Core.Domain.Grid;
 
 namespace RagazziStudios.Game.UI.Components
 {
@@ -8,6 +10,7 @@ namespace RagazziStudios.Game.UI.Components
     /// Gerencia a seleção por arrasto (touch/mouse) no grid de letras.
     /// Detecta o gesto linear e informa as posições selecionadas.
     /// Suporta seleção horizontal, vertical e diagonal.
+    /// Mostra linhas persistentes coloridas sobre palavras encontradas.
     /// </summary>
     public class SelectionLine : MonoBehaviour, IPointerDownHandler,
         IPointerUpHandler, IDragHandler
@@ -17,9 +20,26 @@ namespace RagazziStudios.Game.UI.Components
         [SerializeField] private RectTransform _lineVisual;
 
         [Header("Visual")]
-        [SerializeField] private UnityEngine.UI.Image _lineImage;
+        [SerializeField] private Image _lineImage;
         [SerializeField] private Color _lineColor = new Color(0.4f, 0.7f, 1f, 0.6f);
         [SerializeField] private float _lineThickness = 40f;
+
+        /// <summary>Sprite procedural em forma de pílula (endpoints arredondados).</summary>
+        private Sprite _pillSprite;
+
+        /// <summary>Contador de palavras encontradas (para ciclar cores).</summary>
+        private int _foundCount;
+
+        /// <summary>Paleta de cores para linhas de palavras encontradas.</summary>
+        private static readonly Color[] FoundColors = new Color[]
+        {
+            new Color(0.35f, 0.78f, 0.35f, 0.50f), // verde
+            new Color(0.90f, 0.55f, 0.20f, 0.50f), // laranja
+            new Color(0.70f, 0.35f, 0.75f, 0.50f), // roxo
+            new Color(0.90f, 0.35f, 0.35f, 0.50f), // vermelho
+            new Color(0.35f, 0.75f, 0.85f, 0.50f), // ciano
+            new Color(0.90f, 0.80f, 0.20f, 0.50f), // amarelo
+        };
 
         /// <summary>Posições atualmente selecionadas (row, col).</summary>
         private readonly List<(int row, int col)> _selectedPositions = new List<(int, int)>();
@@ -41,11 +61,17 @@ namespace RagazziStudios.Game.UI.Components
 
         private void Start()
         {
+            _pillSprite = CreatePillSprite();
+
             if (_lineVisual != null)
                 _lineVisual.gameObject.SetActive(false);
 
             if (_lineImage != null)
+            {
                 _lineImage.color = _lineColor;
+                _lineImage.sprite = _pillSprite;
+                _lineImage.type = Image.Type.Sliced;
+            }
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -226,6 +252,136 @@ namespace RagazziStudios.Game.UI.Components
             }
 
             return null;
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  Linhas persistentes para palavras encontradas
+        // ═══════════════════════════════════════════════════════════════
+
+        /// <summary>
+        /// Cria uma linha colorida persistente sobre a palavra encontrada.
+        /// Chamada pelo GameplayController quando uma palavra é validada.
+        /// </summary>
+        public void ShowFoundLine(WordPlacement placement)
+        {
+            if (_gridView == null || _pillSprite == null) return;
+
+            var positions = placement.GetCellPositions();
+            if (positions.Length < 2) return;
+
+            var firstPos = positions[0];
+            var lastPos = positions[positions.Length - 1];
+
+            var firstCell = _gridView.GetCell(firstPos.row, firstPos.col);
+            var lastCell = _gridView.GetCell(lastPos.row, lastPos.col);
+            if (firstCell == null || lastCell == null) return;
+
+            // Criar GO da linha
+            var lineGO = new GameObject($"FoundLine_{placement.DisplayWord}");
+            lineGO.transform.SetParent(transform, false);
+
+            var img = lineGO.AddComponent<Image>();
+            img.sprite = _pillSprite;
+            img.type = Image.Type.Sliced;
+            img.color = FoundColors[_foundCount % FoundColors.Length];
+            img.raycastTarget = false;
+
+            // Posicionar entre os centros da primeira e última célula
+            var firstRT = firstCell.GetComponent<RectTransform>();
+            var lastRT = lastCell.GetComponent<RectTransform>();
+
+            Vector3 startPos = firstRT.position;
+            Vector3 endPos = lastRT.position;
+
+            var rt = lineGO.GetComponent<RectTransform>();
+            rt.position = (startPos + endPos) / 2f;
+
+            Vector3 diff = endPos - startPos;
+            float angle = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+            rt.rotation = Quaternion.Euler(0, 0, angle);
+
+            float distance = diff.magnitude;
+            rt.sizeDelta = new Vector2(distance + _lineThickness, _lineThickness);
+
+            _foundCount++;
+        }
+
+        /// <summary>Remove todas as linhas de palavras encontradas (ex: reiniciar nível).</summary>
+        public void ClearFoundLines()
+        {
+            for (int i = transform.childCount - 1; i >= 0; i--)
+            {
+                var child = transform.GetChild(i);
+                if (child != _lineVisual)
+                    Destroy(child.gameObject);
+            }
+            _foundCount = 0;
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  Sprite procedural (pílula com endpoints arredondados)
+        // ═══════════════════════════════════════════════════════════════
+
+        /// <summary>
+        /// Gera um Sprite em forma de pílula (retângulo com extremidades semicirculares).
+        /// Usa 9-slice para que as pontas arredondadas não distorçam ao esticar.
+        /// </summary>
+        private static Sprite CreatePillSprite()
+        {
+            const int w = 128, h = 64;
+            float r = h * 0.5f;
+
+            var tex = new Texture2D(w, h, TextureFormat.RGBA32, false);
+            tex.filterMode = FilterMode.Bilinear;
+            tex.wrapMode = TextureWrapMode.Clamp;
+
+            var pixels = new Color32[w * h];
+
+            for (int y = 0; y < h; y++)
+            {
+                for (int x = 0; x < w; x++)
+                {
+                    float px = x + 0.5f;
+                    float py = y + 0.5f;
+                    float cy = h * 0.5f;
+
+                    float dist;
+
+                    if (px < r)
+                    {
+                        // Extremidade esquerda (semicírculo)
+                        float dx = px - r;
+                        float dy = py - cy;
+                        dist = r - Mathf.Sqrt(dx * dx + dy * dy);
+                    }
+                    else if (px > w - r)
+                    {
+                        // Extremidade direita (semicírculo)
+                        float dx = px - (w - r);
+                        float dy = py - cy;
+                        dist = r - Mathf.Sqrt(dx * dx + dy * dy);
+                    }
+                    else
+                    {
+                        // Meio (retângulo)
+                        dist = Mathf.Min(py, h - py);
+                    }
+
+                    // Anti-alias suave (transição de 1.5px)
+                    float alpha = Mathf.Clamp01(dist / 1.5f + 0.5f);
+                    byte a = (byte)(alpha * 255);
+                    pixels[y * w + x] = new Color32(255, 255, 255, a);
+                }
+            }
+
+            tex.SetPixels32(pixels);
+            tex.Apply();
+
+            // 9-slice: preservar extremidades arredondadas (left=r, bottom=0, right=r, top=0)
+            var border = new Vector4(r, 0, r, 0);
+            return Sprite.Create(tex, new Rect(0, 0, w, h),
+                new Vector2(0.5f, 0.5f), 100, 0,
+                SpriteMeshType.FullRect, border);
         }
     }
 }
