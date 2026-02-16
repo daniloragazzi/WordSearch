@@ -3,42 +3,42 @@
         {
             "id": "animais",
             "name": "Animais",
-            "icon": "cat_animais"
+            "icon": ""
         },
         {
             "id": "alimentos",
             "name": "Alimentos",
-            "icon": "cat_alimentos"
+            "icon": ""
         },
         {
             "id": "corpo_humano",
             "name": "Corpo Humano",
-            "icon": "cat_corpo_humano"
+            "icon": ""
         },
         {
             "id": "natureza",
             "name": "Natureza",
-            "icon": "cat_natureza"
+            "icon": ""
         },
         {
             "id": "profissoes",
             "name": "Profissões",
-            "icon": "cat_profissoes"
+            "icon": ""
         },
         {
             "id": "paises",
             "name": "Países",
-            "icon": "cat_paises"
+            "icon": ""
         },
         {
             "id": "esportes",
             "name": "Esportes",
-            "icon": "cat_esportes"
+            "icon": ""
         },
         {
             "id": "cores_formas",
             "name": "Cores e Formas",
-            "icon": "cat_cores_formas"
+            "icon": ""
         }
     ]
 }

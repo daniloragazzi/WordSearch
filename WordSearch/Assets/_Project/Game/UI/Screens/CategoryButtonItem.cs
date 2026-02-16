@@ -31,14 +31,40 @@ namespace RagazziStudios.Game.UI.Screens
             _categoryId = category.id;
             _onClickCallback = onClickCallback;
 
+            // Esconder ícone se vazio e expandir nome/progresso
+            bool hasIcon = !string.IsNullOrEmpty(category.icon);
             if (_iconText != null)
-                _iconText.text = category.icon;
+            {
+                _iconText.text = hasIcon ? category.icon : "";
+                _iconText.gameObject.SetActive(hasIcon);
+            }
 
             if (_nameText != null)
+            {
                 _nameText.text = category.name;
+                // Se não tem ícone, expandir nome para usar toda a largura
+                if (!hasIcon)
+                {
+                    var nameRect = _nameText.GetComponent<RectTransform>();
+                    if (nameRect != null)
+                    {
+                        nameRect.anchorMin = new Vector2(0.05f, nameRect.anchorMin.y);
+                    }
+                }
+            }
 
             if (_progressText != null)
+            {
                 _progressText.text = $"{completedLevels}/{totalLevels}";
+                if (!hasIcon)
+                {
+                    var progRect = _progressText.GetComponent<RectTransform>();
+                    if (progRect != null)
+                    {
+                        progRect.anchorMin = new Vector2(0.05f, progRect.anchorMin.y);
+                    }
+                }
+            }
 
             if (_progressFill != null)
             {
