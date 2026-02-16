@@ -134,9 +134,9 @@
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| FNT-001 | Importar fonte Nunito (TTF, 4 pesos) | ⬜ | — | Download Google Fonts, colocar em Art/Fonts/ |
-| FNT-002 | Gerar TMP SDF Font Assets | ⬜ | FNT-001 | Via TMP Font Asset Creator no Unity |
-| FNT-003 | Aplicar Nunito em todos os textos (SceneCreator) | ⬜ | FNT-002 | Substituir fonte padrão TMP por Nunito |
+| FNT-001 | Importar fonte Nunito (TTF, 4 pesos) | ✅ | — | 4 TTFs baixados do Google Fonts (Regular, SemiBold, Bold, ExtraBold) |
+| FNT-002 | Gerar TMP SDF Font Assets | ✅ | FNT-001 | FontAssetGenerator.cs — menu 'Generate Font Assets' no Unity |
+| FNT-003 | Aplicar Nunito em todos os textos (SceneCreator) | ✅ | FNT-002 | ApplyFontsToScene() auto-aplica peso por fontSize |
 
 ### 3.3 — UI Visual e Sprites
 
@@ -192,12 +192,12 @@
 | 2.8 Testes/Integração | 6 | 0 | 0 | 0 | 6 | 100% |
 | 2.9 Build/Publicação | 6 | 0 | 4 | 0 | 2 | 33% |
 | 3.1 Áudio | 5 | 5 | 0 | 0 | 0 | 0% |
-| 3.2 Fonte | 3 | 3 | 0 | 0 | 0 | 0% |
+| 3.2 Fonte | 3 | 0 | 0 | 0 | 3 | 100% |
 | 3.3 UI/Sprites | 6 | 6 | 0 | 0 | 0 | 0% |
 | 3.4 Animações | 5 | 5 | 0 | 0 | 0 | 0% |
 | 3.5 Gameplay/UX | 5 | 5 | 0 | 0 | 0 | 0% |
 | 3.6 Teste Final | 2 | 2 | 0 | 0 | 0 | 0% |
-| **TOTAL** | **76** | **26** | **4** | **0** | **46** | **61%** |
+| **TOTAL** | **76** | **23** | **4** | **0** | **49** | **64%** |
 
 ---
 

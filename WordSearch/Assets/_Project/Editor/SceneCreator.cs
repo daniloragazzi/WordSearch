@@ -20,10 +20,18 @@ namespace RagazziStudios.Editor
     {
         private const string SCENES_PATH = "Assets/_Project/Scenes";
 
+        // Nunito font assets (loaded once per CreateAllScenes call)
+        private static TMP_FontAsset _fontRegular;
+        private static TMP_FontAsset _fontSemiBold;
+        private static TMP_FontAsset _fontBold;
+        private static TMP_FontAsset _fontExtraBold;
+
         [MenuItem("Build/Ragazzi Studios/🎬 Create All Scenes", priority = 1)]
         public static void CreateAllScenes()
         {
             EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
+
+            LoadFonts();
 
             CreateBootScene();
             CreateMainMenuScene();
@@ -91,6 +99,7 @@ namespace RagazziStudios.Editor
             Wire(bootLoader, "_loadingCanvasGroup", loadingCG);
             bootGO.SetActive(true);
 
+            ApplyFontsToScene();
             SaveScene(scene, "Boot");
         }
 
@@ -385,6 +394,7 @@ namespace RagazziStudios.Editor
             Wire(navScript, "_categorySelectScreen", catScreenGO);
             Wire(navScript, "_levelSelectScreen", lvlScreenGO);
 
+            ApplyFontsToScene();
             SaveScene(scene, "MainMenu");
         }
 
@@ -570,6 +580,7 @@ namespace RagazziStudios.Editor
             Wire(gpScript, "_winPopupPrefab", winPopupGO);
             Wire(gpScript, "_popupParent", canvasGO.transform);
 
+            ApplyFontsToScene();
             SaveScene(scene, "Game");
         }
 
@@ -1094,6 +1105,63 @@ namespace RagazziStudios.Editor
             string path = $"{dir}/{name}.unity";
             EditorSceneManager.SaveScene(scene, path);
             Debug.Log($"[SceneCreator] ✅ Cena salva: {path}");
+        }
+
+        // ═══════════════════════════════════════════════════
+        //  Font Helpers
+        // ═══════════════════════════════════════════════════
+
+        private static void LoadFonts()
+        {
+            _fontRegular = FontAssetGenerator.LoadFont("Regular");
+            _fontSemiBold = FontAssetGenerator.LoadFont("SemiBold");
+            _fontBold = FontAssetGenerator.LoadFont("Bold");
+            _fontExtraBold = FontAssetGenerator.LoadFont("ExtraBold");
+
+            if (_fontRegular != null)
+                Debug.Log("[SceneCreator] ✅ Fontes Nunito carregadas.");
+            else
+                Debug.LogWarning("[SceneCreator] ⚠️ Fontes Nunito não encontradas. Execute 'Generate Font Assets' primeiro. Usando fonte padrão.");
+        }
+
+        /// <summary>
+        /// Returns the appropriate Nunito weight based on font size:
+        /// - >= 30: ExtraBold (titles, headers)
+        /// - >= 24: Bold (grid letters, level numbers, buttons)
+        /// - >= 18: SemiBold (subtitles, buttons)
+        /// - < 18: Regular (body text, word list, progress)
+        /// </summary>
+        private static TMP_FontAsset GetFontForSize(float fontSize)
+        {
+            if (fontSize >= 30) return _fontExtraBold ?? _fontRegular;
+            if (fontSize >= 24) return _fontBold ?? _fontRegular;
+            if (fontSize >= 18) return _fontSemiBold ?? _fontRegular;
+            return _fontRegular;
+        }
+
+        /// <summary>
+        /// Applies Nunito fonts to all TMP_Text components in the active scene.
+        /// Font weight is auto-selected based on fontSize.
+        /// </summary>
+        private static void ApplyFontsToScene()
+        {
+            if (_fontRegular == null) return;
+
+            var allTexts = Resources.FindObjectsOfTypeAll<TMP_Text>();
+            int count = 0;
+            foreach (var tmp in allTexts)
+            {
+                // Only process objects in the active scene
+                if (tmp.gameObject.scene != SceneManager.GetActiveScene()) continue;
+
+                var font = GetFontForSize(tmp.fontSize);
+                if (font != null)
+                {
+                    tmp.font = font;
+                    count++;
+                }
+            }
+            Debug.Log($"[SceneCreator] 🔤 Fonte Nunito aplicada em {count} textos.");
         }
     }
 }
