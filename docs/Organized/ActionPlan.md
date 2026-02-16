@@ -70,17 +70,17 @@
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| DEV-014 | Criar cena Boot.unity | ⬜ | DEV-012 | Inicialização, loading |
-| DEV-015 | Criar cena MainMenu.unity + MainMenuScreen | ⬜ | DEV-014 | Botão Jogar, Configurações |
-| DEV-016 | Implementar CategorySelectScreen | ⬜ | DEV-013, DAT-003 | Grid de categorias + progresso |
-| DEV-017 | Implementar LevelSelectScreen | ⬜ | DEV-013 | Grid de níveis, bloqueado/desbloqueado |
-| DEV-018 | Criar cena Game.unity | ⬜ | DEV-012 | Cena do gameplay |
-| DEV-019 | Implementar GridView (renderizar grid) | ⬜ | DEV-003, DEV-018 | Grid visual, letras |
-| DEV-020 | Implementar LetterCell (célula individual) | ⬜ | DEV-019 | Visual da letra, estados |
-| DEV-021 | Implementar SelectionLine (arrastar dedo) | ⬜ | DEV-019 | Input touch/drag |
-| DEV-022 | Implementar WordListView (lista de palavras) | ⬜ | DEV-018 | Palavras a encontrar, riscado |
-| DEV-023 | Implementar WinPopup | ⬜ | DEV-012 | Parabéns + próximo nível |
-| DEV-024 | Implementar SettingsPopup | ⬜ | DEV-008 | Som, música, idioma |
+| DEV-014 | Criar cena Boot.unity | ✅ | DEV-012 | BootLoader.cs: carrega dados, transiciona para MainMenu |
+| DEV-015 | Criar cena MainMenu.unity + MainMenuScreen | ✅ | DEV-014 | MainMenuScreen.cs + NavigationController.cs |
+| DEV-016 | Implementar CategorySelectScreen | ✅ | DEV-013, DAT-003 | CategorySelectScreen.cs + CategoryButtonItem.cs |
+| DEV-017 | Implementar LevelSelectScreen | ✅ | DEV-013 | LevelSelectScreen.cs + LevelButtonItem.cs |
+| DEV-018 | Criar cena Game.unity | ✅ | DEV-012 | GameplayController.cs |
+| DEV-019 | Implementar GridView (renderizar grid) | ✅ | DEV-003, DEV-018 | GridView.cs |
+| DEV-020 | Implementar LetterCell (célula individual) | ✅ | DEV-019 | LetterCell.cs com 4 estados visuais |
+| DEV-021 | Implementar SelectionLine (arrastar dedo) | ✅ | DEV-019 | SelectionLine.cs, seleção linear touch/drag |
+| DEV-022 | Implementar WordListView (lista de palavras) | ✅ | DEV-018 | WordListView.cs + WordListItem.cs, strikethrough |
+| DEV-023 | Implementar WinPopup | ✅ | DEV-012 | WinPopup.cs com animação e stats |
+| DEV-024 | Implementar SettingsPopup | ✅ | DEV-008 | SettingsPopup.cs, som/música/idioma |
 
 ### 2.7 — Design e Assets
 
@@ -125,11 +125,11 @@
 | 2.3 Infrastructure | 4 | 0 | 0 | 4 | 100% |
 | 2.4 Application | 3 | 0 | 0 | 3 | 100% |
 | 2.5 Dados | 5 | 0 | 0 | 5 | 100% |
-| 2.6 UI/Cenas | 11 | 11 | 0 | 0 | 0% |
+| 2.6 UI/Cenas | 11 | 0 | 0 | 11 | 100% |
 | 2.7 Design | 5 | 5 | 0 | 0 | 0% |
 | 2.8 Testes/Integração | 6 | 6 | 0 | 0 | 0% |
 | 2.9 Build/Publicação | 5 | 5 | 0 | 0 | 0% |
-| **TOTAL** | **49** | **27** | **0** | **22** | **45%** |
+| **TOTAL** | **49** | **16** | **0** | **33** | **67%** |
 
 ---
 
