@@ -167,7 +167,7 @@
 | UX-002 | Mostrar timer durante gameplay | ✅ | — | Timer M:SS no header, atualiza via Update() |
 | UX-003 | Melhorar visual da SelectionLine (endpoints arredondados) | ✅ | — | Sprite pílula procedural 9-slice + linhas coloridas persistentes por palavra |
 | UX-004 | Tutorial de primeiro uso | ⬜ | — | Overlay simples mostrando como jogar |
-| UX-005 | Tela de loading entre cenas | ⬜ | ANI-001 | Progress bar ou spinner durante carregamento |
+| UX-005 | Tela de loading entre cenas | ✅ | ANI-001 | Spinner rotativo + progress bar azul durante LoadSceneAsync |
 
 ### 3.6 — Teste e Build Final
 
@@ -195,9 +195,9 @@
 | 3.2 Fonte | 3 | 0 | 0 | 0 | 3 | 100% |
 | 3.3 UI/Sprites | 6 | 0 | 0 | 0 | 6 | 100% |
 | 3.4 Animações | 5 | 0 | 0 | 0 | 5 | 100% |
-| 3.5 Gameplay/UX | 5 | 2 | 0 | 0 | 3 | 60% |
+| 3.5 Gameplay/UX | 5 | 1 | 0 | 0 | 4 | 80% |
 | 3.6 Teste Final | 2 | 2 | 0 | 0 | 0 | 0% |
-| **TOTAL** | **76** | **9** | **4** | **0** | **63** | **83%** |
+| **TOTAL** | **76** | **8** | **4** | **0** | **64** | **84%** |
 
 ---
 
