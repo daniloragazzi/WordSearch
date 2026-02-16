@@ -67,18 +67,30 @@ namespace RagazziStudios.Core.Application
             localization.SetLanguage(savedLang);
             ServiceLocator.Register<ILocalizationService>(localization);
 
-            // Ads — mock para dev, AdMob será integrado em CFG-005
+            // Ads — mock para dev, AdMob para produção
             if (_useMockServices)
             {
                 var ads = new MockAdsService();
                 ads.Initialize();
                 ServiceLocator.Register<IAdsService>(ads);
             }
+            else
+            {
+                var ads = new AdMobService();
+                ads.Initialize();
+                ServiceLocator.Register<IAdsService>(ads);
+            }
 
-            // Analytics — mock para dev, Unity Analytics será integrado em CFG-006
+            // Analytics — mock para dev, Unity Analytics para produção
             if (_useMockServices)
             {
                 var analytics = new MockAnalyticsService();
+                analytics.Initialize();
+                ServiceLocator.Register<IAnalyticsService>(analytics);
+            }
+            else
+            {
+                var analytics = new UnityAnalyticsService();
                 analytics.Initialize();
                 ServiceLocator.Register<IAnalyticsService>(analytics);
             }

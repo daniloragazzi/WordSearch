@@ -1,0 +1,16 @@
+{
+    "name": "RagazziStudios.Tests.Integration",
+    "rootNamespace": "RagazziStudios.Tests",
+    "references": [
+        "RagazziStudios.Core.Domain"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

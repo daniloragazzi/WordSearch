@@ -1,0 +1,14 @@
+{
+    "name": "RagazziStudios.Core.Domain",
+    "rootNamespace": "RagazziStudios.Core.Domain",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

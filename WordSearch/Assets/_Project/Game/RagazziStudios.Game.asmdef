@@ -1,0 +1,19 @@
+{
+    "name": "RagazziStudios.Game",
+    "rootNamespace": "RagazziStudios.Game",
+    "references": [
+        "RagazziStudios.Core.Domain",
+        "RagazziStudios.Core.Infrastructure",
+        "RagazziStudios.Core.Application",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
