@@ -180,7 +180,8 @@
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| FT-001 | Modo Desafio — tela de seleção + grids grandes | ✅ | — | ChallengeSelectScreen, 3 tamanhos (14x22, 18x22, 20x22), 10 palavras mistas de todas as categorias |
+| FT-001 | Modo Desafio — tela de seleção + grids grandes | ✅ | — | ChallengeSelectScreen, 3 tamanhos (20x10, 20x14, 20x16), 10 palavras mistas de todas as categorias |
+| FT-002 | Responsividade — MainMenu anchor-based layout + margens grid | ✅ | — | VerticalLayoutGroup no menu, grid margins 4%, category grid padding ajustado |
 
 ---
 

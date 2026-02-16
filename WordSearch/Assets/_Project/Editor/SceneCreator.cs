@@ -135,18 +135,90 @@ namespace RagazziStudios.Editor
             var menuScreenGO = CreateScreen(canvasGO.transform, "MainMenuScreen");
             var menuCanvasGroup = menuScreenGO.AddComponent<CanvasGroup>();
 
-            var titleGO = CreateTextElement(menuScreenGO.transform, "Title",
-                "CAÇA-PALAVRAS", 48, TextAlignmentOptions.Center, new Vector2(0, 200));
-            var subtitleGO = CreateTextElement(menuScreenGO.transform, "Subtitle",
-                "por Ragazzi Studios", 20, TextAlignmentOptions.Center, new Vector2(0, 140));
-            var playBtnGO = CreateButton(menuScreenGO.transform, "PlayButton",
-                "JOGAR", new Vector2(0, -20));
-            var challengeBtnGO = CreateButton(menuScreenGO.transform, "ChallengeButton",
-                "DESAFIO", new Vector2(0, -100));
-            var settingsBtnGO = CreateButton(menuScreenGO.transform, "SettingsButton",
-                "Configuracoes", new Vector2(0, -180));
-            var versionGO = CreateTextElement(menuScreenGO.transform, "VersionText",
-                "v0.1.0", 16, TextAlignmentOptions.Bottom, new Vector2(0, -400));
+            // --- Layout container (centralizado verticalmente, anchor-based) ---
+            var menuLayout = new GameObject("MenuLayout");
+            menuLayout.transform.SetParent(menuScreenGO.transform, false);
+            var menuLayoutRect = menuLayout.AddComponent<RectTransform>();
+            menuLayoutRect.anchorMin = new Vector2(0.1f, 0.15f);
+            menuLayoutRect.anchorMax = new Vector2(0.9f, 0.85f);
+            menuLayoutRect.sizeDelta = Vector2.zero;
+            var menuVLayout = menuLayout.AddComponent<VerticalLayoutGroup>();
+            menuVLayout.childAlignment = TextAnchor.MiddleCenter;
+            menuVLayout.spacing = 20;
+            menuVLayout.childControlWidth = true;
+            menuVLayout.childControlHeight = false;
+            menuVLayout.childForceExpandWidth = true;
+            menuVLayout.childForceExpandHeight = false;
+            menuVLayout.padding = new RectOffset(40, 40, 0, 0);
+
+            // Title
+            var titleGO = new GameObject("Title");
+            titleGO.transform.SetParent(menuLayout.transform, false);
+            var titleTMP = titleGO.AddComponent<TextMeshProUGUI>();
+            titleTMP.text = "CAÇA-PALAVRAS";
+            titleTMP.fontSize = 48;
+            titleTMP.alignment = TextAlignmentOptions.Center;
+            titleTMP.color = Color.white;
+            titleTMP.raycastTarget = false;
+            var titleLayoutElem = titleGO.AddComponent<LayoutElement>();
+            titleLayoutElem.preferredHeight = 70;
+
+            // Subtitle
+            var subtitleGO = new GameObject("Subtitle");
+            subtitleGO.transform.SetParent(menuLayout.transform, false);
+            var subtitleTMP = subtitleGO.AddComponent<TextMeshProUGUI>();
+            subtitleTMP.text = "por Ragazzi Studios";
+            subtitleTMP.fontSize = 20;
+            subtitleTMP.alignment = TextAlignmentOptions.Center;
+            subtitleTMP.color = new Color(0.8f, 0.8f, 0.8f);
+            subtitleTMP.raycastTarget = false;
+            var subtitleLayoutElem = subtitleGO.AddComponent<LayoutElement>();
+            subtitleLayoutElem.preferredHeight = 40;
+
+            // Spacer
+            var spacer1 = new GameObject("Spacer");
+            spacer1.transform.SetParent(menuLayout.transform, false);
+            spacer1.AddComponent<RectTransform>();
+            var spacerLayout1 = spacer1.AddComponent<LayoutElement>();
+            spacerLayout1.preferredHeight = 40;
+
+            // Play button
+            var playBtnGO = CreateButton(menuLayout.transform, "PlayButton",
+                "JOGAR", Vector2.zero);
+            SetButtonSize(playBtnGO, new Vector2(0, 70));
+            var playLE = playBtnGO.AddComponent<LayoutElement>();
+            playLE.preferredHeight = 70;
+            playLE.flexibleWidth = 1;
+
+            // Challenge button
+            var challengeBtnGO = CreateButton(menuLayout.transform, "ChallengeButton",
+                "DESAFIO", Vector2.zero);
+            SetButtonSize(challengeBtnGO, new Vector2(0, 70));
+            var chalLE = challengeBtnGO.AddComponent<LayoutElement>();
+            chalLE.preferredHeight = 70;
+            chalLE.flexibleWidth = 1;
+
+            // Settings button
+            var settingsBtnGO = CreateButton(menuLayout.transform, "SettingsButton",
+                "Configuracoes", Vector2.zero);
+            SetButtonSize(settingsBtnGO, new Vector2(0, 70));
+            var settLE = settingsBtnGO.AddComponent<LayoutElement>();
+            settLE.preferredHeight = 70;
+            settLE.flexibleWidth = 1;
+
+            // Version text (fixed at bottom of screen)
+            var versionGO = new GameObject("VersionText");
+            versionGO.transform.SetParent(menuScreenGO.transform, false);
+            var versionTMP = versionGO.AddComponent<TextMeshProUGUI>();
+            versionTMP.text = "v0.1.0";
+            versionTMP.fontSize = 16;
+            versionTMP.alignment = TextAlignmentOptions.Center;
+            versionTMP.color = new Color(0.6f, 0.6f, 0.6f);
+            versionTMP.raycastTarget = false;
+            var versionRect = versionGO.GetComponent<RectTransform>();
+            versionRect.anchorMin = new Vector2(0.2f, 0.02f);
+            versionRect.anchorMax = new Vector2(0.8f, 0.07f);
+            versionRect.sizeDelta = Vector2.zero;
 
             // MainMenuScreen script (desativado durante wiring)
             menuScreenGO.SetActive(false);
@@ -155,14 +227,14 @@ namespace RagazziStudios.Editor
             Wire(mainMenuScript, "_playButton", playBtnGO.GetComponent<Button>());
             Wire(mainMenuScript, "_challengeButton", challengeBtnGO.GetComponent<Button>());
             Wire(mainMenuScript, "_settingsButton", settingsBtnGO.GetComponent<Button>());
-            Wire(mainMenuScript, "_titleText", titleGO.GetComponent<TMP_Text>());
+            Wire(mainMenuScript, "_titleText", titleTMP);
             Wire(mainMenuScript, "_playButtonText",
                 playBtnGO.transform.Find("Label").GetComponent<TMP_Text>());
             Wire(mainMenuScript, "_challengeButtonText",
                 challengeBtnGO.transform.Find("Label").GetComponent<TMP_Text>());
             Wire(mainMenuScript, "_settingsButtonText",
                 settingsBtnGO.transform.Find("Label").GetComponent<TMP_Text>());
-            Wire(mainMenuScript, "_versionText", versionGO.GetComponent<TMP_Text>());
+            Wire(mainMenuScript, "_versionText", versionTMP);
             Wire(mainMenuScript, "_popupParent", canvasGO.transform);
             Wire(mainMenuScript, "_canvasGroup", menuCanvasGroup);
 
@@ -237,12 +309,12 @@ namespace RagazziStudios.Editor
             var catGrid = new GameObject("CategoryGrid");
             catGrid.transform.SetParent(catScrollGO.transform, false);
             var catGridLayout = catGrid.AddComponent<GridLayoutGroup>();
-            catGridLayout.cellSize = new Vector2(460, 100);
-            catGridLayout.spacing = new Vector2(16, 16);
+            catGridLayout.cellSize = new Vector2(480, 110);
+            catGridLayout.spacing = new Vector2(12, 16);
             catGridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             catGridLayout.constraintCount = 2;
             catGridLayout.childAlignment = TextAnchor.UpperCenter;
-            catGridLayout.padding = new RectOffset(8, 8, 8, 8);
+            catGridLayout.padding = new RectOffset(16, 16, 12, 12);
             var catGridRect = catGrid.GetComponent<RectTransform>();
             catGridRect.anchorMin = new Vector2(0, 1);
             catGridRect.anchorMax = new Vector2(1, 1);
@@ -458,31 +530,30 @@ namespace RagazziStudios.Editor
                 "Escolha o tamanho do grid\n10 palavras de todas as categorias",
                 20, TextAlignmentOptions.Center, new Vector2(0, 250));
 
-            // Challenge buttons (3 sizes)
-            var chal14GO = CreateButton(chalScreenGO.transform, "Challenge14x22",
-                "14 x 22", new Vector2(0, 100));
-            SetButtonSize(chal14GO, new Vector2(400, 80));
-            // Subtitle for 14x22
-            var chal14Sub = CreateTextElement(chalScreenGO.transform, "Sub14",
+            // Challenge buttons (3 sizes: 20 rows, varying cols)
+            var chal10GO = CreateButton(chalScreenGO.transform, "Challenge20x10",
+                "20 x 10", new Vector2(0, 100));
+            SetButtonSize(chal10GO, new Vector2(400, 80));
+            var chal10Sub = CreateTextElement(chalScreenGO.transform, "Sub10",
                 "Normal", 16, TextAlignmentOptions.Center, new Vector2(0, 50));
 
-            var chal18GO = CreateButton(chalScreenGO.transform, "Challenge18x22",
-                "18 x 22", new Vector2(0, -30));
-            SetButtonSize(chal18GO, new Vector2(400, 80));
-            var chal18Sub = CreateTextElement(chalScreenGO.transform, "Sub18",
+            var chal14GO = CreateButton(chalScreenGO.transform, "Challenge20x14",
+                "20 x 14", new Vector2(0, -30));
+            SetButtonSize(chal14GO, new Vector2(400, 80));
+            var chal14Sub = CreateTextElement(chalScreenGO.transform, "Sub14",
                 "Dificil", 16, TextAlignmentOptions.Center, new Vector2(0, -80));
 
-            var chal20GO = CreateButton(chalScreenGO.transform, "Challenge20x22",
-                "20 x 22", new Vector2(0, -160));
-            SetButtonSize(chal20GO, new Vector2(400, 80));
-            var chal20Sub = CreateTextElement(chalScreenGO.transform, "Sub20",
+            var chal16GO = CreateButton(chalScreenGO.transform, "Challenge20x16",
+                "20 x 16", new Vector2(0, -160));
+            SetButtonSize(chal16GO, new Vector2(400, 80));
+            var chal16Sub = CreateTextElement(chalScreenGO.transform, "Sub16",
                 "Extremo", 16, TextAlignmentOptions.Center, new Vector2(0, -210));
 
             chalScreenGO.SetActive(false);
             var chalScript = chalScreenGO.AddComponent<Game.UI.Screens.ChallengeSelectScreen>();
-            Wire(chalScript, "_challenge14x22", chal14GO.GetComponent<Button>());
-            Wire(chalScript, "_challenge18x22", chal18GO.GetComponent<Button>());
-            Wire(chalScript, "_challenge20x22", chal20GO.GetComponent<Button>());
+            Wire(chalScript, "_challenge20x10", chal10GO.GetComponent<Button>());
+            Wire(chalScript, "_challenge20x14", chal14GO.GetComponent<Button>());
+            Wire(chalScript, "_challenge20x16", chal16GO.GetComponent<Button>());
             Wire(chalScript, "_backButton", chalBackBtn);
             Wire(chalScript, "_titleText", chalTitleTMP);
 
@@ -550,8 +621,8 @@ namespace RagazziStudios.Editor
             var gridViewGO = new GameObject("GridView");
             gridViewGO.transform.SetParent(canvasGO.transform, false);
             var gridViewRect = gridViewGO.AddComponent<RectTransform>();
-            gridViewRect.anchorMin = new Vector2(0.02f, 0.25f);
-            gridViewRect.anchorMax = new Vector2(0.98f, 0.88f);
+            gridViewRect.anchorMin = new Vector2(0.04f, 0.25f);
+            gridViewRect.anchorMax = new Vector2(0.96f, 0.88f);
             gridViewRect.sizeDelta = Vector2.zero;
 
             var gridContainer = new GameObject("GridContainer");
@@ -578,8 +649,8 @@ namespace RagazziStudios.Editor
             var selectionLineGO = new GameObject("SelectionLine");
             selectionLineGO.transform.SetParent(canvasGO.transform, false);
             var slRect = selectionLineGO.AddComponent<RectTransform>();
-            slRect.anchorMin = new Vector2(0.02f, 0.25f);
-            slRect.anchorMax = new Vector2(0.98f, 0.88f);
+            slRect.anchorMin = new Vector2(0.04f, 0.25f);
+            slRect.anchorMax = new Vector2(0.96f, 0.88f);
             slRect.sizeDelta = Vector2.zero;
             var slImage = selectionLineGO.AddComponent<Image>();
             slImage.color = new Color(0, 0, 0, 0);
