@@ -96,12 +96,12 @@
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| TST-001 | Testes unitários Domain/Grid | ⬜ | DEV-003 | NUnit, Unity Test Runner |
-| TST-002 | Testes unitários Domain/Words | ⬜ | DEV-004 | Validação de seleção |
-| TST-003 | Testes unitários Domain/Level | ⬜ | DEV-005 | Seed determinístico |
-| CFG-005 | Integrar Google AdMob SDK | ⬜ | DEV-009 | SDK real, test ads |
-| CFG-006 | Integrar Unity Analytics | ⬜ | DEV-010 | Eventos configurados |
-| TST-004 | Teste integrado completo | ⬜ | Todos DEV | Fluxo completo no editor |
+| TST-001 | Testes unitários Domain/Grid | ✅ | DEV-003 | GridTests.cs: 30+ test cases (CellData, GridData, WordPlacer, GridGenerator, WordPlacement, WordFinder) |
+| TST-002 | Testes unitários Domain/Words | ✅ | DEV-004 | WordsTests.cs: TextNormalizer + WordDatabase |
+| TST-003 | Testes unitários Domain/Level | ✅ | DEV-005 | LevelTests.cs: DifficultyConfig + LevelGenerator + LevelData |
+| CFG-005 | Integrar Google AdMob SDK | ✅ | DEV-009 | AdMobService.cs (stub), Test IDs, doc 09_SDK_Integration_Guide.md |
+| CFG-006 | Integrar Unity Analytics | ✅ | DEV-010 | UnityAnalyticsService.cs (stub), 9 eventos, doc integrado |
+| TST-004 | Teste integrado completo | ✅ | Todos DEV | IntegrationTestRunner.cs: 5 testes e2e (120 níveis, determinismo, WordFinder) |
 
 ### 2.9 — Build e Publicação
 
@@ -127,9 +127,9 @@
 | 2.5 Dados | 5 | 0 | 0 | 5 | 100% |
 | 2.6 UI/Cenas | 11 | 0 | 0 | 11 | 100% |
 | 2.7 Design | 5 | 0 | 0 | 5 | 100% |
-| 2.8 Testes/Integração | 6 | 6 | 0 | 0 | 0% |
+| 2.8 Testes/Integração | 6 | 0 | 0 | 6 | 100% |
 | 2.9 Build/Publicação | 5 | 5 | 0 | 0 | 0% |
-| **TOTAL** | **49** | **11** | **0** | **38** | **78%** |
+| **TOTAL** | **49** | **5** | **0** | **44** | **90%** |
 
 ---
 

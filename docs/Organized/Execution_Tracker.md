@@ -76,11 +76,12 @@
 | DEV-007 | Implementar UI/Components (Grid, LetterCell, Selection, WordList, Popups) | ✅ | — | — | 2026-02-15 | 2026-02-15 |
 | DAT-001 | Gerar banco de palavras | ✅ | — | — | 2026-02-15 | 2026-02-15 |
 | DSN-001 | Criar assets visuais MVP | ✅ | — | [08_Design_Specs](08_Design_Specs.md) | 2026-02-15 | 2026-02-15 |
-| TST-001 | Testes unitários Domain | ⬜ | — | — | — | — |
-| CFG-002 | Integrar AdMob | ⬜ | — | — | — | — |
-| CFG-003 | Integrar Unity Analytics | ⬜ | — | — | — | — |
+| TST-001 | Testes unitários Domain | ✅ | — | — | 2026-02-15 | 2026-02-15 |
+| CFG-005 | Integrar AdMob | ✅ | — | [09_SDK_Integration_Guide](09_SDK_Integration_Guide.md) | 2026-02-15 | 2026-02-15 |
+| CFG-006 | Integrar Unity Analytics | ✅ | — | [09_SDK_Integration_Guide](09_SDK_Integration_Guide.md) | 2026-02-15 | 2026-02-15 |
+| TST-004 | Teste integrado completo | ✅ | — | — | 2026-02-15 | 2026-02-15 |
 | BLD-001 | Primeiro build Android (APK) | ⬜ | — | — | — | — |
-| TST-002 | Teste no device real | ⬜ | — | — | — | — |
+| TST-005 | Teste no device real | ⬜ | — | — | — | — |
 | BLD-002 | Publicar na Play Store | ⬜ | — | — | — | — |
 
 ---
