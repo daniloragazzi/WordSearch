@@ -67,9 +67,9 @@
 | CFG-002 | Configurar Git (init, .gitignore, .gitattributes) | ✅ | — | — | 2026-02-15 | 2026-02-15 |
 | CFG-003 | Criar repositório GitHub | ✅ | — | — | 2026-02-15 | 2026-02-15 |
 | CFG-004 | Configurar VS Code para Unity | ✅ | — | — | 2026-02-15 | 2026-02-15 |
-| DEV-001 | Implementar Domain/Grid | ⬜ | — | — | — | — |
-| DEV-002 | Implementar Domain/Words | ⬜ | — | — | — | — |
-| DEV-003 | Implementar Domain/Level | ⬜ | — | — | — | — |
+| DEV-001 | Implementar Domain/Grid | ✅ | — | — | 2026-02-15 | 2026-02-15 |
+| DEV-002 | Implementar Domain/Words | ✅ | — | — | 2026-02-15 | 2026-02-15 |
+| DEV-003 | Implementar Domain/Level | ✅ | — | — | 2026-02-15 | 2026-02-15 |
 | DEV-004 | Implementar Application layer | ⬜ | — | — | — | — |
 | DEV-005 | Implementar Infrastructure layer | ⬜ | — | — | — | — |
 | DEV-006 | Implementar UI/Screens | ⬜ | — | — | — | — |

@@ -32,12 +32,12 @@
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| DEV-001 | Implementar GridData (modelo do grid) | ⬜ | CFG-001 | Classe pura C#, sem Unity |
-| DEV-002 | Implementar WordPlacer (posicionar palavras) | ⬜ | DEV-001 | Horizontal, vertical, diagonal |
-| DEV-003 | Implementar GridGenerator (gerar grid completo) | ⬜ | DEV-002 | Seed determinístico, preenchimento |
-| DEV-004 | Implementar WordFinder (validar seleção) | ⬜ | DEV-001 | Verificar se seleção forma palavra |
-| DEV-005 | Implementar LevelGenerator (gerar nível) | ⬜ | DEV-003 | Config de dificuldade, seed |
-| DEV-006 | Implementar WordDatabase (carregar palavras) | ⬜ | DEV-001 | Ler JSONs, normalizar acentos |
+| DEV-001 | Implementar GridData (modelo do grid) | ✅ | CFG-001 | CellData, Direction, GridData, WordPlacement |
+| DEV-002 | Implementar WordPlacer (posicionar palavras) | ✅ | DEV-001 | Horizontal, vertical, diagonal, validação colisão |
+| DEV-003 | Implementar GridGenerator (gerar grid completo) | ✅ | DEV-002 | Seed determinístico, preenchimento |
+| DEV-004 | Implementar WordFinder (validar seleção) | ✅ | DEV-001 | Seleção bidirecional, eventos, dica |
+| DEV-005 | Implementar LevelGenerator (gerar nível) | ✅ | DEV-003 | DifficultyConfig, seed hash, seleção palavras |
+| DEV-006 | Implementar WordDatabase (carregar palavras) | ✅ | DEV-001 | TextNormalizer, WordModels, WordCategory |
 
 ### 2.3 — Infrastructure Layer (Core)
 
@@ -121,7 +121,7 @@
 | Etapa | Total | ⬜ | 🔵 | ✅ | % |
 |-------|-------|-----|-----|-----|---|
 | 2.1 Setup | 4 | 0 | 0 | 4 | 100% |
-| 2.2 Domain | 6 | 6 | 0 | 0 | 0% |
+| 2.2 Domain | 6 | 0 | 0 | 6 | 100% |
 | 2.3 Infrastructure | 4 | 4 | 0 | 0 | 0% |
 | 2.4 Application | 3 | 3 | 0 | 0 | 0% |
 | 2.5 Dados | 5 | 5 | 0 | 0 | 0% |
@@ -129,7 +129,7 @@
 | 2.7 Design | 5 | 5 | 0 | 0 | 0% |
 | 2.8 Testes/Integração | 6 | 6 | 0 | 0 | 0% |
 | 2.9 Build/Publicação | 5 | 5 | 0 | 0 | 0% |
-| **TOTAL** | **49** | **45** | **0** | **4** | **8%** |
+| **TOTAL** | **49** | **39** | **0** | **10** | **20%** |
 
 ---
 
