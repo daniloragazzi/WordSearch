@@ -3,7 +3,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using TMPro;
 
 namespace RagazziStudios.Core.Application
 {
@@ -24,7 +23,7 @@ namespace RagazziStudios.Core.Application
         private GameObject _loadingContainer;
         private Image _spinnerImage;
         private Image _progressBarFill;
-        private TMP_Text _loadingText;
+        private Text _loadingText;
         private RectTransform _spinnerRect;
 
         /// <summary>Se uma transição está ativa. Impede dupla transição.</summary>
@@ -114,12 +113,14 @@ namespace RagazziStudios.Core.Application
             textRect.anchorMax = new Vector2(1f, 0.6f);
             textRect.sizeDelta = Vector2.zero;
 
-            _loadingText = textGO.AddComponent<TextMeshProUGUI>();
+            _loadingText = textGO.AddComponent<Text>();
             _loadingText.text = "Carregando...";
-            _loadingText.fontSize = 22;
-            _loadingText.alignment = TextAlignmentOptions.Center;
+            _loadingText.fontSize = 28;
+            _loadingText.alignment = TextAnchor.MiddleCenter;
             _loadingText.color = new Color(0.85f, 0.85f, 0.90f, 1f);
             _loadingText.raycastTarget = false;
+            _loadingText.font = Font.CreateDynamicFontFromOSFont("Arial", 28);
+            _loadingText.horizontalOverflow = HorizontalWrapMode.Overflow;
 
             // --- Progress bar background ---
             var barBgGO = new GameObject("ProgressBarBg");
