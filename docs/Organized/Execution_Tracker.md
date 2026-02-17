@@ -18,6 +18,8 @@
 | **BLD** | Build | Build, deploy, publicação |
 | **REV** | Revisão | Governança e consolidação da revisão |
 | **ARQ** | Arquitetura | Revisão de decisões arquiteturais |
+| **ICO** | Ícone | Geração e configuração do ícone do app |
+| **THM** | Tema | Sistema de tema claro/escuro |
 
 > Novos tipos serão adicionados conforme necessário.
 
@@ -516,6 +518,16 @@
 | 2026-02-17 | AUD-003 | SFX integrados no gameplay | AudioSource + clips wired via SceneCreator; PlaySfx com pref check em 5 eventos |
 | 2026-02-17 | AUD-004 | MusicManager implementado | Singleton DontDestroyOnLoad, loop ambient, respeita MUSIC_ENABLED, criado na Boot scene |
 | 2026-02-17 | AUD-005 | Toggles Som/Música corrigidos | Som controla SFX via flag (sem AudioListener hack); Música controla MusicManager.SetEnabled |
+| 2026-02-17 | — | **Fase 5 planejada** | 3 frentes de melhoria pós-MVP enquanto Google Play valida conta: (1) Ícone do app com visual de grid real, (2) Expansão do banco de palavras + base exclusiva desafio, (3) Tema claro/escuro com detecção do sistema |
+| 2026-02-17 | ICO-001..004 | Bloco Ícone planejado | 4 ações: gerar ícone grid, variações adaptive, configurar ProjectSettings, versão Play Store |
+| 2026-02-17 | ICO-001 | Ícone master gerado | `AppIconGenerator.cs`: grid 8×8 com letras bitmap 5×7, found cells verde, fundo escuro navy, 1024×1024 |
+| 2026-02-17 | ICO-002 | Variações adaptive geradas | Foreground 432×432 (transparent bg, safe zone 66.7%) + Background 432×432 (solid dark) |
+| 2026-02-17 | ICO-003 | PlayerSettings configurado | `AssignToPlayerSettings()` atribui Adaptive (fg+bg layers), Legacy e Round via API |
+| 2026-02-17 | ICO-004 | Ícone Play Store gerado | `app_icon.png` 512×512 combinado para listagem Play Store |
+| 2026-02-17 | DAT-006..010 | Bloco Palavras planejado | 5 ações: expandir para 100+/cat, criar desafio.json, atualizar LevelManager, validação |
+| 2026-02-17 | THM-001..006 | Bloco Tema planejado | 6 ações: paleta escura, ThemeManager, seletor Settings, refatorar SceneCreator, troca runtime, validação device |
+| 2026-02-17 | TST-008 | Teste Fase 5 planejado | Validação completa no device após melhorias |
+| 2026-02-17 | BLD-007 | Build Fase 5 planejado | APK final pós-melhorias |
 
 ---
 

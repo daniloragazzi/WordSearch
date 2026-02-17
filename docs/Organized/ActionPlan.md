@@ -235,10 +235,51 @@
 
 ---
 
-## Resumo de Progresso
+## Fase 5 — Melhorias Pós-MVP (enquanto aguarda validação Google Play)
 
-> O resumo abaixo reflete o histórico até a Fase 3.
-> A Fase 4 (Revisão Estruturada) é acompanhada no `Execution_Tracker.md`.
+> Três frentes de melhoria aproveitando o tempo de espera da validação da conta de desenvolvedor.
+> Todas podem ser desenvolvidas em paralelo e são independentes entre si.
+
+### 5.1 — Ícone do App (baseado em screenshot de jogo real)
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| ICO-001 | Gerar ícone do app com visual de grid de jogo real | ✅ | — | `AppIconGenerator.cs`: 1024×1024 com grid 8×8, letras bitmap 5×7, found cells (FERRUGEM+CUBO) em verde, fundo escuro |
+| ICO-002 | Gerar variações adaptive icon (foreground + background) | ✅ | ICO-001 | Foreground 432×432 (safe zone 66.7%) + Background 432×432 (sólido escuro) |
+| ICO-003 | Configurar ícone no ProjectSettings (todas resoluções Android) | ✅ | ICO-002 | `AssignToPlayerSettings()`: Adaptive (fg+bg), Legacy e Round configurados via API |
+| ICO-004 | Gerar ícone Play Store (512×512 Feature Graphic) | ✅ | ICO-001 | `app_icon.png` 512×512 combinado (grid+fundo) para Play Store |
+
+### 5.2 — Expansão do Banco de Palavras + Base Desafio
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| DAT-006 | Expandir banco de palavras por categoria (meta: 100+ por cat) | ⬜ | — | Atualmente ~55/cat; dobrar base mantendo curadoria e relevância |
+| DAT-007 | Criar banco de palavras genérico para Desafio (`desafio.json`) | ⬜ | — | Palavras que não pertencem a nenhuma categoria (objetos, verbos, adjetivos, termos gerais) |
+| DAT-008 | Atualizar `LevelManager` para carregar `desafio.json` no modo Desafio | ⬜ | DAT-007 | Desafio passa a usar: pool de `desafio.json` + pool mista das categorias |
+| DAT-009 | Atualizar `validate_words.py` para incluir `desafio.json` | ⬜ | DAT-007 | Validar formato, duplicatas (inclusive cross-categoria), tamanho min/max |
+| DAT-010 | Validar banco expandido completo (sem erros) | ⬜ | DAT-006, DAT-009 | Rodar validação e corrigir eventuais problemas |
+
+### 5.3 — Tema Claro / Escuro (com detecção do sistema)
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| THM-001 | Criar paleta de cores para tema escuro (`GameTheme` dark) | ⬜ | — | Novo `ScriptableObject` com cores invertidas: fundos escuros, textos claros, grid contrastado |
+| THM-002 | Implementar `ThemeManager` (singleton, detecção sistema, persistência) | ⬜ | THM-001 | Detecta preferência do dispositivo (Android `Configuration.uiMode`); persiste escolha do usuário via `StorageKeys.THEME_MODE` |
+| THM-003 | Adicionar seletor de tema no `SettingsPopup` (Sistema / Claro / Escuro) | ⬜ | THM-002 | Dropdown com 3 opções; "Sistema" segue o padrão do celular automaticamente |
+| THM-004 | Refatorar `SceneCreator` para gerar cenas sem cores hardcoded no tema | ⬜ | THM-001 | Todas as referências de cor devem vir do `GameTheme` ativo (já parcialmente migrado em UX-009) |
+| THM-005 | Implementar troca de tema em runtime (atualizar todos os componentes) | ⬜ | THM-002, THM-004 | `ThemeManager.OnThemeChanged` event; componentes se re-coloram ao trocar tema sem recarregar cena |
+| THM-006 | Validar tema escuro no device real (contraste, legibilidade, responsividade) | ⬜ | THM-005 | Teste completo em device: todas as telas, popups, grid, word list, settings |
+
+### 5.4 — Validação e Build Fase 5
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| TST-008 | Teste completo no device (pós-melhorias Fase 5) | ⬜ | 5.1–5.3 | Validar ícone, palavras expandidas, tema escuro/claro, transições |
+| BLD-007 | Novo build APK com melhorias Fase 5 | ⬜ | TST-008 | APK para teste final antes de publicação |
+
+---
+
+## Resumo de Progresso
 
 | Etapa | Total | ⬜ | ⏸️ | 🔵 | 🔴 | ✅ | % |
 |-------|-------|-----|-----|-----|-----|-----|---|
@@ -257,27 +298,28 @@
 | 3.4 Animações | 5 | 0 | 0 | 0 | 0 | 5 | 100% |
 | 3.5 Gameplay/UX | 5 | 0 | 0 | 0 | 0 | 5 | 100% |
 | 3.6 Teste Final | 2 | 0 | 0 | 0 | 0 | 2 | 100% |
+| 3.7 Extras | 2 | 0 | 0 | 0 | 0 | 2 | 100% |
 | 4.1 Governança | 3 | 0 | 0 | 0 | 0 | 3 | 100% |
 | 4.2 Arquitetura | 3 | 0 | 0 | 0 | 1 | 2 | 67% |
 | 4.3 UX/Layout | 4 | 0 | 0 | 0 | 0 | 4 | 100% |
 | 4.4 Validação | 2 | 0 | 0 | 0 | 0 | 2 | 100% |
-| **TOTAL** | **88** | **0** | **4** | **0** | **1** | **83** | **94%** |
+| 5.1 Ícone | 4 | 0 | 0 | 0 | 0 | 4 | 100% |
+| 5.2 Palavras | 5 | 5 | 0 | 0 | 0 | 0 | 0% |
+| 5.3 Tema | 6 | 6 | 0 | 0 | 0 | 0 | 0% |
+| 5.4 Validação F5 | 2 | 2 | 0 | 0 | 0 | 0 | 0% |
+| **TOTAL** | **105** | **13** | **4** | **0** | **1** | **87** | **83%** |
 
 ---
 
 ## Ordem de Execução Recomendada
 
 ```
-CFG-001..004 (Setup)
-  → DEV-001..006 (Domain) + TST-001..003 (Testes Domain)
-    → DEV-007..010 (Infrastructure)
-      → DEV-011..013 (Application)
-        → DAT-001..005 (Dados) — pode ser paralelo
-        → DSN-001..005 (Design) — pode ser paralelo
-          → DEV-014..024 (UI/Cenas)
-            → CFG-005..006 (Integração SDK)
-              → TST-004 (Teste integrado)
-                → BLD-001..005 (Build/Publicação)
+Fase 2–4 (concluídas)
+  → Fase 5 (paralela — aguardando validação Google Play):
+    ├── ICO-001..004 (Ícone) — independente
+    ├── DAT-006..010 (Palavras) — independente
+    └── THM-001..006 (Tema) — independente
+      → TST-008 (Teste device) → BLD-007 (Build APK)
 ```
 
-> **DAT** e **DSN** podem ser feitos em paralelo com **DEV** da Domain/Infrastructure.
+> As três frentes da Fase 5 (Ícone, Palavras, Tema) são **independentes** e podem ser executadas em qualquer ordem ou em paralelo.
