@@ -263,7 +263,7 @@
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| THM-001 | Criar paleta de cores para tema escuro (`GameTheme` dark) | ⬜ | — | Novo `ScriptableObject` com cores invertidas: fundos escuros, textos claros, grid contrastado |
+| THM-001 | Criar paleta de cores para tema escuro (`GameTheme` dark) | ✅ | — | `ThemePaletteGenerator.cs`: gera `GameTheme_Light` e `GameTheme_Dark` em `Config/Themes/`; campo `isDark` adicionado ao `GameTheme` |
 | THM-002 | Implementar `ThemeManager` (singleton, detecção sistema, persistência) | ⬜ | THM-001 | Detecta preferência do dispositivo (Android `Configuration.uiMode`); persiste escolha do usuário via `StorageKeys.THEME_MODE` |
 | THM-003 | Adicionar seletor de tema no `SettingsPopup` (Sistema / Claro / Escuro) | ⬜ | THM-002 | Dropdown com 3 opções; "Sistema" segue o padrão do celular automaticamente |
 | THM-004 | Refatorar `SceneCreator` para gerar cenas sem cores hardcoded no tema | ⬜ | THM-001 | Todas as referências de cor devem vir do `GameTheme` ativo (já parcialmente migrado em UX-009) |
@@ -305,9 +305,9 @@
 | 4.4 Validação | 2 | 0 | 0 | 0 | 0 | 2 | 100% |
 | 5.1 Ícone | 4 | 0 | 0 | 0 | 0 | 4 | 100% |
 | 5.2 Palavras | 5 | 0 | 0 | 0 | 0 | 5 | 100% |
-| 5.3 Tema | 6 | 6 | 0 | 0 | 0 | 0 | 0% |
+| 5.3 Tema | 6 | 5 | 0 | 0 | 0 | 1 | 17% |
 | 5.4 Validação F5 | 2 | 2 | 0 | 0 | 0 | 0 | 0% |
-| **TOTAL** | **105** | **8** | **4** | **0** | **1** | **92** | **88%** |
+| **TOTAL** | **105** | **7** | **4** | **0** | **1** | **93** | **89%** |
 
 ---
 

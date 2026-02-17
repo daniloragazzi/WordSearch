@@ -11,6 +11,14 @@ namespace RagazziStudios.Game.Config
     public class GameTheme : ScriptableObject
     {
         // ═══════════════════════════════════════════════════
+        //  IDENTIFICAÇÃO DO TEMA
+        // ═══════════════════════════════════════════════════
+
+        [Header("Identificação")]
+        [Tooltip("Marcar como true para o tema escuro (usado pelo ThemeManager)")]
+        public bool isDark = false;
+
+        // ═══════════════════════════════════════════════════
         //  PALETA PRIMÁRIA
         // ═══════════════════════════════════════════════════
 

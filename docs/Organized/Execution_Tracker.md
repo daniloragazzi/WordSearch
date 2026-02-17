@@ -531,6 +531,7 @@
 | 2026-02-17 | DAT-009 | validate_words.py atualizado | MIN 100/cat, MIN 80 desafio, MAX 19 chars, UTF-8 BOM fix, seção explícita desafio |
 | 2026-02-17 | DAT-010 | Validação completa OK | 0 erros, 12 avisos cross-dup intencionais, 993 palavras total |
 | 2026-02-17 | THM-001..006 | Bloco Tema planejado | 6 ações: paleta escura, ThemeManager, seletor Settings, refatorar SceneCreator, troca runtime, validação device |
+| 2026-02-17 | THM-001 | Paleta escura criada | `ThemePaletteGenerator.cs` gera `GameTheme_Light` (isDark=false) e `GameTheme_Dark` (isDark=true) em `Assets/_Project/Config/Themes/`; campo `isDark` adicionado ao `GameTheme.cs` |
 | 2026-02-17 | TST-008 | Teste Fase 5 planejado | Validação completa no device após melhorias |
 | 2026-02-17 | BLD-007 | Build Fase 5 planejado | APK final pós-melhorias |
 
