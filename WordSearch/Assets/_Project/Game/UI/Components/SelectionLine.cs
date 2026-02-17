@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using RagazziStudios.Core.Domain.Grid;
+using RagazziStudios.Game.Config;
 
 namespace RagazziStudios.Game.UI.Components
 {
@@ -18,11 +19,12 @@ namespace RagazziStudios.Game.UI.Components
         [Header("Referências")]
         [SerializeField] private GridView _gridView;
         [SerializeField] private RectTransform _lineVisual;
+        [SerializeField] private GameTheme _theme;
 
         [Header("Visual")]
         [SerializeField] private Image _lineImage;
-        [SerializeField] private Color _lineColor = new Color(0.4f, 0.7f, 1f, 0.6f);
-        [SerializeField] private float _lineThickness = 40f;
+        [SerializeField] private Color _lineColor = new Color(0.4f, 0.7f, 1f, 0.30f);
+        [SerializeField] private float _lineThickness = 28f;
 
         /// <summary>Sprite procedural em forma de pílula (endpoints arredondados).</summary>
         private Sprite _pillSprite;
@@ -31,15 +33,7 @@ namespace RagazziStudios.Game.UI.Components
         private int _foundCount;
 
         /// <summary>Paleta de cores para linhas de palavras encontradas.</summary>
-        private static readonly Color[] FoundColors = new Color[]
-        {
-            new Color(0.35f, 0.78f, 0.35f, 0.50f), // verde
-            new Color(0.90f, 0.55f, 0.20f, 0.50f), // laranja
-            new Color(0.70f, 0.35f, 0.75f, 0.50f), // roxo
-            new Color(0.90f, 0.35f, 0.35f, 0.50f), // vermelho
-            new Color(0.35f, 0.75f, 0.85f, 0.50f), // ciano
-            new Color(0.90f, 0.80f, 0.20f, 0.50f), // amarelo
-        };
+        private Color[] _foundColors;
 
         /// <summary>Posições atualmente selecionadas (row, col).</summary>
         private readonly List<(int row, int col)> _selectedPositions = new List<(int, int)>();
@@ -61,6 +55,7 @@ namespace RagazziStudios.Game.UI.Components
 
         private void Start()
         {
+            ApplyThemeColors();
             _pillSprite = CreatePillSprite();
 
             if (_lineVisual != null)
@@ -72,6 +67,39 @@ namespace RagazziStudios.Game.UI.Components
                 _lineImage.sprite = _pillSprite;
                 _lineImage.type = Image.Type.Sliced;
             }
+        }
+
+        private void ApplyThemeColors()
+        {
+            if (_theme != null)
+            {
+                _lineColor = WithAlpha(_theme.cellSelected, 0.30f);
+                _foundColors = new[]
+                {
+                    WithAlpha(_theme.success, 0.24f),
+                    WithAlpha(_theme.accent, 0.24f),
+                    WithAlpha(_theme.primary, 0.24f),
+                    WithAlpha(_theme.error, 0.24f),
+                    WithAlpha(_theme.warning, 0.24f),
+                    WithAlpha(_theme.primaryLight, 0.24f),
+                };
+                return;
+            }
+
+            _foundColors = new[]
+            {
+                new Color(0.35f, 0.78f, 0.35f, 0.24f),
+                new Color(0.90f, 0.55f, 0.20f, 0.24f),
+                new Color(0.70f, 0.35f, 0.75f, 0.24f),
+                new Color(0.90f, 0.35f, 0.35f, 0.24f),
+                new Color(0.35f, 0.75f, 0.85f, 0.24f),
+                new Color(0.90f, 0.80f, 0.20f, 0.24f),
+            };
+        }
+
+        private static Color WithAlpha(Color baseColor, float alpha)
+        {
+            return new Color(baseColor.r, baseColor.g, baseColor.b, alpha);
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -225,7 +253,7 @@ namespace RagazziStudios.Game.UI.Components
 
             // Calcular comprimento
             float distance = diff.magnitude;
-            _lineVisual.sizeDelta = new Vector2(distance + _lineThickness * 0.5f, _lineThickness);
+            _lineVisual.sizeDelta = new Vector2(distance + _lineThickness * 0.2f, _lineThickness);
 
             _lineVisual.gameObject.SetActive(true);
         }
@@ -283,7 +311,7 @@ namespace RagazziStudios.Game.UI.Components
             var img = lineGO.AddComponent<Image>();
             img.sprite = _pillSprite;
             img.type = Image.Type.Sliced;
-            img.color = FoundColors[_foundCount % FoundColors.Length];
+            img.color = _foundColors[_foundCount % _foundColors.Length];
             img.raycastTarget = false;
 
             // Posicionar entre os centros da primeira e última célula
@@ -301,7 +329,7 @@ namespace RagazziStudios.Game.UI.Components
             rt.rotation = Quaternion.Euler(0, 0, angle);
 
             float distance = diff.magnitude;
-            rt.sizeDelta = new Vector2(distance + _lineThickness, _lineThickness);
+            rt.sizeDelta = new Vector2(distance + _lineThickness * 0.35f, _lineThickness);
 
             _foundCount++;
         }

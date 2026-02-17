@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using RagazziStudios.Core.Domain.Words;
+using RagazziStudios.Game.Config;
 
 namespace RagazziStudios.Game.UI.Screens
 {
@@ -20,6 +21,9 @@ namespace RagazziStudios.Game.UI.Screens
         [SerializeField] private TMP_Text _progressText;
         [SerializeField] private Image _progressFill;
         [SerializeField] private Image _iconImage;
+
+        [Header("Tema")]
+        [SerializeField] private GameTheme _theme;
 
         private string _categoryId;
         private Action<string> _onClickCallback;
@@ -111,11 +115,18 @@ namespace RagazziStudios.Game.UI.Screens
 
         private void ApplyCategoryColor(string categoryId)
         {
+            var bgImage = GetComponent<Image>();
+            if (bgImage == null) return;
+
+            if (_theme != null)
+            {
+                bgImage.color = _theme.GetCategoryColor(categoryId);
+                return;
+            }
+
             if (CategoryColors.TryGetValue(categoryId, out var color))
             {
-                var bgImage = GetComponent<Image>();
-                if (bgImage != null)
-                    bgImage.color = color;
+                bgImage.color = color;
             }
         }
 

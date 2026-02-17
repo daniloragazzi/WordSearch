@@ -4,6 +4,7 @@ using TMPro;
 using RagazziStudios.Core.Application;
 using RagazziStudios.Core.Infrastructure;
 using RagazziStudios.Core.Infrastructure.Localization;
+using RagazziStudios.Game.Config;
 
 namespace RagazziStudios.Game.UI.Screens
 {
@@ -22,6 +23,9 @@ namespace RagazziStudios.Game.UI.Screens
         [SerializeField] private TMP_Text _categoryNameText;
         [SerializeField] private Button _backButton;
 
+        [Header("Tema")]
+        [SerializeField] private GameTheme _theme;
+
         [Header("Cores dos Estados")]
         [SerializeField] private Color _completedColor = new Color(0.3f, 0.8f, 0.3f);
         [SerializeField] private Color _unlockedColor = new Color(1f, 1f, 1f);
@@ -31,6 +35,8 @@ namespace RagazziStudios.Game.UI.Screens
         {
             if (_backButton != null)
                 _backButton.onClick.AddListener(OnBackClicked);
+
+            ApplyThemeColors();
             PopulateLevels();
             UpdateLocalization();
         }
@@ -39,6 +45,25 @@ namespace RagazziStudios.Game.UI.Screens
         {
             if (_backButton != null)
                 _backButton.onClick.RemoveListener(OnBackClicked);
+        }
+
+        private void ApplyThemeColors()
+        {
+            if (_theme == null) return;
+
+            _completedColor = _theme.success;
+            _unlockedColor = _theme.surface;
+            _lockedColor = new Color(
+                _theme.textDisabled.r,
+                _theme.textDisabled.g,
+                _theme.textDisabled.b,
+                0.5f);
+
+            if (_headerText != null)
+                _headerText.color = _theme.textOnColor;
+
+            if (_categoryNameText != null)
+                _categoryNameText.color = _theme.textSecondary;
         }
 
         private void UpdateLocalization()

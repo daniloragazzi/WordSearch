@@ -43,7 +43,7 @@ namespace RagazziStudios.Game.UI.Components
             if (_wordText != null)
             {
                 _wordText.color = foundColor;
-                _wordText.fontStyle |= FontStyles.Strikethrough;
+                _wordText.fontStyle &= ~FontStyles.Strikethrough;
             }
 
             if (_strikethroughLine != null)

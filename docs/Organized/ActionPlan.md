@@ -17,6 +17,17 @@
 
 ---
 
+## Convenção de Rastreabilidade
+
+- Todas as ações seguem código `XXX-000` (prefixo de 3 letras + 3 dígitos).
+- `ActionPlan` concentra o plano de ações (escopo e dependências).
+- `Execution_Tracker` concentra o acompanhamento de execução (status, datas e histórico).
+- Referências cruzadas devem sempre apontar para:
+  - documento de origem em `docs/Brainstorm/` quando existir,
+  - ação correspondente no próprio `ActionPlan`.
+
+---
+
 ## Fase 2 — Desenvolvimento do MVP (Caça-Palavras)
 
 ### 2.1 — Setup e Configuração
@@ -185,7 +196,49 @@
 
 ---
 
+## Fase 4 — Revisão Estruturada (Projeto + UX/Layout)
+
+> Checklist definido em brainstorm para manter trilha de decisão antes da execução.
+> Referência: `docs/Brainstorm/Discussion_06_Revision_Checklist.md`
+
+### 4.1 — Governança da Revisão
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| REV-001 | Consolidar critérios da revisão (arquitetura, produto, UX, visual) | ✅ | — | Baseado em `Discussion_06_Revision_Checklist.md` |
+| REV-002 | Mapear decisões atuais para manter/ajustar/remover | ✅ | REV-001 | Saída: matriz de decisão com justificativa |
+| REV-003 | Criar backlog priorizado da revisão (P0/P1/P2) | ✅ | REV-002 | Backlog consolidado e ativo como referência de execução |
+
+### 4.2 — Projeto e Arquitetura
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| ARQ-001 | Revisar decisões de arquitetura Core/Game e state machine | ✅ | REV-001 | Aderência validada v0.1; ajustes pontuais registrados no tracker |
+| ARQ-002 | Revisar estratégia de serviços mock/real (Ads/Analytics/Storage) | 🔵 | REV-001 | Validar readiness para produção |
+| ARQ-003 | Revisar política de extensão do modo desafio no fluxo principal | ✅ | ARQ-001 | Política definida v1: desafio segmentado por modo e KPI separado do funil MVP |
+
+### 4.3 — Usabilidade e Layout Visual
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| UX-006 | Executar revisão heurística do fluxo completo (Menu → Vitória) | 🔵 | REV-001 | Avaliação v0.1 em andamento no tracker |
+| UX-007 | Auditar contraste, tipografia e legibilidade por tela | ✅ | UX-006 | Contraste e legibilidade ajustados/validados na rodada atual |
+| UX-008 | Validar responsividade em múltiplas resoluções Android | 🔵 | UX-006 | Matriz de validação iniciada no tracker; evidências pendentes |
+| UX-009 | Revisar consistência visual (tema vs cores hardcoded) | ✅ | UX-007 | Migração e validação visual consolidadas (gates fechados no tracker) |
+
+### 4.4 — Validação e Fechamento
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| TST-007 | Rodar regressão funcional após ajustes da revisão | 🔵 | ARQ-003, UX-009 | Checklist de regressão iniciado no tracker |
+| DOC-009 | Publicar relatório consolidado da revisão | 🔵 | REV-003, TST-007 | Consolidação final iniciada em `11_Review_Report.md` |
+
+---
+
 ## Resumo de Progresso
+
+> O resumo abaixo reflete o histórico até a Fase 3.
+> A Fase 4 (Revisão Estruturada) é acompanhada no `Execution_Tracker.md`.
 
 | Etapa | Total | ⬜ | ⏸️ | 🔵 | ✅ | % |
 |-------|-------|-----|-----|-----|-----|---|

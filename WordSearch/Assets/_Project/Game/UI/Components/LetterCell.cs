@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using RagazziStudios.Game.Config;
 
 namespace RagazziStudios.Game.UI.Components
 {
@@ -16,6 +17,9 @@ namespace RagazziStudios.Game.UI.Components
         [SerializeField] private TMP_Text _letterText;
         [SerializeField] private Image _backgroundImage;
 
+        [Header("Tema")]
+        [SerializeField] private GameTheme _theme;
+
         [Header("Cores")]
         [SerializeField] private Color _normalColor = new Color(0.95f, 0.95f, 0.95f);
         [SerializeField] private Color _selectedColor = new Color(0.4f, 0.7f, 1f);
@@ -23,6 +27,27 @@ namespace RagazziStudios.Game.UI.Components
         [SerializeField] private Color _hintColor = new Color(1f, 0.85f, 0.3f);
         [SerializeField] private Color _normalTextColor = new Color(0.15f, 0.15f, 0.15f);
         [SerializeField] private Color _activeTextColor = Color.white;
+        [SerializeField] private Color _hintTextColor = new Color(0.15f, 0.15f, 0.15f);
+        [SerializeField] private Color _invalidColor = new Color(1f, 0.3f, 0.3f, 0.85f);
+
+        private void Awake()
+        {
+            ApplyThemeColors();
+        }
+
+        private void ApplyThemeColors()
+        {
+            if (_theme == null) return;
+
+            _normalColor = _theme.cellNormal;
+            _selectedColor = _theme.cellSelected;
+            _foundColor = _theme.cellFound;
+            _hintColor = _theme.cellHint;
+            _normalTextColor = _theme.cellLetterNormal;
+            _activeTextColor = _theme.cellLetterActive;
+            _hintTextColor = _theme.GetContrastText(_hintColor);
+            _invalidColor = new Color(_theme.error.r, _theme.error.g, _theme.error.b, 0.85f);
+        }
 
         /// <summary>Posição no grid (row, col).</summary>
         public int Row { get; private set; }
@@ -80,7 +105,7 @@ namespace RagazziStudios.Game.UI.Components
                     break;
 
                 case CellState.Hint:
-                    SetColors(_hintColor, _activeTextColor);
+                    SetColors(_hintColor, _hintTextColor);
                     break;
             }
         }
@@ -141,8 +166,7 @@ namespace RagazziStudios.Game.UI.Components
 
         private IEnumerator FlashInvalidCoroutine(float duration)
         {
-            Color invalidColor = new Color(1f, 0.3f, 0.3f, 0.85f);
-            SetColors(invalidColor, _activeTextColor);
+            SetColors(_invalidColor, _activeTextColor);
 
             yield return new WaitForSeconds(duration);
 
