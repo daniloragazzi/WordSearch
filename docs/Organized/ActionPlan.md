@@ -253,11 +253,11 @@
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| DAT-006 | Expandir banco de palavras por categoria (meta: 100+ por cat) | ⬜ | — | Atualmente ~55/cat; dobrar base mantendo curadoria e relevância |
-| DAT-007 | Criar banco de palavras genérico para Desafio (`desafio.json`) | ⬜ | — | Palavras que não pertencem a nenhuma categoria (objetos, verbos, adjetivos, termos gerais) |
-| DAT-008 | Atualizar `LevelManager` para carregar `desafio.json` no modo Desafio | ⬜ | DAT-007 | Desafio passa a usar: pool de `desafio.json` + pool mista das categorias |
-| DAT-009 | Atualizar `validate_words.py` para incluir `desafio.json` | ⬜ | DAT-007 | Validar formato, duplicatas (inclusive cross-categoria), tamanho min/max |
-| DAT-010 | Validar banco expandido completo (sem erros) | ⬜ | DAT-006, DAT-009 | Rodar validação e corrigir eventuais problemas |
+| DAT-006 | Expandir banco de palavras por categoria (meta: 100+ por cat) | ✅ | — | 8 categorias expandidas: 105–111 palavras cada (total 873 vs 440 anteriores) |
+| DAT-007 | Criar banco de palavras genérico para Desafio (`desafio.json`) | ✅ | — | 120 palavras genéricas (objetos, móveis, ferramentas, roupas, sentimentos, viagem) |
+| DAT-008 | Atualizar `LevelManager` para carregar `desafio.json` no modo Desafio | ✅ | DAT-007 | BootLoader carrega desafio.json; LevelManager prioriza pool desafio + categorias |
+| DAT-009 | Atualizar `validate_words.py` para incluir `desafio.json` | ✅ | DAT-007 | Validação explícita desafio, MIN_WORDS 80, MAX_WORD_LENGTH 19, UTF-8 BOM fix |
+| DAT-010 | Validar banco expandido completo (sem erros) | ✅ | DAT-006, DAT-009 | 0 erros, 12 avisos cross-dup intencionais, 993 palavras total |
 
 ### 5.3 — Tema Claro / Escuro (com detecção do sistema)
 
@@ -304,10 +304,10 @@
 | 4.3 UX/Layout | 4 | 0 | 0 | 0 | 0 | 4 | 100% |
 | 4.4 Validação | 2 | 0 | 0 | 0 | 0 | 2 | 100% |
 | 5.1 Ícone | 4 | 0 | 0 | 0 | 0 | 4 | 100% |
-| 5.2 Palavras | 5 | 5 | 0 | 0 | 0 | 0 | 0% |
+| 5.2 Palavras | 5 | 0 | 0 | 0 | 0 | 5 | 100% |
 | 5.3 Tema | 6 | 6 | 0 | 0 | 0 | 0 | 0% |
 | 5.4 Validação F5 | 2 | 2 | 0 | 0 | 0 | 0 | 0% |
-| **TOTAL** | **105** | **13** | **4** | **0** | **1** | **87** | **83%** |
+| **TOTAL** | **105** | **8** | **4** | **0** | **1** | **92** | **88%** |
 
 ---
 

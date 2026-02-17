@@ -525,6 +525,11 @@
 | 2026-02-17 | ICO-003 | PlayerSettings configurado | `AssignToPlayerSettings()` atribui Adaptive (fg+bg layers), Legacy e Round via API |
 | 2026-02-17 | ICO-004 | Ícone Play Store gerado | `app_icon.png` 512×512 combinado para listagem Play Store |
 | 2026-02-17 | DAT-006..010 | Bloco Palavras planejado | 5 ações: expandir para 100+/cat, criar desafio.json, atualizar LevelManager, validação |
+| 2026-02-17 | DAT-006 | Banco de palavras expandido | 8 categorias: animais 110, alimentos 109, corpo 110, natureza 111, profissoes 105, paises 108, esportes 110, cores 110 |
+| 2026-02-17 | DAT-007 | desafio.json criado | 120 palavras genéricas (casa, móveis, ferramentas, roupas, sentimentos, viagem, escola, arte) |
+| 2026-02-17 | DAT-008 | LevelManager atualizado | BootLoader carrega desafio.json; StartChallengeLevel prioriza pool desafio + categorias |
+| 2026-02-17 | DAT-009 | validate_words.py atualizado | MIN 100/cat, MIN 80 desafio, MAX 19 chars, UTF-8 BOM fix, seção explícita desafio |
+| 2026-02-17 | DAT-010 | Validação completa OK | 0 erros, 12 avisos cross-dup intencionais, 993 palavras total |
 | 2026-02-17 | THM-001..006 | Bloco Tema planejado | 6 ações: paleta escura, ThemeManager, seletor Settings, refatorar SceneCreator, troca runtime, validação device |
 | 2026-02-17 | TST-008 | Teste Fase 5 planejado | Validação completa no device após melhorias |
 | 2026-02-17 | BLD-007 | Build Fase 5 planejado | APK final pós-melhorias |
