@@ -536,6 +536,7 @@
 | 2026-02-17 | THM-003 | Seletor de tema no SettingsPopup | Dropdown 3 opções (Sistema/Claro/Escuro) adicionado a `SettingsPopup.cs`; SceneCreator cria label + dropdown como linha 4 do painel; layout ajustado para 4 linhas |
 | 2026-02-17 | THM-004 | SceneCreator refatorado para tema | `LoadThemeColors()` carrega `GameTheme_Light` especificamente; helper `SetPanelAnchors` adicionado; `ThemeColorBinding` aplicado no painel e labels do SettingsPopup |
 | 2026-02-17 | THM-005 | Troca de tema em runtime | `ThemeColorBinding.cs` criado com `ThemeColorRole` (18 tokens); `OnEnable/OnDisable` assinam `ThemeManager.OnThemeChanged`; suporta `Image`, `TMP_Text`, `Graphic` |
+| 2026-02-17 | THM-006 | Validação no device — pendente | Aguarda execução no Unity (Generate Theme Assets → Create All Scenes → Build APK → teste no device) |
 | 2026-02-17 | TST-008 | Teste Fase 5 planejado | Validação completa no device após melhorias |
 | 2026-02-17 | BLD-007 | Build Fase 5 planejado | APK final pós-melhorias |
 
