@@ -14,6 +14,9 @@ namespace RagazziStudios.Game.UI.Components
 
         private bool _isFound;
 
+        /// <summary>Texto da palavra exibida.</summary>
+        public string Word => _wordText != null ? _wordText.text : string.Empty;
+
         /// <summary>
         /// Configura o item com a palavra.
         /// </summary>

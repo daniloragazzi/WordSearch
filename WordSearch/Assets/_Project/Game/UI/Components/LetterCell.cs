@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using RagazziStudios.Core.Domain;
+using RagazziStudios.Core.Application;
 
 namespace RagazziStudios.Game.UI.Components
 {
@@ -30,23 +31,50 @@ namespace RagazziStudios.Game.UI.Components
         [SerializeField] private Color _hintTextColor = new Color(0.15f, 0.15f, 0.15f);
         [SerializeField] private Color _invalidColor = new Color(1f, 0.3f, 0.3f, 0.85f);
 
+        /// <summary>Estado visual atual da célula.</summary>
+        private CellState _currentState = CellState.Normal;
+
         private void Awake()
         {
             ApplyThemeColors();
         }
 
+        private void OnEnable()
+        {
+            ThemeManager.OnThemeChanged += OnThemeChanged;
+        }
+
+        private void OnDisable()
+        {
+            ThemeManager.OnThemeChanged -= OnThemeChanged;
+        }
+
+        private void OnThemeChanged(GameTheme newTheme)
+        {
+            ApplyThemeColors();
+            // Re-apply current visual state with new colors
+            SetState(_currentState);
+        }
+
+        private GameTheme ResolveTheme()
+        {
+            if (_theme != null) return _theme;
+            return ThemeManager.Instance != null ? ThemeManager.Instance.CurrentTheme : null;
+        }
+
         private void ApplyThemeColors()
         {
-            if (_theme == null) return;
+            var theme = ResolveTheme();
+            if (theme == null) return;
 
-            _normalColor = _theme.cellNormal;
-            _selectedColor = _theme.cellSelected;
-            _foundColor = _theme.cellFound;
-            _hintColor = _theme.cellHint;
-            _normalTextColor = _theme.cellLetterNormal;
-            _activeTextColor = _theme.cellLetterActive;
-            _hintTextColor = _theme.GetContrastText(_hintColor);
-            _invalidColor = new Color(_theme.error.r, _theme.error.g, _theme.error.b, 0.85f);
+            _normalColor = theme.cellNormal;
+            _selectedColor = theme.cellSelected;
+            _foundColor = theme.cellFound;
+            _hintColor = theme.cellHint;
+            _normalTextColor = theme.cellLetterNormal;
+            _activeTextColor = theme.cellLetterActive;
+            _hintTextColor = theme.GetContrastText(_hintColor);
+            _invalidColor = new Color(theme.error.r, theme.error.g, theme.error.b, 0.85f);
         }
 
         /// <summary>Posição no grid (row, col).</summary>
@@ -82,6 +110,8 @@ namespace RagazziStudios.Game.UI.Components
         /// </summary>
         public void SetState(CellState state)
         {
+            _currentState = state;
+
             switch (state)
             {
                 case CellState.Normal:
