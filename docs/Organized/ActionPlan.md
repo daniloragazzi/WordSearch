@@ -275,7 +275,7 @@
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
 | TST-008 | Teste completo no device (pós-melhorias Fase 5) | ✅ | 5.1–5.3 | Validar ícone, palavras expandidas, tema escuro/claro, transições |
-| BLD-007 | Novo build APK com melhorias Fase 5 | ⬜ | TST-008 | APK para teste final antes de publicação |
+| BLD-007 | Novo build APK com melhorias Fase 5 | ✅ | TST-008 | APK dev gerado e validado no device; build release (AAB) pendente junto com BLD-004 |
 
 ---
 
@@ -306,8 +306,8 @@
 | 5.1 Ícone | 4 | 0 | 0 | 0 | 0 | 4 | 100% |
 | 5.2 Palavras | 5 | 0 | 0 | 0 | 0 | 5 | 100% |
 | 5.3 Tema | 6 | 0 | 0 | 0 | 0 | 6 | 100% |
-| 5.4 Validação F5 | 2 | 1 | 0 | 0 | 0 | 1 | 50% |
-| **TOTAL** | **105** | **1** | **4** | **0** | **1** | **99** | **94%** |
+| 5.4 Validação F5 | 2 | 0 | 0 | 0 | 0 | 2 | 100% |
+| **TOTAL** | **105** | **0** | **4** | **0** | **1** | **100** | **95%** |
 
 ---
 

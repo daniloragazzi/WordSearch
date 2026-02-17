@@ -541,6 +541,7 @@
 | 2026-02-17 | THM-006 | Validação no device concluída ✅ | Cenas regeneradas, APK buildado e instalado; tema claro/escuro, todas telas, popups, grid e word list validados com sucesso |
 | 2026-02-17 | TST-008 | Teste completo Fase 5 concluído ✅ | Ícone, banco de palavras expandido e tema claro/escuro validados no device; 0 regressões críticas |
 | 2026-02-17 | BLD-007 | Build Fase 5 planejado | APK final pós-melhorias |
+| 2026-02-17 | BLD-007 | Build APK dev Fase 5 concluído ✅ | APK dev gerado e instalado no device; build release (AAB) consolidado com BLD-004 quando Google Play validar conta |
 
 ---
 
