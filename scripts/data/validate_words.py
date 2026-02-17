@@ -22,7 +22,7 @@ WORDS_DIR = DATA_DIR / "words"
 
 MIN_WORD_LENGTH = 3
 MIN_WORDS_PER_CATEGORY = 100
-MIN_WORDS_DESAFIO = 80
+MIN_WORDS_DESAFIO = 300
 MAX_WORD_LENGTH = 19  # grid máximo: 20 colunas (challenge mode)
 
 
