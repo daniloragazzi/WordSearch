@@ -133,11 +133,9 @@ Ideias para se destacar no mercado:
 
 ### Notas sobre o diferencial (Duordle/Quordle)
 
-- **Modo 1 palavra** — clássico Termo, 6 tentativas
-- **Modo 2 palavras (Duordle)** — resolver 2 palavras simultâneas, grade dividida
-- **Modo 4 palavras (Quordle)** — resolver 4 palavras simultâneas, grade 2x2
-- Todos os modos compartilham o mesmo teclado e banco de palavras
-- Tentativas são contadas globalmente (9 para Duordle, 9 para Quordle — padrão Quordle original)
+- **Modo 1 palavra** — clássico Termo, **6 tentativas**
+- **Modo 2 palavras (Duordle)** — resolver 2 palavras simultâneas, grade dividida, **7 tentativas**
+- **Modo 4 palavras (Quordle)** — resolver 4 palavras simultâneas, grade 2x2, **9 tentativas**
 
 ### Notas sobre identidade visual unificada
 
