@@ -149,6 +149,7 @@ namespace RagazziStudios.Editor
             cam.backgroundColor = _colorBackground;
             cam.clearFlags = CameraClearFlags.SolidColor;
             camGO.tag = "MainCamera";
+            camGO.AddComponent<AudioListener>();
             AddCameraThemeBinding(camGO, ThemeColorRole.Background);
 
             // --- GameManager (DontDestroyOnLoad) ---
@@ -228,6 +229,7 @@ namespace RagazziStudios.Editor
             cam.backgroundColor = _colorPanel;
             cam.clearFlags = CameraClearFlags.SolidColor;
             camGO.tag = "MainCamera";
+            camGO.AddComponent<AudioListener>();
             AddCameraThemeBinding(camGO, ThemeColorRole.PrimaryDark);
 
             // --- Canvas ---
@@ -755,6 +757,7 @@ namespace RagazziStudios.Editor
             cam.backgroundColor = _colorBackground;
             cam.clearFlags = CameraClearFlags.SolidColor;
             camGO.tag = "MainCamera";
+            camGO.AddComponent<AudioListener>();
             AddCameraThemeBinding(camGO, ThemeColorRole.Background);
 
             // --- Canvas ---
