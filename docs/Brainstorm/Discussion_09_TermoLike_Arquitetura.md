@@ -1,6 +1,6 @@
 # Discussion 09 — Termo-Like: Arquitetura Técnica
 
-> **Status:** 🟡 Em discussão
+> **Status:** ✅ Concluído
 > **Data:** 2026-02-17
 > **Objetivo:** Definir estrutura do projeto Unity, estratégia de reaproveitamento do Core do Caça-Palavras e decisões técnicas específicas do Termo-Like.
 
@@ -174,61 +174,67 @@ public Color letterOnColor  = new Color(1f, 1f, 1f);           // texto sobre c�
 
 ## Perguntas para Decidir
 
-### ✅ Confirmadas
+## Decisões
 
-| # | Questão | Decisão |
-|---|---------|---------|
-| 3 | **Package name Android** | `com.ragazzistudios.termo` ✅ |
-| 4 | **Nome do app** | **Termo BR** ✅ |
+> ✅ **Decidido em 2026-02-17**
 
----
-
-### 1. Estrutura de projeto — pasta `Termo/` no mesmo repo?
-
-| Opção | Descrição | Prós | Contras |
-|-------|-----------|------|---------|
-| **A — Mesmo repo** (recomendado) | Pasta `Termo/` ao lado de `WordSearch/` | Histórico unificado; docs e scripts Python compartilhados; 1 `git push` atualiza tudo; fácil de comparar código entre apps | Repo cresce com o tempo; builds precisam de cuidado para não misturar assets |
-| **B — Repo separado** | `github.com/daniloragazzi/Termo` novo | Isolamento total; CI/CD independente por app | Sincronização manual de correções no Core; 2 repositórios para gerenciar; contexto fragmentado |
-
-**Impacto prático agora:** baixo — a diferença real aparece quando houver 3+ apps ou equipe maior. Para 1 desenvolvedor com 2 apps, o mesmo repo é claramente mais simples.
+| # | Questão | Decisão | Justificativa |
+|---|---------|---------|---------------|
+| 1 | **Estrutura de projeto** | Repositório separado (`github.com/daniloragazzi/TermoBR`) | Isolamento total entre apps; deploys e históricos independentes; facilita eventual transferência ou co-autoria |
+| 2 | **Core compartilhado** | Package local desde o início (`RagazziCore`) | Investimento único de setup; correções refletem em todos os apps; base certa para escalar o estúdio |
+| 3 | **Package name Android** | `com.ragazzistudios.termo` ✅ | — |
+| 4 | **Nome do app** | **Termo BR** ✅ | — |
+| 5 | **SceneCreator** | Novo do zero | Código limpo sem herança; Termo tem layout radicalmente diferente do Caça-Palavras (teclado + grades vs grid de letras) |
 
 ---
 
-### 2. Core compartilhado — copiar agora vs package local imediato?
+### Impacto das decisões na estrutura de repositórios
 
-| Opção | Descrição | Prós | Contras |
-|-------|-----------|------|---------|
-| **A — Copiar agora** (pragmático) | `Core/` do WordSearch copiado para `Termo/`; cada projeto tem sua cópia | Começa rápido; sem overhead de configuração de package; cada app evolui independente | Correções no Core precisam ser aplicadas em 2 lugares; divergência cresce com o tempo |
-| **B — Package local** (estruturado) | `Core/` extraído para pasta `Packages/RagazziCore/` compartilhada entre os 2 projetos Unity usando `"file:../../Packages/RagazziCore"` no manifest | Correção em 1 lugar reflete nos 2 apps; base técnica certa para escalar | Configuração inicial mais trabalhosa; Unity Package local tem limitações de hot-reload; requer disciplina de versionamento |
+```
+github.com/daniloragazzi/
+├── WordSearch/          ← App 1 (existente)
+│   └── WordSearch/      ← projeto Unity
+└── TermoBR/             ← App 2 (novo — repo separado)
+    ├── Termo/           ← projeto Unity
+    ├── Packages/
+    │   └── RagazziCore/ ← package local (Core extraído do WordSearch)
+    ├── scripts/
+    └── docs/
+```
 
-**Impacto prático:** a diferença real aparece na 2ª ou 3ª correção de bug no Core. Com 2 apps, copiar é aceitável se houver disciplina. Com 3+ apps, o package se paga rápido.
+### Estrutura do package `RagazziCore`
 
-**Meio-termo possível:** copiar agora + marcar como débito técnico explícito para extrair o package quando o 3º app for planejado.
+```
+Packages/RagazziCore/
+├── package.json                          ← "name": "com.ragazzistudios.core"
+├── Runtime/
+│   ├── Infrastructure/                   ← StorageService, LocalizationService, AdsService, AnalyticsService
+│   ├── Application/                      ← ThemeManager, MusicManager, GameStateMachine, ServiceLocator
+│   └── Domain/                           ← GameTheme (com novos tokens letterCorrect/Present/Absent)
+├── Editor/
+│   └── ThemePaletteGenerator.cs          ← portado do WordSearch
+└── README.md
+```
 
----
+Referência no `Termo/Packages/manifest.json`:
+```json
+"com.ragazzistudios.core": "file:../../Packages/RagazziCore"
+```
 
-### 5. SceneCreator — novo independente vs derivado do Caça-Palavras?
+### Tarefas de setup decorrentes
 
-| Opção | Descrição | Prós | Contras |
-|-------|-----------|------|---------|
-| **A — Novo independente** | `SceneCreator.cs` escrito do zero para o Termo | Código limpo sem herança de lógica do Caça-Palavras; mais fácil de ler e manter isoladamente | Perde helpers já testados (`CreateButton`, `CreateTextElement`, `AddThemeBinding`, etc.) |
-| **B — Derivado** (copiar + adaptar) | Copiar `SceneCreator.cs` do WordSearch, remover lógica de grid/palavras, manter helpers de UI | Aproveita ~40% do código já testado (helpers de UI, ThemeBinding, fontes, sprites); começa mais rápido | Arquivo começa maior; risco de arrastar lógica desnecessária se a limpeza for incompleta |
-
-**Helpers reutilizáveis do WordSearch** (valem a pena preservar):
-- `CreateButton()`, `CreateTextElement()`, `CreateScreen()`
-- `AddThemeBinding()`, `AddCameraThemeBinding()`
-- `ApplyFontsToScene()`, `ApplySprite()`
-- `Wire()` (reflexão para serializar campos)
-
-**Lógica a descartar:**
-- `CreateGridView()`, `CreateLetterCell()`, `CreateWordList()`, `CreateLevelButtonPrefab()`
-- Todo o setup de `LevelSelectScreen`, `CategorySelectScreen`, `ChallengeSelectScreen`
+1. Criar repo `TermoBR` no GitHub
+2. Extrair `Core/` do WordSearch para `Packages/RagazziCore/` com `package.json`
+3. Criar projeto Unity `Termo/` com estrutura de pastas
+4. Referenciar package no manifest do Termo
+5. *(Futuro)* Backport do package para o WordSearch também — unificando o Core nos 2 apps
 
 ---
 
 ## Próximos Passos
 
-- [ ] Tomar decisões 1, 2 e 5
+- [x] Tomar decisões 1, 2, 3, 4 e 5
+- [ ] Criar repo `TermoBR` no GitHub
+- [ ] Criar package `RagazziCore` a partir do Core do WordSearch
 - [ ] Criar projeto Unity `Termo/` com estrutura de pastas
-- [ ] Copiar/estruturar `Core/` conforme decisão 2
 - [ ] Criar ActionPlan detalhado (equivalente ao do App 1)
