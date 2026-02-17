@@ -264,10 +264,10 @@
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
 | THM-001 | Criar paleta de cores para tema escuro (`GameTheme` dark) | ✅ | — | `ThemePaletteGenerator.cs`: gera `GameTheme_Light` e `GameTheme_Dark` em `Config/Themes/`; campo `isDark` adicionado ao `GameTheme` |
-| THM-002 | Implementar `ThemeManager` (singleton, detecção sistema, persistência) | ⬜ | THM-001 | Detecta preferência do dispositivo (Android `Configuration.uiMode`); persiste escolha do usuário via `StorageKeys.THEME_MODE` |
-| THM-003 | Adicionar seletor de tema no `SettingsPopup` (Sistema / Claro / Escuro) | ⬜ | THM-002 | Dropdown com 3 opções; "Sistema" segue o padrão do celular automaticamente |
-| THM-004 | Refatorar `SceneCreator` para gerar cenas sem cores hardcoded no tema | ⬜ | THM-001 | Todas as referências de cor devem vir do `GameTheme` ativo (já parcialmente migrado em UX-009) |
-| THM-005 | Implementar troca de tema em runtime (atualizar todos os componentes) | ⬜ | THM-002, THM-004 | `ThemeManager.OnThemeChanged` event; componentes se re-coloram ao trocar tema sem recarregar cena |
+| THM-002 | Implementar `ThemeManager` (singleton, detecção sistema, persistência) | ✅ | THM-001 | `ThemeManager.cs` em `Core/Application/`: singleton DontDestroyOnLoad, detecta Android dark mode via JNI, persiste via `StorageKeys.THEME_MODE`, evento `OnThemeChanged`, criado na Boot scene pelo SceneCreator |
+| THM-003 | Adicionar seletor de tema no `SettingsPopup` (Sistema / Claro / Escuro) | ✅ | THM-002 | Dropdown com 3 opções wired em `SettingsPopup`; SceneCreator cria label + dropdown na linha 4 do painel |
+| THM-004 | Refatorar `SceneCreator` para gerar cenas sem cores hardcoded no tema | ✅ | THM-001 | `LoadThemeColors()` carrega especificamente `GameTheme_Light`; `ThemeColorBinding` adicionado a painel e labels do SettingsPopup; `SetPanelAnchors` helper adicionado |
+| THM-005 | Implementar troca de tema em runtime (atualizar todos os componentes) | ✅ | THM-002, THM-004 | `ThemeColorBinding.cs` em `Core/Application/`: assina `ThemeManager.OnThemeChanged`, aplica token de cor a `Image`/`TMP_Text`/`Graphic`; `ThemeColorRole` enum com 18 tokens |
 | THM-006 | Validar tema escuro no device real (contraste, legibilidade, responsividade) | ⬜ | THM-005 | Teste completo em device: todas as telas, popups, grid, word list, settings |
 
 ### 5.4 — Validação e Build Fase 5
@@ -305,9 +305,9 @@
 | 4.4 Validação | 2 | 0 | 0 | 0 | 0 | 2 | 100% |
 | 5.1 Ícone | 4 | 0 | 0 | 0 | 0 | 4 | 100% |
 | 5.2 Palavras | 5 | 0 | 0 | 0 | 0 | 5 | 100% |
-| 5.3 Tema | 6 | 5 | 0 | 0 | 0 | 1 | 17% |
+| 5.3 Tema | 6 | 1 | 0 | 0 | 0 | 5 | 83% |
 | 5.4 Validação F5 | 2 | 2 | 0 | 0 | 0 | 0 | 0% |
-| **TOTAL** | **105** | **7** | **4** | **0** | **1** | **93** | **89%** |
+| **TOTAL** | **105** | **3** | **4** | **0** | **1** | **97** | **92%** |
 
 ---
 

@@ -50,13 +50,33 @@ namespace RagazziStudios.Editor
 
         private static void LoadThemeColors()
         {
-            var themeGuids = AssetDatabase.FindAssets("t:GameTheme");
-            GameTheme theme = null;
+            // Prefer GameTheme_Light specifically; fall back to first GameTheme found.
+            GameTheme theme = AssetDatabase.LoadAssetAtPath<GameTheme>(
+                "Assets/_Project/Resources/Themes/GameTheme_Light.asset");
 
-            if (themeGuids.Length > 0)
+            if (theme == null)
             {
-                string path = AssetDatabase.GUIDToAssetPath(themeGuids[0]);
-                theme = AssetDatabase.LoadAssetAtPath<GameTheme>(path);
+                var themeGuids = AssetDatabase.FindAssets("t:GameTheme");
+                if (themeGuids.Length > 0)
+                {
+                    // Find the light theme among all found assets
+                    foreach (var guid in themeGuids)
+                    {
+                        var path = AssetDatabase.GUIDToAssetPath(guid);
+                        var candidate = AssetDatabase.LoadAssetAtPath<GameTheme>(path);
+                        if (candidate != null && !candidate.isDark)
+                        {
+                            theme = candidate;
+                            break;
+                        }
+                    }
+                    // Last resort: first found
+                    if (theme == null)
+                    {
+                        string path = AssetDatabase.GUIDToAssetPath(themeGuids[0]);
+                        theme = AssetDatabase.LoadAssetAtPath<GameTheme>(path);
+                    }
+                }
             }
 
             if (theme != null)
@@ -148,6 +168,12 @@ namespace RagazziStudios.Editor
             if (ambientClip != null)
                 Wire(musicManager, "_ambientLoop", ambientClip);
             musicGO.SetActive(true);
+
+            // --- ThemeManager (DontDestroyOnLoad) ---
+            var themeGO = new GameObject("ThemeManager");
+            themeGO.SetActive(false);
+            themeGO.AddComponent<Core.Application.ThemeManager>();
+            themeGO.SetActive(true);
 
             // --- BootLoader ---
             var bootGO = new GameObject("BootLoader");
@@ -511,9 +537,13 @@ namespace RagazziStudios.Editor
             var settingsPanelImg = settingsPanel.AddComponent<Image>();
             settingsPanelImg.color = _colorPanel;
             ApplySprite(settingsPanelImg, _panelPopup);
+            // ThemeColorBinding: painel recolore ao trocar tema
+            var settPanelBinding = settingsPanel.AddComponent<Core.Application.ThemeColorBinding>();
+            settPanelBinding.role = Core.Application.ThemeColorRole.Surface;
+            settPanelBinding.keepThemeAlpha = true;
             var settingsPanelRect = settingsPanel.GetComponent<RectTransform>();
             settingsPanelRect.anchorMin = new Vector2(0.08f, 0.25f);
-            settingsPanelRect.anchorMax = new Vector2(0.92f, 0.75f);
+            settingsPanelRect.anchorMax = new Vector2(0.92f, 0.82f); // taller to fit 4 rows
             settingsPanelRect.sizeDelta = Vector2.zero;
 
             var settTitleGO = CreateTextElement(settingsPanel.transform, "Title",
@@ -521,96 +551,50 @@ namespace RagazziStudios.Editor
             var settSoundLabelGO = CreateTextElement(settingsPanel.transform, "SoundLabel",
                 "Som", 24, TextAlignmentOptions.MidlineLeft, new Vector2(-220, 45));
             var settMusicLabelGO = CreateTextElement(settingsPanel.transform, "MusicLabel",
-                "Musica", 24, TextAlignmentOptions.MidlineLeft, new Vector2(-220, -25));
+                "Musica", 24, TextAlignmentOptions.MidlineLeft, new Vector2(-220, -20));
             var settLangLabelGO = CreateTextElement(settingsPanel.transform, "LanguageLabel",
-                "Idioma", 24, TextAlignmentOptions.MidlineLeft, new Vector2(-220, -95));
+                "Idioma", 24, TextAlignmentOptions.MidlineLeft, new Vector2(-220, -85));
+            var settThemeLabelGO = CreateTextElement(settingsPanel.transform, "ThemeLabel",
+                "Tema", 24, TextAlignmentOptions.MidlineLeft, new Vector2(-220, -150));
 
-            var settTitleTMP = settTitleGO.GetComponent<TMP_Text>();
-            var settSoundTMP = settSoundLabelGO.GetComponent<TMP_Text>();
-            var settMusicTMP = settMusicLabelGO.GetComponent<TMP_Text>();
-            var settLangTMP = settLangLabelGO.GetComponent<TMP_Text>();
-            if (settTitleTMP != null) settTitleTMP.color = _colorTextOnColor;
-            if (settSoundTMP != null) settSoundTMP.color = _colorTextOnColor;
-            if (settMusicTMP != null) settMusicTMP.color = _colorTextOnColor;
-            if (settLangTMP != null) settLangTMP.color = _colorTextOnColor;
-
-            // Anchor-based layout inside settings panel (more stable on tall screens)
-            var settTitleRect = settTitleGO.GetComponent<RectTransform>();
-            if (settTitleRect != null)
+            // Colors for all labels
+            foreach (var go in new[] { settTitleGO, settSoundLabelGO, settMusicLabelGO, settLangLabelGO, settThemeLabelGO })
             {
-                settTitleRect.anchorMin = new Vector2(0.15f, 0.70f);
-                settTitleRect.anchorMax = new Vector2(0.85f, 0.88f);
-                settTitleRect.anchoredPosition = Vector2.zero;
-                settTitleRect.sizeDelta = Vector2.zero;
+                var tmp = go.GetComponent<TMP_Text>();
+                if (tmp != null) tmp.color = _colorTextPrimary;
+                // ThemeColorBinding on labels
+                var binding = go.AddComponent<Core.Application.ThemeColorBinding>();
+                binding.role = Core.Application.ThemeColorRole.TextPrimary;
+                binding.keepThemeAlpha = true;
             }
 
-            var settSoundRect = settSoundLabelGO.GetComponent<RectTransform>();
-            if (settSoundRect != null)
-            {
-                settSoundRect.anchorMin = new Vector2(0.08f, 0.52f);
-                settSoundRect.anchorMax = new Vector2(0.45f, 0.64f);
-                settSoundRect.anchoredPosition = Vector2.zero;
-                settSoundRect.sizeDelta = Vector2.zero;
-            }
-
-            var settMusicRect = settMusicLabelGO.GetComponent<RectTransform>();
-            if (settMusicRect != null)
-            {
-                settMusicRect.anchorMin = new Vector2(0.08f, 0.38f);
-                settMusicRect.anchorMax = new Vector2(0.45f, 0.50f);
-                settMusicRect.anchoredPosition = Vector2.zero;
-                settMusicRect.sizeDelta = Vector2.zero;
-            }
-
-            var settLangRect = settLangLabelGO.GetComponent<RectTransform>();
-            if (settLangRect != null)
-            {
-                settLangRect.anchorMin = new Vector2(0.08f, 0.24f);
-                settLangRect.anchorMax = new Vector2(0.45f, 0.36f);
-                settLangRect.anchoredPosition = Vector2.zero;
-                settLangRect.sizeDelta = Vector2.zero;
-            }
+            // Anchor-based layout inside settings panel (4 rows — stable on tall screens)
+            SetPanelAnchors(settTitleGO, new Vector2(0.15f, 0.76f), new Vector2(0.85f, 0.92f));
+            SetPanelAnchors(settSoundLabelGO, new Vector2(0.08f, 0.59f), new Vector2(0.45f, 0.70f));
+            SetPanelAnchors(settMusicLabelGO, new Vector2(0.08f, 0.46f), new Vector2(0.45f, 0.57f));
+            SetPanelAnchors(settLangLabelGO, new Vector2(0.08f, 0.31f), new Vector2(0.45f, 0.43f));
+            SetPanelAnchors(settThemeLabelGO, new Vector2(0.08f, 0.16f), new Vector2(0.45f, 0.28f));
 
             var soundToggleGO = CreateToggle(settingsPanel.transform, "SoundToggle", new Vector2(220, 45));
-            var musicToggleGO = CreateToggle(settingsPanel.transform, "MusicToggle", new Vector2(220, -25));
+            var musicToggleGO = CreateToggle(settingsPanel.transform, "MusicToggle", new Vector2(220, -20));
             var langDropdownGO = CreateDropdown(settingsPanel.transform, "LanguageDropdown",
-                new Vector2(160, -95));
+                new Vector2(160, -85));
+            var themeDropdownGO = CreateDropdown(settingsPanel.transform, "ThemeDropdown",
+                new Vector2(160, -150));
             var settCloseBtnGO = CreateButton(settingsPanel.transform, "CloseButton",
                 "X", new Vector2(300, 130));
             SetButtonSize(settCloseBtnGO, new Vector2(72, 72));
 
-            var soundToggleRect = soundToggleGO.GetComponent<RectTransform>();
-            if (soundToggleRect != null)
-            {
-                soundToggleRect.anchorMin = new Vector2(0.68f, 0.52f);
-                soundToggleRect.anchorMax = new Vector2(0.86f, 0.64f);
-                soundToggleRect.anchoredPosition = Vector2.zero;
-                soundToggleRect.sizeDelta = Vector2.zero;
-            }
-
-            var musicToggleRect = musicToggleGO.GetComponent<RectTransform>();
-            if (musicToggleRect != null)
-            {
-                musicToggleRect.anchorMin = new Vector2(0.68f, 0.38f);
-                musicToggleRect.anchorMax = new Vector2(0.86f, 0.50f);
-                musicToggleRect.anchoredPosition = Vector2.zero;
-                musicToggleRect.sizeDelta = Vector2.zero;
-            }
-
-            var langDropdownRect = langDropdownGO.GetComponent<RectTransform>();
-            if (langDropdownRect != null)
-            {
-                langDropdownRect.anchorMin = new Vector2(0.54f, 0.23f);
-                langDropdownRect.anchorMax = new Vector2(0.90f, 0.37f);
-                langDropdownRect.anchoredPosition = Vector2.zero;
-                langDropdownRect.sizeDelta = Vector2.zero;
-            }
+            SetPanelAnchors(soundToggleGO, new Vector2(0.68f, 0.59f), new Vector2(0.86f, 0.70f));
+            SetPanelAnchors(musicToggleGO, new Vector2(0.68f, 0.46f), new Vector2(0.86f, 0.57f));
+            SetPanelAnchors(langDropdownGO, new Vector2(0.52f, 0.30f), new Vector2(0.92f, 0.44f));
+            SetPanelAnchors(themeDropdownGO, new Vector2(0.52f, 0.15f), new Vector2(0.92f, 0.29f));
 
             var closeRect = settCloseBtnGO.GetComponent<RectTransform>();
             if (closeRect != null)
             {
-                closeRect.anchorMin = new Vector2(0.82f, 0.76f);
-                closeRect.anchorMax = new Vector2(0.94f, 0.90f);
+                closeRect.anchorMin = new Vector2(0.82f, 0.82f);
+                closeRect.anchorMax = new Vector2(0.94f, 0.94f);
                 closeRect.anchoredPosition = Vector2.zero;
                 closeRect.sizeDelta = Vector2.zero;
             }
@@ -621,9 +605,11 @@ namespace RagazziStudios.Editor
             Wire(settScript, "_soundLabel", settSoundLabelGO.GetComponent<TMP_Text>());
             Wire(settScript, "_musicLabel", settMusicLabelGO.GetComponent<TMP_Text>());
             Wire(settScript, "_languageLabel", settLangLabelGO.GetComponent<TMP_Text>());
+            Wire(settScript, "_themeLabel", settThemeLabelGO.GetComponent<TMP_Text>());
             Wire(settScript, "_soundToggle", soundToggleGO.GetComponent<Toggle>());
             Wire(settScript, "_musicToggle", musicToggleGO.GetComponent<Toggle>());
             Wire(settScript, "_languageDropdown", langDropdownGO.GetComponent<TMP_Dropdown>());
+            Wire(settScript, "_themeDropdown", themeDropdownGO.GetComponent<TMP_Dropdown>());
             Wire(settScript, "_closeButton", settCloseBtnGO.GetComponent<Button>());
             Wire(settScript, "_canvasGroup", settingsCG);
             Wire(settScript, "_popupPanel", settingsPanelRect);
@@ -1474,6 +1460,20 @@ namespace RagazziStudios.Editor
         {
             var rect = buttonGO.GetComponent<RectTransform>();
             if (rect != null) rect.sizeDelta = size;
+        }
+
+        /// <summary>
+        /// Aplica anchorMin/Max a um GameObject filho de panel,
+        /// zerando anchoredPosition e sizeDelta para layout fluido.
+        /// </summary>
+        private static void SetPanelAnchors(GameObject go, Vector2 anchorMin, Vector2 anchorMax)
+        {
+            var rect = go?.GetComponent<RectTransform>();
+            if (rect == null) return;
+            rect.anchorMin = anchorMin;
+            rect.anchorMax = anchorMax;
+            rect.anchoredPosition = Vector2.zero;
+            rect.sizeDelta = Vector2.zero;
         }
 
         private static GameObject CreateToggle(Transform parent, string name, Vector2 position)
