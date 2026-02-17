@@ -135,6 +135,20 @@ namespace RagazziStudios.Editor
             gmGO.AddComponent<Core.Application.GameManager>();
             gmGO.SetActive(true);
 
+            // --- MusicManager (DontDestroyOnLoad) ---
+            var musicGO = new GameObject("MusicManager");
+            musicGO.SetActive(false);
+            var musicSource = musicGO.AddComponent<AudioSource>();
+            musicSource.loop = true;
+            musicSource.playOnAwake = false;
+            musicSource.volume = 0.3f;
+            var musicManager = musicGO.AddComponent<Core.Application.MusicManager>();
+            Wire(musicManager, "_musicSource", musicSource);
+            var ambientClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/_Project/Audio/Music/ambient_loop.wav");
+            if (ambientClip != null)
+                Wire(musicManager, "_ambientLoop", ambientClip);
+            musicGO.SetActive(true);
+
             // --- BootLoader ---
             var bootGO = new GameObject("BootLoader");
             bootGO.SetActive(false);
@@ -331,11 +345,11 @@ namespace RagazziStudios.Editor
             var catBackBtn = catBackBtnGO.AddComponent<Button>();
             catBackBtn.targetGraphic = catBackImg;
             var catBackRect = catBackBtnGO.GetComponent<RectTransform>();
-            catBackRect.anchorMin = new Vector2(0, 0);
+            catBackRect.anchorMin = new Vector2(0, 1);
             catBackRect.anchorMax = new Vector2(0, 1);
-            catBackRect.pivot = new Vector2(0, 0.5f);
-            catBackRect.anchoredPosition = new Vector2(10, 0);
-            catBackRect.sizeDelta = new Vector2(70, 0);
+            catBackRect.pivot = new Vector2(0, 1);
+            catBackRect.anchoredPosition = new Vector2(24, -18);
+            catBackRect.sizeDelta = new Vector2(88, 88);
             var catBackLabel = new GameObject("Label");
             catBackLabel.transform.SetParent(catBackBtnGO.transform, false);
             var catBackTMP = catBackLabel.AddComponent<TextMeshProUGUI>();
@@ -413,10 +427,11 @@ namespace RagazziStudios.Editor
             ApplySprite(lvlBackImg, _btnCircle);
             lvlBackBtnGO.AddComponent<Button>().targetGraphic = lvlBackImg;
             var lvlBackRect = lvlBackBtnGO.GetComponent<RectTransform>();
-            lvlBackRect.anchorMin = new Vector2(0.02f, 0.55f);
-            lvlBackRect.anchorMax = new Vector2(0.14f, 0.95f);
-            lvlBackRect.offsetMin = Vector2.zero;
-            lvlBackRect.offsetMax = Vector2.zero;
+            lvlBackRect.anchorMin = new Vector2(0f, 1f);
+            lvlBackRect.anchorMax = new Vector2(0f, 1f);
+            lvlBackRect.pivot = new Vector2(0f, 1f);
+            lvlBackRect.anchoredPosition = new Vector2(24f, -24f);
+            lvlBackRect.sizeDelta = new Vector2(88f, 88f);
             var lvlBackLabel = new GameObject("Label");
             lvlBackLabel.transform.SetParent(lvlBackBtnGO.transform, false);
             var lvlBackTMP = lvlBackLabel.AddComponent<TextMeshProUGUI>();
@@ -497,18 +512,18 @@ namespace RagazziStudios.Editor
             settingsPanelImg.color = _colorPanel;
             ApplySprite(settingsPanelImg, _panelPopup);
             var settingsPanelRect = settingsPanel.GetComponent<RectTransform>();
-            settingsPanelRect.anchorMin = new Vector2(0.1f, 0.2f);
-            settingsPanelRect.anchorMax = new Vector2(0.9f, 0.8f);
+            settingsPanelRect.anchorMin = new Vector2(0.08f, 0.25f);
+            settingsPanelRect.anchorMax = new Vector2(0.92f, 0.75f);
             settingsPanelRect.sizeDelta = Vector2.zero;
 
             var settTitleGO = CreateTextElement(settingsPanel.transform, "Title",
-                "CONFIGURACOES", 30, TextAlignmentOptions.Center, new Vector2(0, 200));
+                "CONFIGURACOES", 30, TextAlignmentOptions.Center, new Vector2(0, 130));
             var settSoundLabelGO = CreateTextElement(settingsPanel.transform, "SoundLabel",
-                "Som", 22, TextAlignmentOptions.MidlineLeft, new Vector2(-100, 80));
+                "Som", 24, TextAlignmentOptions.MidlineLeft, new Vector2(-220, 45));
             var settMusicLabelGO = CreateTextElement(settingsPanel.transform, "MusicLabel",
-                "Musica", 22, TextAlignmentOptions.MidlineLeft, new Vector2(-100, 20));
+                "Musica", 24, TextAlignmentOptions.MidlineLeft, new Vector2(-220, -25));
             var settLangLabelGO = CreateTextElement(settingsPanel.transform, "LanguageLabel",
-                "Idioma", 22, TextAlignmentOptions.MidlineLeft, new Vector2(-100, -40));
+                "Idioma", 24, TextAlignmentOptions.MidlineLeft, new Vector2(-220, -95));
 
             var settTitleTMP = settTitleGO.GetComponent<TMP_Text>();
             var settSoundTMP = settSoundLabelGO.GetComponent<TMP_Text>();
@@ -519,13 +534,86 @@ namespace RagazziStudios.Editor
             if (settMusicTMP != null) settMusicTMP.color = _colorTextOnColor;
             if (settLangTMP != null) settLangTMP.color = _colorTextOnColor;
 
-            var soundToggleGO = CreateToggle(settingsPanel.transform, "SoundToggle", new Vector2(150, 80));
-            var musicToggleGO = CreateToggle(settingsPanel.transform, "MusicToggle", new Vector2(150, 20));
+            // Anchor-based layout inside settings panel (more stable on tall screens)
+            var settTitleRect = settTitleGO.GetComponent<RectTransform>();
+            if (settTitleRect != null)
+            {
+                settTitleRect.anchorMin = new Vector2(0.15f, 0.70f);
+                settTitleRect.anchorMax = new Vector2(0.85f, 0.88f);
+                settTitleRect.anchoredPosition = Vector2.zero;
+                settTitleRect.sizeDelta = Vector2.zero;
+            }
+
+            var settSoundRect = settSoundLabelGO.GetComponent<RectTransform>();
+            if (settSoundRect != null)
+            {
+                settSoundRect.anchorMin = new Vector2(0.08f, 0.52f);
+                settSoundRect.anchorMax = new Vector2(0.45f, 0.64f);
+                settSoundRect.anchoredPosition = Vector2.zero;
+                settSoundRect.sizeDelta = Vector2.zero;
+            }
+
+            var settMusicRect = settMusicLabelGO.GetComponent<RectTransform>();
+            if (settMusicRect != null)
+            {
+                settMusicRect.anchorMin = new Vector2(0.08f, 0.38f);
+                settMusicRect.anchorMax = new Vector2(0.45f, 0.50f);
+                settMusicRect.anchoredPosition = Vector2.zero;
+                settMusicRect.sizeDelta = Vector2.zero;
+            }
+
+            var settLangRect = settLangLabelGO.GetComponent<RectTransform>();
+            if (settLangRect != null)
+            {
+                settLangRect.anchorMin = new Vector2(0.08f, 0.24f);
+                settLangRect.anchorMax = new Vector2(0.45f, 0.36f);
+                settLangRect.anchoredPosition = Vector2.zero;
+                settLangRect.sizeDelta = Vector2.zero;
+            }
+
+            var soundToggleGO = CreateToggle(settingsPanel.transform, "SoundToggle", new Vector2(220, 45));
+            var musicToggleGO = CreateToggle(settingsPanel.transform, "MusicToggle", new Vector2(220, -25));
             var langDropdownGO = CreateDropdown(settingsPanel.transform, "LanguageDropdown",
-                new Vector2(100, -40));
+                new Vector2(160, -95));
             var settCloseBtnGO = CreateButton(settingsPanel.transform, "CloseButton",
-                "X", new Vector2(280, 200));
-            SetButtonSize(settCloseBtnGO, new Vector2(60, 60));
+                "X", new Vector2(300, 130));
+            SetButtonSize(settCloseBtnGO, new Vector2(72, 72));
+
+            var soundToggleRect = soundToggleGO.GetComponent<RectTransform>();
+            if (soundToggleRect != null)
+            {
+                soundToggleRect.anchorMin = new Vector2(0.68f, 0.52f);
+                soundToggleRect.anchorMax = new Vector2(0.86f, 0.64f);
+                soundToggleRect.anchoredPosition = Vector2.zero;
+                soundToggleRect.sizeDelta = Vector2.zero;
+            }
+
+            var musicToggleRect = musicToggleGO.GetComponent<RectTransform>();
+            if (musicToggleRect != null)
+            {
+                musicToggleRect.anchorMin = new Vector2(0.68f, 0.38f);
+                musicToggleRect.anchorMax = new Vector2(0.86f, 0.50f);
+                musicToggleRect.anchoredPosition = Vector2.zero;
+                musicToggleRect.sizeDelta = Vector2.zero;
+            }
+
+            var langDropdownRect = langDropdownGO.GetComponent<RectTransform>();
+            if (langDropdownRect != null)
+            {
+                langDropdownRect.anchorMin = new Vector2(0.54f, 0.23f);
+                langDropdownRect.anchorMax = new Vector2(0.90f, 0.37f);
+                langDropdownRect.anchoredPosition = Vector2.zero;
+                langDropdownRect.sizeDelta = Vector2.zero;
+            }
+
+            var closeRect = settCloseBtnGO.GetComponent<RectTransform>();
+            if (closeRect != null)
+            {
+                closeRect.anchorMin = new Vector2(0.82f, 0.76f);
+                closeRect.anchorMax = new Vector2(0.94f, 0.90f);
+                closeRect.anchoredPosition = Vector2.zero;
+                closeRect.sizeDelta = Vector2.zero;
+            }
 
             settingsGO.SetActive(false);
             var settScript = settingsGO.AddComponent<Game.UI.Popups.SettingsPopup>();
@@ -575,11 +663,11 @@ namespace RagazziStudios.Editor
             var chalBackBtn = chalBackBtnGO.AddComponent<Button>();
             chalBackBtn.targetGraphic = chalBackImg;
             var chalBackRect = chalBackBtnGO.GetComponent<RectTransform>();
-            chalBackRect.anchorMin = new Vector2(0, 0);
+            chalBackRect.anchorMin = new Vector2(0, 1);
             chalBackRect.anchorMax = new Vector2(0, 1);
-            chalBackRect.pivot = new Vector2(0, 0.5f);
-            chalBackRect.anchoredPosition = new Vector2(10, 0);
-            chalBackRect.sizeDelta = new Vector2(70, 0);
+            chalBackRect.pivot = new Vector2(0, 1);
+            chalBackRect.anchoredPosition = new Vector2(24, -18);
+            chalBackRect.sizeDelta = new Vector2(88, 88);
             var chalBackLabel = new GameObject("Label");
             chalBackLabel.transform.SetParent(chalBackBtnGO.transform, false);
             var chalBackTMP = chalBackLabel.AddComponent<TextMeshProUGUI>();
@@ -597,6 +685,8 @@ namespace RagazziStudios.Editor
             var chalDescGO = CreateTextElement(chalScreenGO.transform, "Description",
                 "Escolha o tamanho do grid\n10 palavras de todas as categorias",
                 20, TextAlignmentOptions.Center, new Vector2(0, 250));
+            var chalDescTMP = chalDescGO.GetComponent<TMP_Text>();
+            if (chalDescTMP != null) chalDescTMP.color = _colorTextOnColor;
 
             // Challenge buttons (3 sizes: 20 rows, varying cols)
             var chal10GO = CreateButton(chalScreenGO.transform, "Challenge20x10",
@@ -604,18 +694,24 @@ namespace RagazziStudios.Editor
             SetButtonSize(chal10GO, new Vector2(400, 80));
             var chal10Sub = CreateTextElement(chalScreenGO.transform, "Sub10",
                 "Normal", 16, TextAlignmentOptions.Center, new Vector2(0, 50));
+            var chal10SubTMP = chal10Sub.GetComponent<TMP_Text>();
+            if (chal10SubTMP != null) chal10SubTMP.color = _colorTextOnColor;
 
             var chal14GO = CreateButton(chalScreenGO.transform, "Challenge20x14",
                 "20 x 14", new Vector2(0, -30));
             SetButtonSize(chal14GO, new Vector2(400, 80));
             var chal14Sub = CreateTextElement(chalScreenGO.transform, "Sub14",
                 "Dificil", 16, TextAlignmentOptions.Center, new Vector2(0, -80));
+            var chal14SubTMP = chal14Sub.GetComponent<TMP_Text>();
+            if (chal14SubTMP != null) chal14SubTMP.color = _colorTextOnColor;
 
             var chal16GO = CreateButton(chalScreenGO.transform, "Challenge20x16",
                 "20 x 16", new Vector2(0, -160));
             SetButtonSize(chal16GO, new Vector2(400, 80));
             var chal16Sub = CreateTextElement(chalScreenGO.transform, "Sub16",
                 "Extremo", 16, TextAlignmentOptions.Center, new Vector2(0, -210));
+            var chal16SubTMP = chal16Sub.GetComponent<TMP_Text>();
+            if (chal16SubTMP != null) chal16SubTMP.color = _colorTextOnColor;
 
             chalScreenGO.SetActive(false);
             var chalScript = chalScreenGO.AddComponent<Game.UI.Screens.ChallengeSelectScreen>();
@@ -672,7 +768,7 @@ namespace RagazziStudios.Editor
             var progressTextGO = CreateTextElement(header.transform, "ProgressText",
                 "0/5", 18, TextAlignmentOptions.Right, new Vector2(300, -30));
             var timerTextGO = CreateTextElement(header.transform, "TimerText",
-                "0:00", 18, TextAlignmentOptions.Left, new Vector2(-300, -30));
+                "0:00", 16, TextAlignmentOptions.Left, Vector2.zero);
 
             var catTitleTMP = catTitleGO.GetComponent<TMP_Text>();
             var levelTextTMP = levelTextGO.GetComponent<TMP_Text>();
@@ -683,17 +779,50 @@ namespace RagazziStudios.Editor
             if (progressTextTMP != null) progressTextTMP.color = _colorTextOnColor;
             if (timerTextTMP != null) timerTextTMP.color = _colorTextOnColor;
 
+            // Reposition timer: anchor top-left, right next to back button
+            var timerRect = timerTextGO.GetComponent<RectTransform>();
+            timerRect.anchorMin = new Vector2(0f, 1f);
+            timerRect.anchorMax = new Vector2(0f, 1f);
+            timerRect.pivot = new Vector2(0f, 1f);
+            timerRect.anchoredPosition = new Vector2(120f, -36f);
+            timerRect.sizeDelta = new Vector2(120f, 40f);
+
             var backBtnGO = CreateButton(header.transform, "BackButton",
                 "<", new Vector2(-400, 0));
-            SetButtonSize(backBtnGO, new Vector2(70, 50));
+            SetButtonSize(backBtnGO, new Vector2(88, 88));
             ApplySprite(backBtnGO.GetComponent<Image>(), _btnCircle);
-            var hintBtnGO = CreateButton(header.transform, "HintButton",
-                "Dica", new Vector2(400, 0));
-            SetButtonSize(hintBtnGO, new Vector2(100, 50));
+            var backBtnRect = backBtnGO.GetComponent<RectTransform>();
+            backBtnRect.anchorMin = new Vector2(0f, 1f);
+            backBtnRect.anchorMax = new Vector2(0f, 1f);
+            backBtnRect.pivot = new Vector2(0f, 1f);
+            backBtnRect.anchoredPosition = new Vector2(24f, -24f);
+            var backBtnLabel = backBtnGO.GetComponentInChildren<TextMeshProUGUI>();
+            if (backBtnLabel != null) backBtnLabel.fontSize = 28;
+
+            // --- Pause button (top-right, leftmost) ---
             var pauseBtnGO = CreateButton(header.transform, "PauseButton",
-                "||", new Vector2(330, 0));
-            SetButtonSize(pauseBtnGO, new Vector2(70, 50));
+                "||", Vector2.zero);
+            SetButtonSize(pauseBtnGO, new Vector2(56, 56));
             ApplySprite(pauseBtnGO.GetComponent<Image>(), _btnCircle);
+            var pauseBtnRect = pauseBtnGO.GetComponent<RectTransform>();
+            pauseBtnRect.anchorMin = new Vector2(1f, 1f);
+            pauseBtnRect.anchorMax = new Vector2(1f, 1f);
+            pauseBtnRect.pivot = new Vector2(1f, 1f);
+            pauseBtnRect.anchoredPosition = new Vector2(-152f, -16f);
+            var pauseBtnLabel = pauseBtnGO.GetComponentInChildren<TextMeshProUGUI>();
+            if (pauseBtnLabel != null) pauseBtnLabel.fontSize = 24;
+
+            // --- Hint/Dica button (top-right, rightmost) ---
+            var hintBtnGO = CreateButton(header.transform, "HintButton",
+                "Dica", Vector2.zero);
+            SetButtonSize(hintBtnGO, new Vector2(100, 56));
+            var hintBtnRect = hintBtnGO.GetComponent<RectTransform>();
+            hintBtnRect.anchorMin = new Vector2(1f, 1f);
+            hintBtnRect.anchorMax = new Vector2(1f, 1f);
+            hintBtnRect.pivot = new Vector2(1f, 1f);
+            hintBtnRect.anchoredPosition = new Vector2(-24f, -16f);
+            var hintBtnLabel = hintBtnGO.GetComponentInChildren<TextMeshProUGUI>();
+            if (hintBtnLabel != null) hintBtnLabel.fontSize = 20;
 
             // ═══ GridView ═══
             var gridViewGO = new GameObject("GridView");
@@ -874,6 +1003,65 @@ namespace RagazziStudios.Editor
             Wire(pauseScript, "_canvasGroup", pauseCG);
             Wire(pauseScript, "_popupPanel", pausePanelRect);
 
+            // ═══ TutorialPopup (hidden) ═══
+            var tutorialPopupGO = new GameObject("TutorialPopup");
+            tutorialPopupGO.transform.SetParent(canvasGO.transform, false);
+            var tutorialPopupRect = tutorialPopupGO.AddComponent<RectTransform>();
+            tutorialPopupRect.anchorMin = Vector2.zero;
+            tutorialPopupRect.anchorMax = Vector2.one;
+            tutorialPopupRect.sizeDelta = Vector2.zero;
+            var tutorialBg = tutorialPopupGO.AddComponent<Image>();
+            tutorialBg.color = _colorOverlay;
+            var tutorialCG = tutorialPopupGO.AddComponent<CanvasGroup>();
+
+            var tutorialPanel = new GameObject("PopupPanel");
+            tutorialPanel.transform.SetParent(tutorialPopupGO.transform, false);
+            var tutorialPanelImg = tutorialPanel.AddComponent<Image>();
+            tutorialPanelImg.color = _colorPanel;
+            ApplySprite(tutorialPanelImg, _panelPopup);
+            var tutorialPanelRect = tutorialPanel.GetComponent<RectTransform>();
+            tutorialPanelRect.anchorMin = new Vector2(0.08f, 0.2f);
+            tutorialPanelRect.anchorMax = new Vector2(0.92f, 0.8f);
+            tutorialPanelRect.sizeDelta = Vector2.zero;
+
+            var tutTitleGO = CreateTextElement(tutorialPanel.transform, "Title",
+                "Como Jogar", 34, TextAlignmentOptions.Center, new Vector2(0, 180));
+            var tutTitleTMP = tutTitleGO.GetComponent<TMP_Text>();
+            if (tutTitleTMP != null) tutTitleTMP.color = _colorTextOnColor;
+
+            var tutStep1GO = CreateTextElement(tutorialPanel.transform, "Step1",
+                "1. Encontre as palavras escondidas no grid",
+                20, TextAlignmentOptions.Left, new Vector2(0, 100));
+            var tutStep1TMP = tutStep1GO.GetComponent<TMP_Text>();
+            if (tutStep1TMP != null) tutStep1TMP.color = _colorTextOnColor;
+
+            var tutStep2GO = CreateTextElement(tutorialPanel.transform, "Step2",
+                "2. Arraste o dedo sobre as letras para selecionar",
+                20, TextAlignmentOptions.Left, new Vector2(0, 40));
+            var tutStep2TMP = tutStep2GO.GetComponent<TMP_Text>();
+            if (tutStep2TMP != null) tutStep2TMP.color = _colorTextOnColor;
+
+            var tutStep3GO = CreateTextElement(tutorialPanel.transform, "Step3",
+                "3. Use o bot\u00e3o Dica se precisar de ajuda",
+                20, TextAlignmentOptions.Left, new Vector2(0, -20));
+            var tutStep3TMP = tutStep3GO.GetComponent<TMP_Text>();
+            if (tutStep3TMP != null) tutStep3TMP.color = _colorTextOnColor;
+
+            var tutDismissBtnGO = CreateButton(tutorialPanel.transform, "DismissButton",
+                "Entendi!", new Vector2(0, -140));
+
+            tutorialPopupGO.SetActive(false);
+            var tutScript = tutorialPopupGO.AddComponent<Game.UI.Popups.TutorialPopup>();
+            Wire(tutScript, "_titleText", tutTitleGO.GetComponent<TMP_Text>());
+            Wire(tutScript, "_step1Text", tutStep1GO.GetComponent<TMP_Text>());
+            Wire(tutScript, "_step2Text", tutStep2GO.GetComponent<TMP_Text>());
+            Wire(tutScript, "_step3Text", tutStep3GO.GetComponent<TMP_Text>());
+            Wire(tutScript, "_dismissButton", tutDismissBtnGO.GetComponent<Button>());
+            Wire(tutScript, "_dismissButtonText",
+                tutDismissBtnGO.transform.Find("Label").GetComponent<TMP_Text>());
+            Wire(tutScript, "_canvasGroup", tutorialCG);
+            Wire(tutScript, "_popupPanel", tutorialPanelRect);
+
             // ═══ GameplayController ═══
             var gpGO = new GameObject("GameplayController");
             var gpScript = gpGO.AddComponent<Game.UI.GameplayController>();
@@ -889,7 +1077,23 @@ namespace RagazziStudios.Editor
             Wire(gpScript, "_backButton", backBtnGO.GetComponent<Button>());
             Wire(gpScript, "_winPopupPrefab", winPopupGO);
             Wire(gpScript, "_pausePopupPrefab", pausePopupGO);
+            Wire(gpScript, "_tutorialPopupPrefab", tutorialPopupGO);
             Wire(gpScript, "_popupParent", canvasGO.transform);
+
+            // --- SFX AudioSource + clips ---
+            var sfxSource = gpGO.AddComponent<AudioSource>();
+            sfxSource.playOnAwake = false;
+            Wire(gpScript, "_sfxSource", sfxSource);
+            var wordFoundClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/_Project/Audio/SFX/word_found.wav");
+            var allFoundClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/_Project/Audio/SFX/all_words_found.wav");
+            var invalidClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/_Project/Audio/SFX/invalid_selection.wav");
+            var hintClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/_Project/Audio/SFX/hint_used.wav");
+            var clickClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/_Project/Audio/SFX/button_click.wav");
+            if (wordFoundClip != null) Wire(gpScript, "_wordFoundClip", wordFoundClip);
+            if (allFoundClip != null) Wire(gpScript, "_allWordsFoundClip", allFoundClip);
+            if (invalidClip != null) Wire(gpScript, "_invalidSelectionClip", invalidClip);
+            if (hintClip != null) Wire(gpScript, "_hintUsedClip", hintClip);
+            if (clickClip != null) Wire(gpScript, "_buttonClickClip", clickClip);
 
             ApplyFontsToScene();
             SaveScene(scene, "Game");
@@ -1279,7 +1483,7 @@ namespace RagazziStudios.Editor
 
             var rect = go.AddComponent<RectTransform>();
             rect.anchoredPosition = position;
-            rect.sizeDelta = new Vector2(60, 30);
+            rect.sizeDelta = new Vector2(84, 40);
 
             var bgGO = new GameObject("Background");
             bgGO.transform.SetParent(go.transform, false);

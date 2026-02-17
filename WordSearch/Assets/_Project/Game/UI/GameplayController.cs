@@ -37,15 +37,20 @@ namespace RagazziStudios.Game.UI
         [Header("Popups")]
         [SerializeField] private GameObject _winPopupPrefab;
         [SerializeField] private GameObject _pausePopupPrefab;
+        [SerializeField] private GameObject _tutorialPopupPrefab;
         [SerializeField] private Transform _popupParent;
 
         [Header("Feedback")]
         [SerializeField] private AudioSource _sfxSource;
         [SerializeField] private AudioClip _wordFoundClip;
         [SerializeField] private AudioClip _allWordsFoundClip;
+        [SerializeField] private AudioClip _invalidSelectionClip;
+        [SerializeField] private AudioClip _hintUsedClip;
+        [SerializeField] private AudioClip _buttonClickClip;
 
         private WordFinder _wordFinder;
         private LevelManager _levelManager;
+        private bool _sfxEnabled = true;
 
         private void Start()
         {
@@ -56,6 +61,10 @@ namespace RagazziStudios.Game.UI
                 SceneManager.LoadScene("Boot");
                 return;
             }
+
+            // Ler preferência de SFX
+            if (ServiceLocator.TryGet<Core.Infrastructure.Storage.IStorageService>(out var sfxStorage))
+                _sfxEnabled = sfxStorage.GetBool(Core.Infrastructure.Storage.StorageKeys.SOUND_ENABLED, true);
 
             _levelManager = GameManager.Instance.LevelManager;
             if (_levelManager == null)
@@ -96,6 +105,23 @@ namespace RagazziStudios.Game.UI
 
             // Atualizar header
             UpdateHeader();
+
+            // Tutorial de primeiro uso
+            ShowTutorialIfFirstTime();
+        }
+
+        private void ShowTutorialIfFirstTime()
+        {
+            if (_tutorialPopupPrefab == null || _popupParent == null) return;
+
+            if (ServiceLocator.TryGet<Core.Infrastructure.Storage.IStorageService>(out var storage))
+            {
+                if (storage.GetBool(Core.Infrastructure.Storage.StorageKeys.TUTORIAL_COMPLETED, false))
+                    return; // já viu o tutorial
+            }
+
+            var popup = Instantiate(_tutorialPopupPrefab, _popupParent);
+            popup.SetActive(true);
         }
 
         private void Update()
@@ -189,6 +215,9 @@ namespace RagazziStudios.Game.UI
             {
                 var posCopy = new List<(int row, int col)>(positions);
                 StartCoroutine(InvalidSelectionFeedback(posCopy));
+
+                // SFX de erro
+                PlaySfx(_invalidSelectionClip);
             }
         }
 
@@ -252,8 +281,7 @@ namespace RagazziStudios.Game.UI
             UpdateProgress();
 
             // SFX
-            if (_sfxSource != null && _wordFoundClip != null)
-                _sfxSource.PlayOneShot(_wordFoundClip);
+            PlaySfx(_wordFoundClip);
 
             Debug.Log($"[Gameplay] Word found: {placement.DisplayWord}");
         }
@@ -267,8 +295,7 @@ namespace RagazziStudios.Game.UI
                 Components.ConfettiEffect.Create(_popupParent);
 
             // SFX de vitória
-            if (_sfxSource != null && _allWordsFoundClip != null)
-                _sfxSource.PlayOneShot(_allWordsFoundClip);
+            PlaySfx(_allWordsFoundClip);
 
             // Completar nível via LevelManager
             _levelManager.CompleteLevel();
@@ -324,10 +351,12 @@ namespace RagazziStudios.Game.UI
             _levelManager.RegisterHint();
 
             UpdateProgress();
+            PlaySfx(_hintUsedClip);
         }
 
         private void OnPauseClicked()
         {
+            PlaySfx(_buttonClickClip);
             GameManager.Instance?.StateMachine.TransitionTo(GameStateType.Pause);
             Time.timeScale = 0f;
 
@@ -340,6 +369,8 @@ namespace RagazziStudios.Game.UI
 
         private void OnBackClicked()
         {
+            PlaySfx(_buttonClickClip);
+
             // Registrar que saiu sem completar
             _levelManager.QuitLevel(_wordFinder.FoundCount);
 
@@ -349,6 +380,15 @@ namespace RagazziStudios.Game.UI
 
             GameManager.Instance?.StateMachine.TransitionTo(targetState);
             GameManager.Instance?.LoadScene("MainMenu");
+        }
+
+        /// <summary>
+        /// Toca um clip de SFX respeitando a preferência de som do jogador.
+        /// </summary>
+        private void PlaySfx(AudioClip clip)
+        {
+            if (!_sfxEnabled || _sfxSource == null || clip == null) return;
+            _sfxSource.PlayOneShot(clip);
         }
     }
 }

@@ -96,14 +96,14 @@
 | REV-002 | Mapear decisões para manter/ajustar/remover | ✅ | [Discussion_06_Revision_Checklist](../Brainstorm/Discussion_06_Revision_Checklist.md) | [ActionPlan](ActionPlan.md) | 2026-02-17 | 2026-02-17 |
 | REV-003 | Criar backlog priorizado P0/P1/P2 | ✅ | [Discussion_06_Revision_Checklist](../Brainstorm/Discussion_06_Revision_Checklist.md) | [ActionPlan](ActionPlan.md) | 2026-02-17 | 2026-02-17 |
 | ARQ-001 | Revisar arquitetura Core/Game e state machine | ✅ | [Discussion_06_Revision_Checklist](../Brainstorm/Discussion_06_Revision_Checklist.md) | [ActionPlan](ActionPlan.md) | 2026-02-17 | 2026-02-17 |
-| ARQ-002 | Revisar estratégia mock/real de serviços | 🔵 | [Discussion_06_Revision_Checklist](../Brainstorm/Discussion_06_Revision_Checklist.md) | [ActionPlan](ActionPlan.md) | 2026-02-17 | — |
+| ARQ-002 | Revisar estratégia mock/real de serviços | 🔴 | [Discussion_06_Revision_Checklist](../Brainstorm/Discussion_06_Revision_Checklist.md) | [ActionPlan](ActionPlan.md) | 2026-02-17 | — |
 | ARQ-003 | Revisar impacto do modo desafio no funil MVP | ✅ | [Discussion_06_Revision_Checklist](../Brainstorm/Discussion_06_Revision_Checklist.md) | [ActionPlan](ActionPlan.md) | 2026-02-17 | 2026-02-17 |
-| UX-006 | Revisão heurística do fluxo completo | 🔵 | [Discussion_06_Revision_Checklist](../Brainstorm/Discussion_06_Revision_Checklist.md) | [ActionPlan](ActionPlan.md) | 2026-02-17 | — |
+| UX-006 | Revisão heurística do fluxo completo | ✅ | [Discussion_06_Revision_Checklist](../Brainstorm/Discussion_06_Revision_Checklist.md) | [ActionPlan](ActionPlan.md) | 2026-02-17 | 2026-02-17 |
 | UX-007 | Auditoria de contraste e tipografia | ✅ | [Discussion_06_Revision_Checklist](../Brainstorm/Discussion_06_Revision_Checklist.md) | [ActionPlan](ActionPlan.md) | 2026-02-17 | 2026-02-17 |
-| UX-008 | Validação em múltiplas resoluções Android | 🔵 | [Discussion_06_Revision_Checklist](../Brainstorm/Discussion_06_Revision_Checklist.md) | [ActionPlan](ActionPlan.md) | 2026-02-17 | — |
+| UX-008 | Validação em múltiplas resoluções Android | ✅ | [Discussion_06_Revision_Checklist](../Brainstorm/Discussion_06_Revision_Checklist.md) | [ActionPlan](ActionPlan.md) | 2026-02-17 | 2026-02-17 |
 | UX-009 | Revisar consistência tema vs hardcoded | ✅ | [Discussion_06_Revision_Checklist](../Brainstorm/Discussion_06_Revision_Checklist.md) | [ActionPlan](ActionPlan.md) | 2026-02-17 | 2026-02-17 |
-| TST-007 | Regressão funcional pós-ajustes | 🔵 | [Discussion_06_Revision_Checklist](../Brainstorm/Discussion_06_Revision_Checklist.md) | [ActionPlan](ActionPlan.md) | 2026-02-17 | — |
-| DOC-009 | Publicar relatório consolidado da revisão | 🔵 | [Discussion_06_Revision_Checklist](../Brainstorm/Discussion_06_Revision_Checklist.md) | [ActionPlan](ActionPlan.md) | 2026-02-17 | — |
+| TST-007 | Regressão funcional pós-ajustes | ✅ | [Discussion_06_Revision_Checklist](../Brainstorm/Discussion_06_Revision_Checklist.md) | [ActionPlan](ActionPlan.md) | 2026-02-17 | 2026-02-17 |
+| DOC-009 | Publicar relatório consolidado da revisão | ✅ | [Discussion_06_Revision_Checklist](../Brainstorm/Discussion_06_Revision_Checklist.md) | [ActionPlan](ActionPlan.md) | 2026-02-17 | 2026-02-17 |
 
 ---
 
@@ -415,18 +415,18 @@
 
 | Bloco | Cenário | Resultado esperado | Status |
 |------|---------|--------------------|--------|
-| Navegação | `Boot → MainMenu → Category → Level → Game` | Fluxo sem travas, telas corretas e sem erros de console | 🔵 |
-| Gameplay | Seleção de palavra válida/ inválida/ dica | Estados visuais corretos e feedback coerente | 🔵 |
-| Progressão | Completar nível e abrir próximo | Atualização de progresso e desbloqueio corretos | ⬜ |
-| Popups | Abrir/fechar `Pause`, concluir em `WinPopup`, retornar ao menu | Ações funcionais sem quebrar estado | 🔵 |
-| Modo desafio | Entrar no desafio e concluir partida | Fluxo paralelo funcional sem quebrar funil principal | ⬜ |
-| Build sanity | Regenerar cenas/assets e executar novamente | Sem regressão de compilação após regeneração | 🔵 |
+| Navegação | `Boot → MainMenu → Category → Level → Game` | Fluxo sem travas, telas corretas e sem erros de console | ✅ |
+| Gameplay | Seleção de palavra válida/ inválida/ dica | Estados visuais corretos e feedback coerente | ✅ |
+| Progressão | Completar nível e abrir próximo | Atualização de progresso e desbloqueio corretos | ✅ |
+| Popups | Abrir/fechar `Pause`, concluir em `WinPopup`, retornar ao menu | Ações funcionais sem quebrar estado | ✅ |
+| Modo desafio | Entrar no desafio e concluir partida | Fluxo paralelo funcional sem quebrar funil principal | ✅ |
+| Build sanity | Regenerar cenas/assets e executar novamente | Sem regressão de compilação após regeneração | ✅ |
 
 #### Rodada atual de validação (2026-02-17)
 
-- Execução manual em device ativa a cada ajuste (regenerando fontes/sprites/cenas).
-- Problemas de legibilidade identificados em gameplay/popups foram corrigidos e estão em reteste.
-- Próximo checkpoint: consolidar resultado final dos blocos `Popups`, `Gameplay` e `Progressão` após novo ciclo no Unity.
+- Execução manual em device realizada em ciclos com regeneração de fontes/sprites/cenas.
+- Ajustes de legibilidade (gameplay, desafio e popups) validados com sucesso nas rodadas finais.
+- Blocos do checklist consolidados para encerramento formal do `TST-007`.
 
 #### Critério de aceite TST-007
 
@@ -496,6 +496,26 @@
 | 2026-02-17 | UX-007 | Ajuste de legibilidade para dica no desafio | `LetterCell` usa texto de alto contraste no estado `Hint` e `SelectionLine` teve opacidade reduzida |
 | 2026-02-17 | UX-007 | Ajuste de contraste na pausa | Título do `PausePopup` forçado para alto contraste no `SceneCreator` |
 | 2026-02-17 | REV-003 | Fechamento promovido | Backlog P0/P1/P2 consolidado e em uso como guia ativo da Fase 4 |
+| 2026-02-17 | ARQ-002 | Gate técnico de release aplicado | `BuildScript` bloqueia `APK Release/AAB` quando `_useMockServices=true` no `Boot.unity` |
+| 2026-02-17 | TST-007 | Fechamento promovido | Checklist de regressão concluído nos blocos críticos após validações no device |
+| 2026-02-17 | ARQ-002 | Status atualizado para bloqueado | Dependências externas pendentes (SDKs reais, IDs de produção e validação de consentimento) |
+| 2026-02-17 | UX-008 | Ajuste responsivo em navegação aplicado | Botões de voltar ampliados/reposicionados em Category, Level e Challenge para melhor toque em device |
+| 2026-02-17 | UX-007 | Ajuste de formatação da SettingsPopup aplicado | Layout/escala de labels, toggles e dropdown refinados para melhor leitura em telas altas |
+| 2026-02-17 | UX-007 | Ajuste de contraste em cards de categoria aplicado | `CategoryButtonItem` passou a usar texto por contraste sobre cor do card |
+| 2026-02-17 | UX-008 | Correção estrutural da SettingsPopup aplicada | Layout convertido para anchors por colunas (labels à esquerda e controles à direita) para estabilidade em telas altas |
+| 2026-02-17 | UX-008 | Fix responsivo em runtime para SettingsPopup | `SettingsPopup` agora aplica layout por anchors ao abrir, garantindo elementos dentro do painel em telas altas |
+| 2026-02-17 | UX-008 | Padronização do botão voltar na Game | Botão voltar da tela de jogo equalizado com demais telas: 88×88, âncora top-left, margem 24px |
+| 2026-02-17 | UX-008 | Reposicionamento de Pausa e Dica no header Game | Ambos ancorados no top-right com espaçamento adequado; Pausa à esquerda de Dica, mesma altura |
+| 2026-02-17 | UX-008 | Realocação do timer na Game | Timer movido de posição central (sobreposto ao botão voltar) para âncora top-left ao lado do botão voltar |
+| 2026-02-17 | UX-006 | Fechamento promovido | Revisão heurística consolidada: fricções mapeadas por etapa, onboarding delegado a UX-004, gameplay validado como sólido |
+| 2026-02-17 | UX-008 | Fechamento promovido | P0 de responsividade eliminados via iteração device real; ajustes em header/nav/settings/timer aplicados e confirmados |
+| 2026-02-17 | DOC-009 | Fechamento promovido | Relatório consolidado em `11_Review_Report.md` com status final de todas as ações da Fase 4 |
+| 2026-02-17 | UX-004 | Tutorial de primeiro uso implementado | `TutorialPopup.cs` criado com 3 passos instrucionais, flag `TUTORIAL_COMPLETED` persiste no storage, integrado ao `GameplayController.Start()` e criado no `SceneCreator` |
+| 2026-02-17 | AUD-001 | SFX procedurais gerados | `SfxGenerator.cs` gera 5 WAVs: word_found, all_words_found, button_click, hint_used, invalid_selection |
+| 2026-02-17 | AUD-002 | Música ambiente gerada | `MusicGenerator.cs` gera loop ambient 32s com progressão I-vi-IV-V |
+| 2026-02-17 | AUD-003 | SFX integrados no gameplay | AudioSource + clips wired via SceneCreator; PlaySfx com pref check em 5 eventos |
+| 2026-02-17 | AUD-004 | MusicManager implementado | Singleton DontDestroyOnLoad, loop ambient, respeita MUSIC_ENABLED, criado na Boot scene |
+| 2026-02-17 | AUD-005 | Toggles Som/Música corrigidos | Som controla SFX via flag (sem AudioListener hack); Música controla MusicManager.SetEnabled |
 
 ---
 

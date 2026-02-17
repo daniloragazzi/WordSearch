@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -61,6 +62,9 @@ namespace RagazziStudios.Editor
         {
             ConfigureScenes();
 
+            if (!ValidateReleaseGates("AAB (Play Store)"))
+                return;
+
             string path = GetBuildPath($"{APP_NAME}.aab");
 
             EditorUserBuildSettings.buildAppBundle = true;
@@ -120,6 +124,9 @@ namespace RagazziStudios.Editor
         public static void BuildAPK(bool isDevelopment = true)
         {
             ConfigureScenes();
+
+            if (!isDevelopment && !ValidateReleaseGates("APK (Release)"))
+                return;
 
             string suffix = isDevelopment ? "_dev" : "";
             string path = GetBuildPath($"{APP_NAME}{suffix}.apk");
@@ -203,6 +210,46 @@ namespace RagazziStudios.Editor
             {
                 return 0;
             }
+        }
+
+        // ═══════════════════════════════════════════════════
+        //  Release Gates
+        // ═══════════════════════════════════════════════════
+
+        private static bool ValidateReleaseGates(string buildType)
+        {
+            if (IsMockServicesEnabledInBootScene())
+            {
+                Debug.LogError($"[BuildScript] ❌ {buildType} bloqueado: GameManager está com _useMockServices=true no Boot scene.");
+                Debug.LogError("[BuildScript] Ajuste _useMockServices para false antes de gerar build de produção.");
+                return false;
+            }
+
+            Debug.Log($"[BuildScript] ✅ Release gates aprovados para {buildType}.");
+            return true;
+        }
+
+        private static bool IsMockServicesEnabledInBootScene()
+        {
+            const string bootScenePath = "Assets/_Project/Scenes/Boot.unity";
+
+            if (!File.Exists(bootScenePath))
+            {
+                Debug.LogError($"[BuildScript] ❌ Cena não encontrada: {bootScenePath}");
+                return true;
+            }
+
+            string content = File.ReadAllText(bootScenePath);
+
+            // YAML esperado no GameManager: "_useMockServices: 1" ou "_useMockServices: 0"
+            var match = Regex.Match(content, @"_useMockServices:\s*(\d)");
+            if (!match.Success)
+            {
+                Debug.LogWarning("[BuildScript] ⚠️ Campo _useMockServices não encontrado no Boot scene; gate conservador aplicado.");
+                return true;
+            }
+
+            return match.Groups[1].Value == "1";
         }
     }
 }

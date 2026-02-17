@@ -25,5 +25,8 @@ namespace RagazziStudios.Core.Infrastructure.Storage
         // Sessão
         public const string FIRST_LAUNCH = "first_launch";
         public const string TOTAL_SESSIONS = "total_sessions";
+
+        // Tutorial
+        public const string TUTORIAL_COMPLETED = "tutorial_completed";
     }
 }

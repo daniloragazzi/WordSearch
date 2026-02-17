@@ -118,16 +118,45 @@ namespace RagazziStudios.Game.UI.Screens
             var bgImage = GetComponent<Image>();
             if (bgImage == null) return;
 
+            Color categoryColor;
+
             if (_theme != null)
             {
-                bgImage.color = _theme.GetCategoryColor(categoryId);
+                categoryColor = _theme.GetCategoryColor(categoryId);
+                bgImage.color = categoryColor;
+                ApplyContrastTextColor(_theme.GetContrastText(categoryColor));
                 return;
             }
 
             if (CategoryColors.TryGetValue(categoryId, out var color))
             {
-                bgImage.color = color;
+                categoryColor = color;
+                bgImage.color = categoryColor;
+                ApplyContrastTextColor(GetContrastTextFallback(categoryColor));
             }
+        }
+
+        private void ApplyContrastTextColor(Color textColor)
+        {
+            if (_iconText != null) _iconText.color = textColor;
+            if (_nameText != null) _nameText.color = textColor;
+            if (_progressText != null)
+            {
+                Color progressColor = textColor;
+                progressColor.a = 0.85f;
+                _progressText.color = progressColor;
+            }
+        }
+
+        private static Color GetContrastTextFallback(Color backgroundColor)
+        {
+            float luminance = 0.299f * backgroundColor.r +
+                              0.587f * backgroundColor.g +
+                              0.114f * backgroundColor.b;
+
+            return luminance > 0.5f
+                ? new Color(0.12f, 0.14f, 0.20f)
+                : Color.white;
         }
 
         private void ApplyCategoryIcon(CategoryData category)

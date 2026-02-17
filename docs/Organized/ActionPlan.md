@@ -135,11 +135,11 @@
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| AUD-001 | Criar/obter SFX (word found, all found, tap, hint, error) | ⬜ | — | Assets royalty-free ou gerados (sfxr/jsfxr) |
-| AUD-002 | Criar/obter música de fundo (loop) | ⬜ | — | 1-2 tracks ambient/lo-fi, royalty-free |
-| AUD-003 | Integrar SFX no gameplay | ⬜ | AUD-001 | Conectar AudioClips aos eventos existentes |
-| AUD-004 | Implementar MusicManager (play/pause/volume) | ⬜ | AUD-002 | Singleton, crossfade, respeitar toggle Settings |
-| AUD-005 | Corrigir toggle Som/Música no Settings | ⬜ | AUD-003, AUD-004 | Separar volume SFX vs Music (não usar AudioListener global) |
+| AUD-001 | Criar/obter SFX (word found, all found, tap, hint, error) | ✅ | — | `SfxGenerator.cs` gera 5 WAVs procedurais via menu Unity |
+| AUD-002 | Criar/obter música de fundo (loop) | ✅ | — | `MusicGenerator.cs` gera loop ambient 32s procedural |
+| AUD-003 | Integrar SFX no gameplay | ✅ | AUD-001 | AudioSource + 5 clips wired no SceneCreator; PlaySfx em word/invalid/hint/pause/back |
+| AUD-004 | Implementar MusicManager (play/pause/volume) | ✅ | AUD-002 | `MusicManager.cs` singleton DontDestroyOnLoad, criado na Boot scene |
+| AUD-005 | Corrigir toggle Som/Música no Settings | ✅ | AUD-003, AUD-004 | Som controla SFX via flag; Música controla MusicManager.SetEnabled |
 
 ### 3.2 — Fonte e Tipografia
 
@@ -177,7 +177,7 @@
 | UX-001 | Implementar Pause Popup | ✅ | — | PausePopup.cs com Time.timeScale=0, animações unscaled |
 | UX-002 | Mostrar timer durante gameplay | ✅ | — | Timer M:SS no header, atualiza via Update() |
 | UX-003 | Melhorar visual da SelectionLine (endpoints arredondados) | ✅ | — | Sprite pílula procedural 9-slice + linhas coloridas persistentes por palavra |
-| UX-004 | Tutorial de primeiro uso | ⬜ | — | Overlay simples mostrando como jogar |
+| UX-004 | Tutorial de primeiro uso | ✅ | — | TutorialPopup.cs com 3 passos, flag `TUTORIAL_COMPLETED` no storage |
 | UX-005 | Tela de loading entre cenas | ✅ | ANI-001 | Spinner rotativo + progress bar azul durante LoadSceneAsync |
 
 ### 3.6 — Teste e Build Final
@@ -214,24 +214,24 @@
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
 | ARQ-001 | Revisar decisões de arquitetura Core/Game e state machine | ✅ | REV-001 | Aderência validada v0.1; ajustes pontuais registrados no tracker |
-| ARQ-002 | Revisar estratégia de serviços mock/real (Ads/Analytics/Storage) | 🔵 | REV-001 | Validar readiness para produção |
+| ARQ-002 | Revisar estratégia de serviços mock/real (Ads/Analytics/Storage) | 🔴 | REV-001 | Bloqueado por dependências externas de produção (SDK/IDs/consentimento) |
 | ARQ-003 | Revisar política de extensão do modo desafio no fluxo principal | ✅ | ARQ-001 | Política definida v1: desafio segmentado por modo e KPI separado do funil MVP |
 
 ### 4.3 — Usabilidade e Layout Visual
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| UX-006 | Executar revisão heurística do fluxo completo (Menu → Vitória) | 🔵 | REV-001 | Avaliação v0.1 em andamento no tracker |
+| UX-006 | Executar revisão heurística do fluxo completo (Menu → Vitória) | ✅ | REV-001 | Fricções mapeadas e classificadas; onboarding delegado a UX-004 |
 | UX-007 | Auditar contraste, tipografia e legibilidade por tela | ✅ | UX-006 | Contraste e legibilidade ajustados/validados na rodada atual |
-| UX-008 | Validar responsividade em múltiplas resoluções Android | 🔵 | UX-006 | Matriz de validação iniciada no tracker; evidências pendentes |
+| UX-008 | Validar responsividade em múltiplas resoluções Android | ✅ | UX-006 | Validação iterativa em device real; P0 eliminados; ajustes de header/nav/settings aplicados |
 | UX-009 | Revisar consistência visual (tema vs cores hardcoded) | ✅ | UX-007 | Migração e validação visual consolidadas (gates fechados no tracker) |
 
 ### 4.4 — Validação e Fechamento
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| TST-007 | Rodar regressão funcional após ajustes da revisão | 🔵 | ARQ-003, UX-009 | Checklist de regressão iniciado no tracker |
-| DOC-009 | Publicar relatório consolidado da revisão | 🔵 | REV-003, TST-007 | Consolidação final iniciada em `11_Review_Report.md` |
+| TST-007 | Rodar regressão funcional após ajustes da revisão | ✅ | ARQ-003, UX-009 | Regressão funcional consolidada e encerrada no tracker |
+| DOC-009 | Publicar relatório consolidado da revisão | ✅ | REV-003, TST-007 | Relatório final consolidado em `11_Review_Report.md` |
 
 ---
 
@@ -240,24 +240,28 @@
 > O resumo abaixo reflete o histórico até a Fase 3.
 > A Fase 4 (Revisão Estruturada) é acompanhada no `Execution_Tracker.md`.
 
-| Etapa | Total | ⬜ | ⏸️ | 🔵 | ✅ | % |
-|-------|-------|-----|-----|-----|-----|---|
-| 2.1 Setup | 4 | 0 | 0 | 0 | 4 | 100% |
-| 2.2 Domain | 6 | 0 | 0 | 0 | 6 | 100% |
-| 2.3 Infrastructure | 4 | 0 | 0 | 0 | 4 | 100% |
-| 2.4 Application | 3 | 0 | 0 | 0 | 3 | 100% |
-| 2.5 Dados | 5 | 0 | 0 | 0 | 5 | 100% |
-| 2.6 UI/Cenas | 11 | 0 | 0 | 0 | 11 | 100% |
-| 2.7 Design | 5 | 0 | 0 | 0 | 5 | 100% |
-| 2.8 Testes/Integração | 6 | 0 | 0 | 0 | 6 | 100% |
-| 2.9 Build/Publicação | 6 | 0 | 4 | 0 | 2 | 33% |
-| 3.1 Áudio | 5 | 5 | 0 | 0 | 0 | 0% |
-| 3.2 Fonte | 3 | 0 | 0 | 0 | 3 | 100% |
-| 3.3 UI/Sprites | 6 | 0 | 0 | 0 | 6 | 100% |
-| 3.4 Animações | 5 | 0 | 0 | 0 | 5 | 100% |
-| 3.5 Gameplay/UX | 5 | 1 | 0 | 0 | 4 | 80% |
-| 3.6 Teste Final | 2 | 0 | 0 | 0 | 2 | 100% |
-| **TOTAL** | **76** | **6** | **4** | **0** | **66** | **87%** |
+| Etapa | Total | ⬜ | ⏸️ | 🔵 | 🔴 | ✅ | % |
+|-------|-------|-----|-----|-----|-----|-----|---|
+| 2.1 Setup | 4 | 0 | 0 | 0 | 0 | 4 | 100% |
+| 2.2 Domain | 6 | 0 | 0 | 0 | 0 | 6 | 100% |
+| 2.3 Infrastructure | 4 | 0 | 0 | 0 | 0 | 4 | 100% |
+| 2.4 Application | 3 | 0 | 0 | 0 | 0 | 3 | 100% |
+| 2.5 Dados | 5 | 0 | 0 | 0 | 0 | 5 | 100% |
+| 2.6 UI/Cenas | 11 | 0 | 0 | 0 | 0 | 11 | 100% |
+| 2.7 Design | 5 | 0 | 0 | 0 | 0 | 5 | 100% |
+| 2.8 Testes/Integração | 6 | 0 | 0 | 0 | 0 | 6 | 100% |
+| 2.9 Build/Publicação | 6 | 0 | 4 | 0 | 0 | 2 | 33% |
+| 3.1 Áudio | 5 | 0 | 0 | 0 | 0 | 5 | 100% |
+| 3.2 Fonte | 3 | 0 | 0 | 0 | 0 | 3 | 100% |
+| 3.3 UI/Sprites | 6 | 0 | 0 | 0 | 0 | 6 | 100% |
+| 3.4 Animações | 5 | 0 | 0 | 0 | 0 | 5 | 100% |
+| 3.5 Gameplay/UX | 5 | 0 | 0 | 0 | 0 | 5 | 100% |
+| 3.6 Teste Final | 2 | 0 | 0 | 0 | 0 | 2 | 100% |
+| 4.1 Governança | 3 | 0 | 0 | 0 | 0 | 3 | 100% |
+| 4.2 Arquitetura | 3 | 0 | 0 | 0 | 1 | 2 | 67% |
+| 4.3 UX/Layout | 4 | 0 | 0 | 0 | 0 | 4 | 100% |
+| 4.4 Validação | 2 | 0 | 0 | 0 | 0 | 2 | 100% |
+| **TOTAL** | **88** | **0** | **4** | **0** | **1** | **83** | **94%** |
 
 ---
 

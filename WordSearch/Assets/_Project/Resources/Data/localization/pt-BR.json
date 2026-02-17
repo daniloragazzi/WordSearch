@@ -127,6 +127,26 @@
         {
             "key": "error_generic",
             "value": "Algo deu errado. Tente novamente."
+        },
+        {
+            "key": "tutorial_title",
+            "value": "Como Jogar"
+        },
+        {
+            "key": "tutorial_step1",
+            "value": "1. Encontre as palavras escondidas no grid"
+        },
+        {
+            "key": "tutorial_step2",
+            "value": "2. Arraste o dedo sobre as letras para selecionar"
+        },
+        {
+            "key": "tutorial_step3",
+            "value": "3. Use o botão Dica se precisar de ajuda"
+        },
+        {
+            "key": "tutorial_dismiss",
+            "value": "Entendi!"
         }
     ]
 }
