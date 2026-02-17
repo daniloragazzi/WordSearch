@@ -24,7 +24,7 @@ namespace RagazziStudios.Editor
             GeneratePanelSprites();
             GenerateGridSprites();
             GenerateCategoryIcons();
-            GenerateAppIcon();
+            // App icon agora é gerado pelo AppIconGenerator (menu separado)
             GenerateSplashScreen();
 
             AssetDatabase.Refresh();
