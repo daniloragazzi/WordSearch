@@ -1,6 +1,6 @@
 # Discussion 08 — Termo-Like: Escopo Detalhado do MVP
 
-> **Status:** 🟡 Em discussão
+> **Status:** ✅ Concluído
 > **Data:** 2026-02-17
 > **Objetivo:** Definir escopo completo do MVP — telas, fluxo, modos de jogo, banco de palavras e monetização.
 
@@ -142,28 +142,32 @@ Duas listas distintas:
 
 ---
 
-## Tela de Estatísticas (opcional no MVP)
+## Tela de Estatísticas (incluída no MVP)
 
 Popup acessível no header com:
 - Total de partidas / % vitórias
 - Sequência atual / maior sequência
 - Distribuição de tentativas (barras horizontais)
 
-> Decisão: incluir no MVP ou pós-MVP?
+Armazenamento local via PlayerPrefs — sem necessidade de backend.
 
 ---
 
-## Perguntas para Decidir
+## Decisões
 
-1. **Tela de estatísticas:** incluir no MVP ou adiar?
-2. **LosePopup:** revelar a palavra imediatamente ou pedir confirmação antes?
-3. **Animação de revelação:** flip carta por carta (como Wordle) ou instantâneo?
-4. **Teclado:** qual layout principal — QWERTY ou ABCDE (alfabético)?
+> ✅ **Decidido em 2026-02-17**
+
+| # | Questão | Decisão | Notas |
+|---|---------|---------|-------|
+| 1 | **Estatísticas** | Incluir no MVP (local) | PlayerPrefs — sem backend; popup acessível no header |
+| 2 | **LosePopup** | Revelar palavra imediatamente | Sem confirmação prévia — feedback direto |
+| 3 | **Animação de revelação** | Flip carta por carta | Estilo Wordle original — uma célula por vez, da esquerda para a direita |
+| 4 | **Layout do teclado** | QWERTY | Familiar, padrão universal |
 
 ---
 
 ## Próximos Passos
 
-- [ ] Responder perguntas acima
+- [x] Responder perguntas acima
 - [ ] Discussion_09: Arquitetura técnica (estrutura do projeto, reaproveitamento do Core)
 - [ ] Criar ActionPlan do segundo app com tarefas detalhadas
