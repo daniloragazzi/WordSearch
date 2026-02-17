@@ -268,13 +268,13 @@
 | THM-003 | Adicionar seletor de tema no `SettingsPopup` (Sistema / Claro / Escuro) | ✅ | THM-002 | Dropdown com 3 opções wired em `SettingsPopup`; SceneCreator cria label + dropdown na linha 4 do painel |
 | THM-004 | Refatorar `SceneCreator` para gerar cenas sem cores hardcoded no tema | ✅ | THM-001 | `LoadThemeColors()` carrega especificamente `GameTheme_Light`; `ThemeColorBinding` adicionado a painel e labels do SettingsPopup; `SetPanelAnchors` helper adicionado |
 | THM-005 | Implementar troca de tema em runtime (atualizar todos os componentes) | ✅ | THM-002, THM-004 | `ThemeColorBinding.cs` em `Core/Application/`: assina `ThemeManager.OnThemeChanged`, aplica token de cor a `Image`/`TMP_Text`/`Graphic`; `ThemeColorRole` enum com 18 tokens |
-| THM-006 | Validar tema escuro no device real (contraste, legibilidade, responsividade) | ⬜ | THM-005 | Teste completo em device: todas as telas, popups, grid, word list, settings |
+| THM-006 | Validar tema escuro no device real (contraste, legibilidade, responsividade) | ✅ | THM-005 | Teste completo em device: todas as telas, popups, grid, word list, settings |
 
 ### 5.4 — Validação e Build Fase 5
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| TST-008 | Teste completo no device (pós-melhorias Fase 5) | ⬜ | 5.1–5.3 | Validar ícone, palavras expandidas, tema escuro/claro, transições |
+| TST-008 | Teste completo no device (pós-melhorias Fase 5) | ✅ | 5.1–5.3 | Validar ícone, palavras expandidas, tema escuro/claro, transições |
 | BLD-007 | Novo build APK com melhorias Fase 5 | ⬜ | TST-008 | APK para teste final antes de publicação |
 
 ---
@@ -305,9 +305,9 @@
 | 4.4 Validação | 2 | 0 | 0 | 0 | 0 | 2 | 100% |
 | 5.1 Ícone | 4 | 0 | 0 | 0 | 0 | 4 | 100% |
 | 5.2 Palavras | 5 | 0 | 0 | 0 | 0 | 5 | 100% |
-| 5.3 Tema | 6 | 1 | 0 | 0 | 0 | 5 | 83% |
-| 5.4 Validação F5 | 2 | 2 | 0 | 0 | 0 | 0 | 0% |
-| **TOTAL** | **105** | **3** | **4** | **0** | **1** | **97** | **92%** |
+| 5.3 Tema | 6 | 0 | 0 | 0 | 0 | 6 | 100% |
+| 5.4 Validação F5 | 2 | 1 | 0 | 0 | 0 | 1 | 50% |
+| **TOTAL** | **105** | **1** | **4** | **0** | **1** | **99** | **94%** |
 
 ---
 

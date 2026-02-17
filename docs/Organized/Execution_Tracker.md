@@ -538,6 +538,8 @@
 | 2026-02-17 | THM-005 | Troca de tema em runtime | `ThemeColorBinding.cs` criado com `ThemeColorRole` (18 tokens); `OnEnable/OnDisable` assinam `ThemeManager.OnThemeChanged`; suporta `Image`, `TMP_Text`, `Graphic` |
 | 2026-02-17 | THM-006 | Validação no device — pendente | Aguarda execução no Unity (Generate Theme Assets → Create All Scenes → Build APK → teste no device) |
 | 2026-02-17 | TST-008 | Teste Fase 5 planejado | Validação completa no device após melhorias |
+| 2026-02-17 | THM-006 | Validação no device concluída ✅ | Cenas regeneradas, APK buildado e instalado; tema claro/escuro, todas telas, popups, grid e word list validados com sucesso |
+| 2026-02-17 | TST-008 | Teste completo Fase 5 concluído ✅ | Ícone, banco de palavras expandido e tema claro/escuro validados no device; 0 regressões críticas |
 | 2026-02-17 | BLD-007 | Build Fase 5 planejado | APK final pós-melhorias |
 
 ---
