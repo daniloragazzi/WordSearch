@@ -279,7 +279,110 @@
 
 ---
 
-## Resumo de Progresso
+## App 2 — Termo BR
+
+> Segundo app do estúdio. Repo separado: `github.com/daniloragazzi/TermoBR`.
+> Core compartilhado via package local `RagazziCore` (`com.ragazzistudios.core`).
+> Referências: Discussion_07..09 em `docs/Brainstorm/`.
+
+### T1.1 — Setup e Configuração
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| CFG-T01 | Criar repositório GitHub `TermoBR` | ⬜ | — | `github.com/daniloragazzi/TermoBR`, branches main+develop, .gitignore Unity |
+| CFG-T02 | Criar projeto Unity `Termo/` no novo repo | ⬜ | CFG-T01 | Unity 6.3 LTS, template 2D, package name `com.ragazzistudios.termo` |
+| CFG-T03 | Configurar Git (.gitignore, .gitattributes, README) | ⬜ | CFG-T01 | Mesmo padrão do WordSearch |
+| CFG-T04 | Configurar VS Code para o novo projeto | ⬜ | CFG-T02 | .vscode/, .editorconfig |
+| CFG-T05 | Criar estrutura de pastas `Assets/_Project/` | ⬜ | CFG-T02 | Core/, Game/, Editor/, Art/, Resources/ |
+| CFG-T06 | Configurar Android build settings | ⬜ | CFG-T02 | Package name, ícone placeholder, keystore dev |
+
+### T1.2 — RagazziCore Package
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| PKG-001 | Criar estrutura do package `RagazziCore` | ⬜ | CFG-T01 | `Packages/RagazziCore/package.json`, Runtime/, Editor/, README |
+| PKG-002 | Portar `Core/Infrastructure` para o package | ⬜ | PKG-001 | StorageService, LocalizationService, AdsService, AnalyticsService, ServiceLocator |
+| PKG-003 | Portar `Core/Application` para o package | ⬜ | PKG-001 | ThemeManager, MusicManager, GameStateMachine base, StorageKeys |
+| PKG-004 | Atualizar `GameTheme` com tokens de feedback do Termo | ⬜ | PKG-001 | Adicionar `letterCorrect`, `letterPresent`, `letterAbsent`, `letterUnused`, `letterOnColor` |
+| PKG-005 | Portar `ThemePaletteGenerator` para o package Editor | ⬜ | PKG-004 | Gerar `GameTheme_Light` e `GameTheme_Dark` com novos tokens |
+| PKG-006 | Referenciar package no manifest do projeto Termo e validar compilação | ⬜ | PKG-001..005, CFG-T02 | `"com.ragazzistudios.core": "file:../../Packages/RagazziCore"` no manifest.json |
+
+### T1.3 — Domain Layer (Termo)
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| DEV-T01 | Implementar `LetterState` (enum) | ⬜ | PKG-006 | Correct / Present / Absent / Unused |
+| DEV-T02 | Implementar `TermoGuess` | ⬜ | DEV-T01 | 5 letras + array de `LetterState` |
+| DEV-T03 | Implementar `TermoBoard` (domain) | ⬜ | DEV-T02 | Lista de `TermoGuess`, palavra-alvo, estado (Playing/Won/Lost) |
+| DEV-T04 | Implementar `TermoValidator` | ⬜ | DEV-T03 | Valida tentativa contra palavra-alvo; retorna array de `LetterState` |
+| DEV-T05 | Implementar `TermoGame` | ⬜ | DEV-T03 | Estado completo: 1, 2 ou 4 boards; modo enum; contagem de tentativas restantes |
+
+### T1.4 — Application Layer (Termo)
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| DEV-T06 | Implementar `WordBankService` | ⬜ | PKG-006 | Carrega `words_5.json` (alvos) e `valid_5.json` (dicionário); normaliza uppercase sem acento |
+| DEV-T07 | Implementar `StatsManager` | ⬜ | PKG-003 | Lê/grava partidas jogadas, vitórias, streak, distribuição de tentativas via StorageService |
+| DEV-T08 | Implementar `TermoGameManager` | ⬜ | DEV-T05, DEV-T06, DEV-T07 | Singleton; orquestra partida ativa, modo (1/2/4), histórico, sorteio de palavra |
+| DEV-T09 | Adaptar `GameStateMachine` para estados do Termo | ⬜ | PKG-003 | Estados: Boot, MainMenu, ModeSelect, Playing, Win, Lose |
+
+### T1.5 — Dados e Conteúdo
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| DAT-T01 | Criar script Python `build_termo.py` | ⬜ | — | Filtra + cura palavras de 5 letras; normaliza sem acento; gera 2 JSONs |
+| DAT-T02 | Gerar `words_5.json` (palavras-alvo) | ⬜ | DAT-T01 | Meta: 1.000+ palavras comuns de 5 letras |
+| DAT-T03 | Gerar `valid_5.json` (dicionário completo) | ⬜ | DAT-T01 | Meta: 3.000+ palavras aceitas como tentativa |
+| DAT-T04 | Criar script de validação `validate_termo.py` | ⬜ | DAT-T02, DAT-T03 | Sem duplicatas, comprimento exato 5, charset `[A-Z]`, cobertura mínima |
+| DAT-T05 | Validar banco completo (sem erros) | ⬜ | DAT-T04 | 0 erros de formato; palavras-alvo são subconjunto das válidas |
+
+### T1.6 — UI e Cenas
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| DEV-T10 | Criar `SceneCreator.cs` (novo, independente) | ⬜ | PKG-006 | Editor tool; gera Boot, MainMenu, Game; sem herança do WordSearch |
+| DEV-T11 | Criar cena Boot.unity | ⬜ | DEV-T10 | Carrega banco de palavras, inicializa serviços, vai para MainMenu |
+| DEV-T12 | Criar cena MainMenu.unity + `MainMenuScreen` | ⬜ | DEV-T11 | Logo, botão Jogar, botão Configurações |
+| DEV-T13 | Implementar `ModeSelectScreen` | ⬜ | DEV-T12 | Seleção de modo: 1 / 2 / 4 palavras com descrição de tentativas |
+| DEV-T14 | Criar cena Game.unity | ⬜ | DEV-T09 | Cena principal de gameplay |
+| DEV-T15 | Implementar `TermoCell` (UI) | ⬜ | DEV-T14 | Célula com letra, estado visual e animação flip (150ms cada metade, 100ms delay entre células) |
+| DEV-T16 | Implementar `TermoBoardView` (UI) | ⬜ | DEV-T15 | Grade N linhas × 5 colunas; suporta 6, 7 ou 9 tentativas conforme modo |
+| DEV-T17 | Implementar `TermoKeyboard` (UI) | ⬜ | DEV-T14 | Layout QWERTY PT-BR; teclas Enter e ⌫; cor reflete melhor estado acumulado por letra |
+| DEV-T18 | Implementar `GameplayController` | ⬜ | DEV-T08, DEV-T16, DEV-T17 | Coordena boards + teclado + submissão de tentativa + feedback |
+| DEV-T19 | Implementar `WinPopup` | ⬜ | DEV-T18 | Número de tentativas, streak, botão Jogar Novamente |
+| DEV-T20 | Implementar `LosePopup` | ⬜ | DEV-T18 | Revela palavra-alvo imediatamente, botão Jogar Novamente |
+| DEV-T21 | Implementar `StatsPopup` | ⬜ | DEV-T07 | Total de partidas, % vitórias, streak atual/máximo, distribuição de tentativas (barras) |
+| DEV-T22 | Implementar `SettingsPopup` | ⬜ | PKG-003 | Som, Música, Tema — reaproveitado via RagazziCore |
+
+### T1.7 — Design e Assets
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| DSN-T01 | Definir paleta do Termo BR (derivada do WordSearch + tokens de feedback) | ⬜ | PKG-004, PKG-005 | Verde/amarelo/cinza para feedback; paleta base Ragazzi Studios |
+| DSN-T02 | Gerar sprites para células, teclado e painéis | ⬜ | DSN-T01 | `SpriteGenerator.cs` novo ou portado; células quadradas, teclas arredondadas |
+| DSN-T03 | Criar ícone do app Termo BR (512×512 + adaptive) | ⬜ | DSN-T01 | `AppIconGenerator.cs` novo; visual com grade 5×5 e letras coloridas (verde/amarelo) |
+| DSN-T04 | Criar splash screen Termo BR | ⬜ | DSN-T01 | Identidade Ragazzi Studios com nome "Termo BR" |
+
+### T1.8 — Áudio
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| AUD-T01 | Criar/adaptar SFX (flip, acerto, erro, vitória, derrota) | ⬜ | — | `SfxGenerator.cs` novo ou portado; 5 clips WAV procedurais |
+| AUD-T02 | Integrar MusicManager do RagazziCore | ⬜ | PKG-003, DEV-T11 | Loop ambient criado na Boot scene via SceneCreator |
+
+### T1.9 — Testes e Build
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| TST-T01 | Testes unitários Domain (TermoValidator, TermoBoard, TermoGame) | ⬜ | DEV-T05 | Casos: palavra correta, presentes, ausentes, duplicatas, vitória, derrota |
+| TST-T02 | Testes unitários Application (WordBankService, StatsManager) | ⬜ | DEV-T07 | Carregamento de JSON, normalização, incremento de stats |
+| TST-T03 | Teste integrado completo (Boot → ModeSelect → Gameplay → Win/Lose) | ⬜ | T1.3–T1.6 | Fluxo ponta a ponta nos 3 modos (1/2/4 palavras) |
+| TST-T04 | Teste no device real | ⬜ | TST-T03 | Checklists: layout, teclado, animações, áudio, tema claro/escuro |
+| BLD-T01 | Build APK dev Termo BR | ⬜ | TST-T04 | APK de desenvolvimento para validação |
+| BLD-T02 | Preparar assets Play Store (screenshots, descrição, ícone) | ⬜ | BLD-T01 | Screenshots dos 3 modos; descrição PT-BR |
+| BLD-T03 | Build AAB (release) + publicar na Play Store | ⬜ | BLD-T02, CFG-T06 | Dependente de conta Google Play ativa |
+
+---
 
 | Etapa | Total | ⬜ | ⏸️ | 🔵 | 🔴 | ✅ | % |
 |-------|-------|-----|-----|-----|-----|-----|---|
@@ -307,19 +410,42 @@
 | 5.2 Palavras | 5 | 0 | 0 | 0 | 0 | 5 | 100% |
 | 5.3 Tema | 6 | 0 | 0 | 0 | 0 | 6 | 100% |
 | 5.4 Validação F5 | 2 | 0 | 0 | 0 | 0 | 2 | 100% |
-| **TOTAL** | **105** | **0** | **4** | **0** | **1** | **100** | **95%** |
+| **TOTAL App 1** | **105** | **0** | **4** | **0** | **1** | **100** | **95%** |
+
+---
+
+## Resumo de Progresso — App 2 (Termo BR)
+
+| Etapa | Total | ⬜ | ⏸️ | 🔵 | 🔴 | ✅ | % |
+|-------|-------|-----|-----|-----|-----|-----|---|
+| T1.1 Setup | 6 | 6 | 0 | 0 | 0 | 0 | 0% |
+| T1.2 RagazziCore Package | 6 | 6 | 0 | 0 | 0 | 0 | 0% |
+| T1.3 Domain | 5 | 5 | 0 | 0 | 0 | 0 | 0% |
+| T1.4 Application | 4 | 4 | 0 | 0 | 0 | 0 | 0% |
+| T1.5 Dados | 5 | 5 | 0 | 0 | 0 | 0 | 0% |
+| T1.6 UI/Cenas | 13 | 13 | 0 | 0 | 0 | 0 | 0% |
+| T1.7 Design | 4 | 4 | 0 | 0 | 0 | 0 | 0% |
+| T1.8 Áudio | 2 | 2 | 0 | 0 | 0 | 0 | 0% |
+| T1.9 Testes e Build | 7 | 7 | 0 | 0 | 0 | 0 | 0% |
+| **TOTAL App 2** | **52** | **52** | **0** | **0** | **0** | **0** | **0%** |
 
 ---
 
 ## Ordem de Execução Recomendada
 
 ```
-Fase 2–4 (concluídas)
-  → Fase 5 (paralela — aguardando validação Google Play):
-    ├── ICO-001..004 (Ícone) — independente
-    ├── DAT-006..010 (Palavras) — independente
-    └── THM-001..006 (Tema) — independente
-      → TST-008 (Teste device) → BLD-007 (Build APK)
+App 1 — Caça-Palavras
+  Fases 2–5 (concluídas)
+  → Aguardando validação Google Play:
+    ├── BLD-002..005 (Play Store) — desbloqueiam quando conta for aprovada
+    └── ARQ-002 (Ads/Analytics reais) — depende de IDs de produção externos
+
+App 2 — Termo BR (paralelo ao App 1)
+  T1.1 Setup → T1.2 RagazziCore Package
+    → T1.3 Domain + T1.4 Application + T1.5 Dados (paralelos)
+      → T1.6 UI/Cenas → T1.7 Design + T1.8 Áudio (paralelos)
+        → T1.9 Testes e Build
 ```
 
-> As três frentes da Fase 5 (Ícone, Palavras, Tema) são **independentes** e podem ser executadas em qualquer ordem ou em paralelo.
+> App 1 e App 2 são desenvolvidos em paralelo e independentes entre si.
+> O `RagazziCore` package (T1.2) é pré-requisito crítico de toda a cadeia do App 2.

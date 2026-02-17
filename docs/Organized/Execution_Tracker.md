@@ -438,6 +438,110 @@
 
 ---
 
+## App 2 — Termo BR
+
+> Segundo app do estúdio. Repo: `github.com/daniloragazzi/TermoBR`.
+> Referências: `docs/Brainstorm/Discussion_07..09`.
+
+### T1.1 — Setup e Configuração
+
+| Código | Ação | Status | Data Início | Data Fim |
+|--------|------|--------|-------------|----------|
+| CFG-T01 | Criar repositório GitHub `TermoBR` | ⬜ | — | — |
+| CFG-T02 | Criar projeto Unity `Termo/` no novo repo | ⬜ | — | — |
+| CFG-T03 | Configurar Git (.gitignore, .gitattributes, README) | ⬜ | — | — |
+| CFG-T04 | Configurar VS Code para o novo projeto | ⬜ | — | — |
+| CFG-T05 | Criar estrutura de pastas `Assets/_Project/` | ⬜ | — | — |
+| CFG-T06 | Configurar Android build settings | ⬜ | — | — |
+
+### T1.2 — RagazziCore Package
+
+| Código | Ação | Status | Data Início | Data Fim |
+|--------|------|--------|-------------|----------|
+| PKG-001 | Criar estrutura do package `RagazziCore` | ⬜ | — | — |
+| PKG-002 | Portar `Core/Infrastructure` para o package | ⬜ | — | — |
+| PKG-003 | Portar `Core/Application` para o package | ⬜ | — | — |
+| PKG-004 | Atualizar `GameTheme` com tokens de feedback do Termo | ⬜ | — | — |
+| PKG-005 | Portar `ThemePaletteGenerator` para o package Editor | ⬜ | — | — |
+| PKG-006 | Referenciar package no manifest e validar compilação | ⬜ | — | — |
+
+### T1.3 — Domain Layer
+
+| Código | Ação | Status | Data Início | Data Fim |
+|--------|------|--------|-------------|----------|
+| DEV-T01 | Implementar `LetterState` (enum) | ⬜ | — | — |
+| DEV-T02 | Implementar `TermoGuess` | ⬜ | — | — |
+| DEV-T03 | Implementar `TermoBoard` (domain) | ⬜ | — | — |
+| DEV-T04 | Implementar `TermoValidator` | ⬜ | — | — |
+| DEV-T05 | Implementar `TermoGame` | ⬜ | — | — |
+
+### T1.4 — Application Layer
+
+| Código | Ação | Status | Data Início | Data Fim |
+|--------|------|--------|-------------|----------|
+| DEV-T06 | Implementar `WordBankService` | ⬜ | — | — |
+| DEV-T07 | Implementar `StatsManager` | ⬜ | — | — |
+| DEV-T08 | Implementar `TermoGameManager` | ⬜ | — | — |
+| DEV-T09 | Adaptar `GameStateMachine` para estados do Termo | ⬜ | — | — |
+
+### T1.5 — Dados e Conteúdo
+
+| Código | Ação | Status | Data Início | Data Fim |
+|--------|------|--------|-------------|----------|
+| DAT-T01 | Criar script Python `build_termo.py` | ⬜ | — | — |
+| DAT-T02 | Gerar `words_5.json` (palavras-alvo, 1.000+) | ⬜ | — | — |
+| DAT-T03 | Gerar `valid_5.json` (dicionário completo, 3.000+) | ⬜ | — | — |
+| DAT-T04 | Criar script de validação `validate_termo.py` | ⬜ | — | — |
+| DAT-T05 | Validar banco completo (sem erros) | ⬜ | — | — |
+
+### T1.6 — UI e Cenas
+
+| Código | Ação | Status | Data Início | Data Fim |
+|--------|------|--------|-------------|----------|
+| DEV-T10 | Criar `SceneCreator.cs` novo | ⬜ | — | — |
+| DEV-T11 | Criar cena Boot.unity | ⬜ | — | — |
+| DEV-T12 | Criar cena MainMenu.unity + `MainMenuScreen` | ⬜ | — | — |
+| DEV-T13 | Implementar `ModeSelectScreen` | ⬜ | — | — |
+| DEV-T14 | Criar cena Game.unity | ⬜ | — | — |
+| DEV-T15 | Implementar `TermoCell` (UI + animação flip) | ⬜ | — | — |
+| DEV-T16 | Implementar `TermoBoardView` (UI) | ⬜ | — | — |
+| DEV-T17 | Implementar `TermoKeyboard` (UI, QWERTY) | ⬜ | — | — |
+| DEV-T18 | Implementar `GameplayController` | ⬜ | — | — |
+| DEV-T19 | Implementar `WinPopup` | ⬜ | — | — |
+| DEV-T20 | Implementar `LosePopup` | ⬜ | — | — |
+| DEV-T21 | Implementar `StatsPopup` | ⬜ | — | — |
+| DEV-T22 | Implementar `SettingsPopup` | ⬜ | — | — |
+
+### T1.7 — Design e Assets
+
+| Código | Ação | Status | Data Início | Data Fim |
+|--------|------|--------|-------------|----------|
+| DSN-T01 | Definir paleta do Termo BR (derivada + tokens de feedback) | ⬜ | — | — |
+| DSN-T02 | Gerar sprites para células, teclado e painéis | ⬜ | — | — |
+| DSN-T03 | Criar ícone do app Termo BR (512×512 + adaptive) | ⬜ | — | — |
+| DSN-T04 | Criar splash screen Termo BR | ⬜ | — | — |
+
+### T1.8 — Áudio
+
+| Código | Ação | Status | Data Início | Data Fim |
+|--------|------|--------|-------------|----------|
+| AUD-T01 | Criar/adaptar SFX (flip, acerto, erro, vitória, derrota) | ⬜ | — | — |
+| AUD-T02 | Integrar MusicManager do RagazziCore na Boot scene | ⬜ | — | — |
+
+### T1.9 — Testes e Build
+
+| Código | Ação | Status | Data Início | Data Fim |
+|--------|------|--------|-------------|----------|
+| TST-T01 | Testes unitários Domain (TermoValidator, TermoBoard, TermoGame) | ⬜ | — | — |
+| TST-T02 | Testes unitários Application (WordBankService, StatsManager) | ⬜ | — | — |
+| TST-T03 | Teste integrado completo (Boot → ModeSelect → Gameplay → Win/Lose) | ⬜ | — | — |
+| TST-T04 | Teste no device real | ⬜ | — | — |
+| BLD-T01 | Build APK dev Termo BR | ⬜ | — | — |
+| BLD-T02 | Preparar assets Play Store (screenshots, descrição, ícone) | ⬜ | — | — |
+| BLD-T03 | Build AAB (release) + publicar na Play Store | ⬜ | — | — |
+
+---
+
 ## Histórico de Decisões
 
 | Data | Código | Decisão | Contexto |
@@ -542,6 +646,8 @@
 | 2026-02-17 | TST-008 | Teste completo Fase 5 concluído ✅ | Ícone, banco de palavras expandido e tema claro/escuro validados no device; 0 regressões críticas |
 | 2026-02-17 | BLD-007 | Build Fase 5 planejado | APK final pós-melhorias |
 | 2026-02-17 | BLD-007 | Build APK dev Fase 5 concluído ✅ | APK dev gerado e instalado no device; build release (AAB) consolidado com BLD-004 quando Google Play validar conta |
+| 2026-02-17 | — | **App 2 — Termo BR planejado** | Decisions 07..09 fechadas: repo separado (`TermoBR`), package `RagazziCore`, SceneCreator novo, 3 modos (1/2/4 palavras), QWERTY sem acento, ilimitado |
+| 2026-02-17 | — | ActionPlan App 2 criado | 52 tarefas distribuídas em 9 sub-fases (T1.1..T1.9): Setup, RagazziCore, Domain, Application, Dados, UI, Design, Áudio, Testes e Build |
 
 ---
 
