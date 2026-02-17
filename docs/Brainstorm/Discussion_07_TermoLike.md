@@ -1,6 +1,6 @@
 # Discussion 07 — Segundo App: Termo-Like (Wordle Clone)
 
-> **Status:** 🟡 Em discussão
+> **Status:** ✅ Concluído
 > **Data:** 2026-02-17
 > **Objetivo:** Definir escopo, mecânica, diferenciação e arquitetura do segundo app do estúdio — um jogo estilo Wordle/Termo em português.
 
@@ -118,20 +118,38 @@ Ideias para se destacar no mercado:
 
 ---
 
-## Perguntas para Decidir
+## Decisões
 
-1. **Modo principal:** Diário, Ilimitado ou ambos no MVP?
-2. **Tamanho da palavra:** Fixo em 5 letras ou queremos variação?
-3. **Acentuação:** Com acento, sem acento ou normalizado?
-4. **Categorias:** incluir modo temático no MVP ou só clássico?
-5. **Diferencial prioritário:** compartilhamento de resultado, modos extras, categorias?
-6. **Identidade visual:** mesma paleta base do Caça-Palavras com cores de feedback adaptadas, ou identidade própria?
+> ✅ **Decidido em 2026-02-17**
+
+| # | Questão | Decisão | Justificativa |
+|---|---------|---------|---------------|
+| 1 | **Modo principal** | Ilimitado | Mais sessões por dia, melhor monetização com ads, sem frustração de espera |
+| 2 | **Tamanho da palavra** | 5 letras fixo | Padrão familiar, banco de palavras abundante, menor complexidade |
+| 3 | **Acentuação** | Sem acento (normalizado) | Teclado mais simples, banco de palavras maior, validação direta |
+| 4 | **Categorias temáticas** | Não no MVP | Manter escopo mínimo; categorias ficam como roadmap futuro |
+| 5 | **Diferencial** | Modo Duplo / Quádruplo (Duordle/Quordle) | Diferenciação clara no mercado, rejogabilidade alta, mesma mecânica base escalada |
+| 6 | **Identidade visual** | Derivada do Caça-Palavras | Identidade unificada do estúdio — todos os apps compartilham o mesmo `GameTheme`; troca global de paleta de uma vez só |
+
+### Notas sobre o diferencial (Duordle/Quordle)
+
+- **Modo 1 palavra** — clássico Termo, 6 tentativas
+- **Modo 2 palavras (Duordle)** — resolver 2 palavras simultâneas, grade dividida
+- **Modo 4 palavras (Quordle)** — resolver 4 palavras simultâneas, grade 2x2
+- Todos os modos compartilham o mesmo teclado e banco de palavras
+- Tentativas são contadas globalmente (9 para Duordle, 9 para Quordle — padrão Quordle original)
+
+### Notas sobre identidade visual unificada
+
+- `GameTheme` ScriptableObject será **compartilhado entre todos os apps do estúdio**
+- Cores de feedback do Termo (verde/amarelo/cinza) serão tokens no `GameTheme`: `correct`, `present`, `absent`
+- Futuramente, trocar a paleta em 1 lugar atualiza todos os jogos publicados
 
 ---
 
 ## Próximos Passos
 
-- [ ] Responder às perguntas acima para fechar escopo do MVP
-- [ ] Discussion_08: Escopo detalhado + banco de palavras
-- [ ] Discussion_09: Arquitetura técnica (reaproveitamento vs novo)
-- [ ] Criar `Organized/` equivalente ao processo do App 1
+- [x] Responder às perguntas acima para fechar escopo do MVP
+- [ ] Discussion_08: Escopo detalhado do MVP (modos, telas, banco de palavras, monetização)
+- [ ] Discussion_09: Arquitetura técnica (reaproveitamento vs novo, estrutura de projeto)
+- [ ] Criar pasta `Organized/` para o segundo app com documentos equivalentes
