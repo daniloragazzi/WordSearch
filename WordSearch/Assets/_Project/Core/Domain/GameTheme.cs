@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RagazziStudios.Game.Config
+namespace RagazziStudios.Core.Domain
 {
     /// <summary>
     /// ScriptableObject com a paleta de cores e configuração visual do tema.

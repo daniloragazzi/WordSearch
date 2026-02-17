@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 using System.IO;
-using RagazziStudios.Game.Config;
+using RagazziStudios.Core.Domain;
 
 namespace RagazziStudios.Editor
 {

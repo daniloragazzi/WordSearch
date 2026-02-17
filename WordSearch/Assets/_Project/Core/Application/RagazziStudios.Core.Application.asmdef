@@ -3,7 +3,8 @@
     "rootNamespace": "RagazziStudios.Core.Application",
     "references": [
         "RagazziStudios.Core.Domain",
-        "RagazziStudios.Core.Infrastructure"
+        "RagazziStudios.Core.Infrastructure",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

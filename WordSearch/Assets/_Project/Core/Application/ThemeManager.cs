@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using RagazziStudios.Core.Infrastructure.Storage;
-using RagazziStudios.Game.Config;
+using RagazziStudios.Core.Domain;
 
 namespace RagazziStudios.Core.Application
 {

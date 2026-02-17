@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using RagazziStudios.Core.Domain.Grid;
-using RagazziStudios.Game.Config;
+using RagazziStudios.Core.Domain;
 
 namespace RagazziStudios.Game.UI.Components
 {

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using RagazziStudios.Core.Domain;
 
 namespace RagazziStudios.Game.Config
 {

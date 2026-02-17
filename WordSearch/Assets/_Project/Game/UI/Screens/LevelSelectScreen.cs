@@ -4,7 +4,7 @@ using TMPro;
 using RagazziStudios.Core.Application;
 using RagazziStudios.Core.Infrastructure;
 using RagazziStudios.Core.Infrastructure.Localization;
-using RagazziStudios.Game.Config;
+using RagazziStudios.Core.Domain;
 
 namespace RagazziStudios.Game.UI.Screens
 {
