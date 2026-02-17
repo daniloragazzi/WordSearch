@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using RagazziStudios.Core.Application;
 using RagazziStudios.Core.Infrastructure;
 using RagazziStudios.Core.Infrastructure.Localization;
 using RagazziStudios.Core.Infrastructure.Storage;
@@ -43,9 +44,71 @@ namespace RagazziStudios.Game.UI.Popups
             ServiceLocator.TryGet(out _storage);
             ServiceLocator.TryGet(out _localization);
 
+            ApplyResponsiveLayout();
             InitializeControls();
             UpdateLocalization();
             PlayEnterAnimation();
+        }
+
+        private void ApplyResponsiveLayout()
+        {
+            if (_titleText != null)
+            {
+                _titleText.alignment = TextAlignmentOptions.Center;
+                SetAnchors(_titleText.rectTransform, new Vector2(0.15f, 0.70f), new Vector2(0.85f, 0.88f));
+            }
+
+            if (_soundLabel != null)
+            {
+                _soundLabel.alignment = TextAlignmentOptions.MidlineLeft;
+                SetAnchors(_soundLabel.rectTransform, new Vector2(0.08f, 0.52f), new Vector2(0.45f, 0.64f));
+            }
+
+            if (_musicLabel != null)
+            {
+                _musicLabel.alignment = TextAlignmentOptions.MidlineLeft;
+                SetAnchors(_musicLabel.rectTransform, new Vector2(0.08f, 0.38f), new Vector2(0.45f, 0.50f));
+            }
+
+            if (_languageLabel != null)
+            {
+                _languageLabel.alignment = TextAlignmentOptions.MidlineLeft;
+                SetAnchors(_languageLabel.rectTransform, new Vector2(0.08f, 0.24f), new Vector2(0.45f, 0.36f));
+            }
+
+            if (_soundToggle != null)
+            {
+                var rt = _soundToggle.GetComponent<RectTransform>();
+                SetAnchors(rt, new Vector2(0.68f, 0.52f), new Vector2(0.86f, 0.64f));
+            }
+
+            if (_musicToggle != null)
+            {
+                var rt = _musicToggle.GetComponent<RectTransform>();
+                SetAnchors(rt, new Vector2(0.68f, 0.38f), new Vector2(0.86f, 0.50f));
+            }
+
+            if (_languageDropdown != null)
+            {
+                var rt = _languageDropdown.GetComponent<RectTransform>();
+                SetAnchors(rt, new Vector2(0.54f, 0.23f), new Vector2(0.90f, 0.37f));
+            }
+
+            if (_closeButton != null)
+            {
+                var rt = _closeButton.GetComponent<RectTransform>();
+                SetAnchors(rt, new Vector2(0.82f, 0.76f), new Vector2(0.94f, 0.90f));
+            }
+        }
+
+        private static void SetAnchors(RectTransform rectTransform, Vector2 anchorMin, Vector2 anchorMax)
+        {
+            if (rectTransform == null) return;
+
+            rectTransform.anchorMin = anchorMin;
+            rectTransform.anchorMax = anchorMax;
+            rectTransform.anchoredPosition = Vector2.zero;
+            rectTransform.sizeDelta = Vector2.zero;
         }
 
         private void InitializeControls()
@@ -113,9 +176,7 @@ namespace RagazziStudios.Game.UI.Popups
             _storage.SetBool(StorageKeys.SOUND_ENABLED, enabled);
             _storage.Save();
 
-            // Aplicar volume de SFX globalmente
-            AudioListener.volume = enabled ? 1f : 0f;
-
+            // SFX controlled per-PlayOneShot via IsSfxEnabled() check
             Debug.Log($"[Settings] Sound: {(enabled ? "ON" : "OFF")}");
         }
 
@@ -125,6 +186,10 @@ namespace RagazziStudios.Game.UI.Popups
 
             _storage.SetBool(StorageKeys.MUSIC_ENABLED, enabled);
             _storage.Save();
+
+            // Controlar MusicManager diretamente
+            if (MusicManager.Instance != null)
+                MusicManager.Instance.SetEnabled(enabled);
 
             Debug.Log($"[Settings] Music: {(enabled ? "ON" : "OFF")}");
         }

@@ -136,8 +136,18 @@ namespace RagazziStudios.Core.Application
             var allNormalized = new List<string>();
             var allDisplay = new List<string>();
 
+            // Primeiro: adicionar palavras exclusivas do desafio (se existir)
+            if (_wordDatabase.HasCategory("desafio"))
+            {
+                var desafioCat = _wordDatabase.GetCategory("desafio");
+                allNormalized.AddRange(desafioCat.NormalizedWords);
+                allDisplay.AddRange(desafioCat.DisplayWords);
+            }
+
+            // Depois: adicionar palavras de todas as categorias regulares
             foreach (var catId in _wordDatabase.GetCategoryIds())
             {
+                if (catId == "desafio") continue; // já adicionado acima
                 var cat = _wordDatabase.GetCategory(catId);
                 allNormalized.AddRange(cat.NormalizedWords);
                 allDisplay.AddRange(cat.DisplayWords);

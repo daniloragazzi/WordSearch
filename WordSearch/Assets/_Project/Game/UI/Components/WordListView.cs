@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using RagazziStudios.Core.Domain.Grid;
+using RagazziStudios.Game.Config;
 
 namespace RagazziStudios.Game.UI.Components
 {
@@ -16,12 +17,28 @@ namespace RagazziStudios.Game.UI.Components
         [SerializeField] private Transform _wordContainer;
         [SerializeField] private GameObject _wordItemPrefab;
 
+        [Header("Tema")]
+        [SerializeField] private GameTheme _theme;
+
         [Header("Visual")]
         [SerializeField] private Color _normalColor = Color.white;
-        [SerializeField] private Color _foundColor = new Color(0.3f, 0.85f, 0.3f);
+        [SerializeField] private Color _foundColor = new Color(1f, 0.85f, 0.3f);
 
         private readonly Dictionary<string, WordListItem> _items =
             new Dictionary<string, WordListItem>();
+
+        private void Awake()
+        {
+            ApplyThemeColors();
+        }
+
+        private void ApplyThemeColors()
+        {
+            if (_theme == null) return;
+
+            _normalColor = _theme.textOnColor;
+            _foundColor = _theme.warning;
+        }
 
         /// <summary>
         /// Preenche a lista com as palavras do nível.

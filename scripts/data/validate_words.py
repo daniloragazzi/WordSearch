@@ -21,8 +21,9 @@ CATEGORIES_FILE = DATA_DIR / "categories.json"
 WORDS_DIR = DATA_DIR / "words"
 
 MIN_WORD_LENGTH = 3
-MIN_WORDS_PER_CATEGORY = 50
-MAX_WORD_LENGTH = 11  # gridSize - 1 (12x12)
+MIN_WORDS_PER_CATEGORY = 100
+MIN_WORDS_DESAFIO = 300
+MAX_WORD_LENGTH = 19  # grid máximo: 20 colunas (challenge mode)
 
 
 def normalize(word: str) -> str:
@@ -37,7 +38,7 @@ def normalize(word: str) -> str:
 
 def load_json(filepath: Path) -> dict:
     """Carrega um arquivo JSON."""
-    with open(filepath, "r", encoding="utf-8") as f:
+    with open(filepath, "r", encoding="utf-8-sig") as f:
         return json.load(f)
 
 
@@ -208,15 +209,31 @@ def main():
         total_words += word_count
         print(f"   {word_count} palavras")
 
-    # 4. Verificar duplicatas entre categorias
+    # 4. Validar desafio.json (banco exclusivo do modo Desafio)
+    desafio_path = WORDS_DIR / "desafio.json"
+    if desafio_path.exists():
+        print(f"\n📄 Validando desafio.json...")
+        desafio_data = load_json(desafio_path)
+        desafio_words = desafio_data.get("words", [])
+        total_words += len(desafio_words)
+        print(f"   {len(desafio_words)} palavras")
+        if len(desafio_words) < MIN_WORDS_DESAFIO:
+            all_errors.append(f"desafio.json: apenas {len(desafio_words)} palavras (mínimo: {MIN_WORDS_DESAFIO})")
+        errors = validate_words_file(desafio_path, "desafio")
+        all_errors.extend(errors)
+    else:
+        all_warnings.append("desafio.json: arquivo não encontrado (modo Desafio sem banco exclusivo)")
+
+    # 5. Verificar duplicatas entre categorias (inclui desafio)
     print(f"\n🔀 Verificando duplicatas entre categorias...")
     cross_errors = validate_cross_categories(WORDS_DIR)
     # Cross-dups são warnings, não errors (podem ser intencionais)
     all_warnings.extend(cross_errors)
 
-    # 5. Verificar arquivos órfãos (sem categoria correspondente)
+    # 6. Verificar arquivos órfãos (sem categoria correspondente)
+    known_ids = set(category_ids) | {"desafio"}
     for filepath in sorted(WORDS_DIR.glob("*.json")):
-        if filepath.stem not in category_ids:
+        if filepath.stem not in known_ids:
             all_warnings.append(f"ORPHAN: {filepath.name} sem categoria em categories.json")
 
     # Resultado

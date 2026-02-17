@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using RagazziStudios.Core.Domain.Words;
+using RagazziStudios.Game.Config;
 
 namespace RagazziStudios.Game.UI.Screens
 {
@@ -20,6 +21,9 @@ namespace RagazziStudios.Game.UI.Screens
         [SerializeField] private TMP_Text _progressText;
         [SerializeField] private Image _progressFill;
         [SerializeField] private Image _iconImage;
+
+        [Header("Tema")]
+        [SerializeField] private GameTheme _theme;
 
         private string _categoryId;
         private Action<string> _onClickCallback;
@@ -111,12 +115,48 @@ namespace RagazziStudios.Game.UI.Screens
 
         private void ApplyCategoryColor(string categoryId)
         {
+            var bgImage = GetComponent<Image>();
+            if (bgImage == null) return;
+
+            Color categoryColor;
+
+            if (_theme != null)
+            {
+                categoryColor = _theme.GetCategoryColor(categoryId);
+                bgImage.color = categoryColor;
+                ApplyContrastTextColor(_theme.GetContrastText(categoryColor));
+                return;
+            }
+
             if (CategoryColors.TryGetValue(categoryId, out var color))
             {
-                var bgImage = GetComponent<Image>();
-                if (bgImage != null)
-                    bgImage.color = color;
+                categoryColor = color;
+                bgImage.color = categoryColor;
+                ApplyContrastTextColor(GetContrastTextFallback(categoryColor));
             }
+        }
+
+        private void ApplyContrastTextColor(Color textColor)
+        {
+            if (_iconText != null) _iconText.color = textColor;
+            if (_nameText != null) _nameText.color = textColor;
+            if (_progressText != null)
+            {
+                Color progressColor = textColor;
+                progressColor.a = 0.85f;
+                _progressText.color = progressColor;
+            }
+        }
+
+        private static Color GetContrastTextFallback(Color backgroundColor)
+        {
+            float luminance = 0.299f * backgroundColor.r +
+                              0.587f * backgroundColor.g +
+                              0.114f * backgroundColor.b;
+
+            return luminance > 0.5f
+                ? new Color(0.12f, 0.14f, 0.20f)
+                : Color.white;
         }
 
         private void ApplyCategoryIcon(CategoryData category)

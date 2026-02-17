@@ -84,6 +84,19 @@ namespace RagazziStudios.Game.Boot
 
             Debug.Log($"[BootLoader] Data loaded: {loaded}/{categoriesFile.categories.Count} categories.");
 
+            // Carregar banco de palavras exclusivo do Desafio (desafio.json)
+            var desafioAsset = Resources.Load<TextAsset>(WORDS_PATH_PREFIX + "desafio");
+            if (desafioAsset != null)
+            {
+                var desafioFile = JsonUtility.FromJson<WordsFile>(desafioAsset.text);
+                if (desafioFile?.words != null)
+                {
+                    wordDatabase.AddCategory("desafio", desafioFile.words);
+                    Debug.Log($"[BootLoader] Loaded 'desafio': {desafioFile.words.Count} words.");
+                }
+            }
+            yield return null;
+
             // Pequeno delay para a splash ser visível
             yield return new WaitForSeconds(0.5f);
 
