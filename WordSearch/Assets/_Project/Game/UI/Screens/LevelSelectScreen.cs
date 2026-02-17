@@ -4,7 +4,7 @@ using TMPro;
 using RagazziStudios.Core.Application;
 using RagazziStudios.Core.Infrastructure;
 using RagazziStudios.Core.Infrastructure.Localization;
-using RagazziStudios.Game.Config;
+using RagazziStudios.Core.Domain;
 
 namespace RagazziStudios.Game.UI.Screens
 {
@@ -28,14 +28,20 @@ namespace RagazziStudios.Game.UI.Screens
 
         [Header("Cores dos Estados")]
         [SerializeField] private Color _completedColor = new Color(0.3f, 0.8f, 0.3f);
-        [SerializeField] private Color _unlockedColor = new Color(1f, 1f, 1f);
+        [SerializeField] private Color _unlockedColor = new Color(0.20f, 0.47f, 0.96f);
         [SerializeField] private Color _lockedColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+
+        private Color _completedTextColor = Color.white;
+        private Color _unlockedTextColor = Color.white;
+        private Color _lockedTextColor = Color.white;
 
         private void OnEnable()
         {
             if (_backButton != null)
                 _backButton.onClick.AddListener(OnBackClicked);
 
+            ThemeManager.OnThemeChanged += OnThemeChanged;
+            ResolveTheme();
             ApplyThemeColors();
             PopulateLevels();
             UpdateLocalization();
@@ -45,6 +51,21 @@ namespace RagazziStudios.Game.UI.Screens
         {
             if (_backButton != null)
                 _backButton.onClick.RemoveListener(OnBackClicked);
+
+            ThemeManager.OnThemeChanged -= OnThemeChanged;
+        }
+
+        private void OnThemeChanged(GameTheme newTheme)
+        {
+            _theme = newTheme;
+            ApplyThemeColors();
+            PopulateLevels();
+        }
+
+        private void ResolveTheme()
+        {
+            if (_theme == null && ThemeManager.Instance != null)
+                _theme = ThemeManager.Instance.CurrentTheme;
         }
 
         private void ApplyThemeColors()
@@ -52,15 +73,19 @@ namespace RagazziStudios.Game.UI.Screens
             if (_theme == null) return;
 
             _completedColor = _theme.success;
-            _unlockedColor = _theme.surface;
+            _unlockedColor = _theme.primary;
             _lockedColor = new Color(
                 _theme.textDisabled.r,
                 _theme.textDisabled.g,
                 _theme.textDisabled.b,
                 0.5f);
 
+            _completedTextColor = _theme.textOnColor;
+            _unlockedTextColor = _theme.textOnColor;
+            _lockedTextColor = _theme.textDisabled;
+
             if (_headerText != null)
-                _headerText.color = _theme.textOnColor;
+                _headerText.color = _theme.textPrimary;
 
             if (_categoryNameText != null)
                 _categoryNameText.color = _theme.textSecondary;
@@ -116,8 +141,10 @@ namespace RagazziStudios.Game.UI.Screens
 
                     Color color = completed ? _completedColor :
                         unlocked ? _unlockedColor : _lockedColor;
+                    Color textColor = completed ? _completedTextColor :
+                        unlocked ? _unlockedTextColor : _lockedTextColor;
 
-                    item.Setup(i, completed, unlocked, color, OnLevelClicked);
+                    item.Setup(i, completed, unlocked, color, textColor, OnLevelClicked);
                 }
             }
         }

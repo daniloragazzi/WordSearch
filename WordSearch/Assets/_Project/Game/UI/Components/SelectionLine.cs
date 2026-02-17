@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using RagazziStudios.Core.Domain.Grid;
-using RagazziStudios.Game.Config;
+using RagazziStudios.Core.Domain;
+using RagazziStudios.Core.Application;
 
 namespace RagazziStudios.Game.UI.Components
 {
@@ -69,19 +70,43 @@ namespace RagazziStudios.Game.UI.Components
             }
         }
 
+        private void OnEnable()
+        {
+            ThemeManager.OnThemeChanged += OnThemeChanged;
+        }
+
+        private void OnDisable()
+        {
+            ThemeManager.OnThemeChanged -= OnThemeChanged;
+        }
+
+        private void OnThemeChanged(GameTheme newTheme)
+        {
+            ApplyThemeColors();
+            if (_lineImage != null)
+                _lineImage.color = _lineColor;
+        }
+
+        private GameTheme ResolveTheme()
+        {
+            if (_theme != null) return _theme;
+            return ThemeManager.Instance != null ? ThemeManager.Instance.CurrentTheme : null;
+        }
+
         private void ApplyThemeColors()
         {
-            if (_theme != null)
+            var theme = ResolveTheme();
+            if (theme != null)
             {
-                _lineColor = WithAlpha(_theme.cellSelected, 0.30f);
+                _lineColor = WithAlpha(theme.cellSelected, 0.30f);
                 _foundColors = new[]
                 {
-                    WithAlpha(_theme.success, 0.24f),
-                    WithAlpha(_theme.accent, 0.24f),
-                    WithAlpha(_theme.primary, 0.24f),
-                    WithAlpha(_theme.error, 0.24f),
-                    WithAlpha(_theme.warning, 0.24f),
-                    WithAlpha(_theme.primaryLight, 0.24f),
+                    WithAlpha(theme.success, 0.24f),
+                    WithAlpha(theme.accent, 0.24f),
+                    WithAlpha(theme.primary, 0.24f),
+                    WithAlpha(theme.error, 0.24f),
+                    WithAlpha(theme.warning, 0.24f),
+                    WithAlpha(theme.primaryLight, 0.24f),
                 };
                 return;
             }

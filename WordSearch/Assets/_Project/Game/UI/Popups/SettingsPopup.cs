@@ -5,6 +5,7 @@ using RagazziStudios.Core.Application;
 using RagazziStudios.Core.Infrastructure;
 using RagazziStudios.Core.Infrastructure.Localization;
 using RagazziStudios.Core.Infrastructure.Storage;
+using System.Collections.Generic;
 
 namespace RagazziStudios.Game.UI.Popups
 {
@@ -19,11 +20,13 @@ namespace RagazziStudios.Game.UI.Popups
         [SerializeField] private TMP_Text _soundLabel;
         [SerializeField] private TMP_Text _musicLabel;
         [SerializeField] private TMP_Text _languageLabel;
+        [SerializeField] private TMP_Text _themeLabel;
 
         [Header("Controles")]
         [SerializeField] private Toggle _soundToggle;
         [SerializeField] private Toggle _musicToggle;
         [SerializeField] private TMP_Dropdown _languageDropdown;
+        [SerializeField] private TMP_Dropdown _themeDropdown;
 
         [Header("Botões")]
         [SerializeField] private Button _closeButton;
@@ -58,40 +61,52 @@ namespace RagazziStudios.Game.UI.Popups
                 SetAnchors(_titleText.rectTransform, new Vector2(0.15f, 0.70f), new Vector2(0.85f, 0.88f));
             }
 
+            // Row 1 — Som
             if (_soundLabel != null)
             {
                 _soundLabel.alignment = TextAlignmentOptions.MidlineLeft;
-                SetAnchors(_soundLabel.rectTransform, new Vector2(0.08f, 0.52f), new Vector2(0.45f, 0.64f));
+                SetAnchors(_soundLabel.rectTransform, new Vector2(0.08f, 0.56f), new Vector2(0.45f, 0.67f));
             }
-
-            if (_musicLabel != null)
-            {
-                _musicLabel.alignment = TextAlignmentOptions.MidlineLeft;
-                SetAnchors(_musicLabel.rectTransform, new Vector2(0.08f, 0.38f), new Vector2(0.45f, 0.50f));
-            }
-
-            if (_languageLabel != null)
-            {
-                _languageLabel.alignment = TextAlignmentOptions.MidlineLeft;
-                SetAnchors(_languageLabel.rectTransform, new Vector2(0.08f, 0.24f), new Vector2(0.45f, 0.36f));
-            }
-
             if (_soundToggle != null)
             {
                 var rt = _soundToggle.GetComponent<RectTransform>();
-                SetAnchors(rt, new Vector2(0.68f, 0.52f), new Vector2(0.86f, 0.64f));
+                SetAnchors(rt, new Vector2(0.68f, 0.56f), new Vector2(0.86f, 0.67f));
             }
 
+            // Row 2 — Música
+            if (_musicLabel != null)
+            {
+                _musicLabel.alignment = TextAlignmentOptions.MidlineLeft;
+                SetAnchors(_musicLabel.rectTransform, new Vector2(0.08f, 0.44f), new Vector2(0.45f, 0.55f));
+            }
             if (_musicToggle != null)
             {
                 var rt = _musicToggle.GetComponent<RectTransform>();
-                SetAnchors(rt, new Vector2(0.68f, 0.38f), new Vector2(0.86f, 0.50f));
+                SetAnchors(rt, new Vector2(0.68f, 0.44f), new Vector2(0.86f, 0.55f));
             }
 
+            // Row 3 — Idioma
+            if (_languageLabel != null)
+            {
+                _languageLabel.alignment = TextAlignmentOptions.MidlineLeft;
+                SetAnchors(_languageLabel.rectTransform, new Vector2(0.08f, 0.31f), new Vector2(0.45f, 0.42f));
+            }
             if (_languageDropdown != null)
             {
                 var rt = _languageDropdown.GetComponent<RectTransform>();
-                SetAnchors(rt, new Vector2(0.54f, 0.23f), new Vector2(0.90f, 0.37f));
+                SetAnchors(rt, new Vector2(0.50f, 0.30f), new Vector2(0.92f, 0.43f));
+            }
+
+            // Row 4 — Tema
+            if (_themeLabel != null)
+            {
+                _themeLabel.alignment = TextAlignmentOptions.MidlineLeft;
+                SetAnchors(_themeLabel.rectTransform, new Vector2(0.08f, 0.17f), new Vector2(0.45f, 0.28f));
+            }
+            if (_themeDropdown != null)
+            {
+                var rt = _themeDropdown.GetComponent<RectTransform>();
+                SetAnchors(rt, new Vector2(0.50f, 0.16f), new Vector2(0.92f, 0.29f));
             }
 
             if (_closeButton != null)
@@ -145,6 +160,18 @@ namespace RagazziStudios.Game.UI.Popups
                 _languageDropdown.onValueChanged.AddListener(OnLanguageChanged);
             }
 
+            // Tema
+            if (_themeDropdown != null)
+            {
+                _themeDropdown.ClearOptions();
+                _themeDropdown.AddOptions(new List<string> { "Sistema", "Claro", "Escuro" });
+
+                if (ThemeManager.Instance != null)
+                    _themeDropdown.value = (int)ThemeManager.Instance.CurrentMode;
+
+                _themeDropdown.onValueChanged.AddListener(OnThemeDropdownChanged);
+            }
+
             // Fechar
             if (_closeButton != null)
                 _closeButton.onClick.AddListener(OnCloseClicked);
@@ -165,6 +192,9 @@ namespace RagazziStudios.Game.UI.Popups
 
             if (_languageLabel != null)
                 _languageLabel.text = _localization.Get("settings_language");
+
+            if (_themeLabel != null)
+                _themeLabel.text = "Tema";
         }
 
         // --- Callbacks ---
@@ -192,6 +222,15 @@ namespace RagazziStudios.Game.UI.Popups
                 MusicManager.Instance.SetEnabled(enabled);
 
             Debug.Log($"[Settings] Music: {(enabled ? "ON" : "OFF")}");
+        }
+
+        private void OnThemeDropdownChanged(int index)
+        {
+            var mode = (ThemeMode)index;
+            if (ThemeManager.Instance != null)
+                ThemeManager.Instance.SetThemeMode(mode);
+
+            Debug.Log($"[Settings] Theme: {mode}");
         }
 
         private void OnLanguageChanged(int index)
@@ -281,6 +320,9 @@ namespace RagazziStudios.Game.UI.Popups
 
             if (_languageDropdown != null)
                 _languageDropdown.onValueChanged.RemoveListener(OnLanguageChanged);
+
+            if (_themeDropdown != null)
+                _themeDropdown.onValueChanged.RemoveListener(OnThemeDropdownChanged);
 
             if (_closeButton != null)
                 _closeButton.onClick.RemoveListener(OnCloseClicked);

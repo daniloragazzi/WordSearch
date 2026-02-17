@@ -25,13 +25,16 @@ namespace RagazziStudios.Game.UI.Screens
         /// Configura o item do nível.
         /// </summary>
         public void Setup(int levelNumber, bool completed, bool unlocked,
-            Color backgroundColor, Action<int> onClickCallback)
+            Color backgroundColor, Color textColor, Action<int> onClickCallback)
         {
             _levelNumber = levelNumber;
             _onClickCallback = onClickCallback;
 
             if (_numberText != null)
+            {
                 _numberText.text = levelNumber.ToString();
+                _numberText.color = textColor;
+            }
 
             if (_backgroundImage != null)
                 _backgroundImage.color = backgroundColor;

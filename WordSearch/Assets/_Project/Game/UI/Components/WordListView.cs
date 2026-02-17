@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using RagazziStudios.Core.Domain.Grid;
-using RagazziStudios.Game.Config;
+using RagazziStudios.Core.Domain;
+using RagazziStudios.Core.Application;
 
 namespace RagazziStudios.Game.UI.Components
 {
@@ -21,8 +22,8 @@ namespace RagazziStudios.Game.UI.Components
         [SerializeField] private GameTheme _theme;
 
         [Header("Visual")]
-        [SerializeField] private Color _normalColor = Color.white;
-        [SerializeField] private Color _foundColor = new Color(1f, 0.85f, 0.3f);
+        [SerializeField] private Color _normalColor = new Color(0.20f, 0.22f, 0.28f);
+        [SerializeField] private Color _foundColor = new Color(0.30f, 0.80f, 0.40f);
 
         private readonly Dictionary<string, WordListItem> _items =
             new Dictionary<string, WordListItem>();
@@ -32,12 +33,45 @@ namespace RagazziStudios.Game.UI.Components
             ApplyThemeColors();
         }
 
+        private void OnEnable()
+        {
+            ThemeManager.OnThemeChanged += OnThemeChanged;
+        }
+
+        private void OnDisable()
+        {
+            ThemeManager.OnThemeChanged -= OnThemeChanged;
+        }
+
+        private void OnThemeChanged(GameTheme newTheme)
+        {
+            ApplyThemeColors();
+            RecolorExistingItems();
+        }
+
+        private GameTheme ResolveTheme()
+        {
+            if (_theme != null) return _theme;
+            return ThemeManager.Instance != null ? ThemeManager.Instance.CurrentTheme : null;
+        }
+
         private void ApplyThemeColors()
         {
-            if (_theme == null) return;
+            var theme = ResolveTheme();
+            if (theme == null) return;
 
-            _normalColor = _theme.textOnColor;
-            _foundColor = _theme.warning;
+            _normalColor = theme.wordNormal;
+            _foundColor = theme.wordFound;
+        }
+
+        private void RecolorExistingItems()
+        {
+            foreach (var kvp in _items)
+            {
+                var item = kvp.Value;
+                if (item != null)
+                    item.Setup(item.Word, _normalColor);
+            }
         }
 
         /// <summary>

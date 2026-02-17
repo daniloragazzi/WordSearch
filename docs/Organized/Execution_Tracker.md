@@ -531,6 +531,12 @@
 | 2026-02-17 | DAT-009 | validate_words.py atualizado | MIN 100/cat, MIN 80 desafio, MAX 19 chars, UTF-8 BOM fix, seção explícita desafio |
 | 2026-02-17 | DAT-010 | Validação completa OK | 0 erros, 12 avisos cross-dup intencionais, 993 palavras total |
 | 2026-02-17 | THM-001..006 | Bloco Tema planejado | 6 ações: paleta escura, ThemeManager, seletor Settings, refatorar SceneCreator, troca runtime, validação device |
+| 2026-02-17 | THM-001 | Paleta escura criada | `ThemePaletteGenerator.cs` gera `GameTheme_Light` (isDark=false) e `GameTheme_Dark` (isDark=true) em `Assets/_Project/Resources/Themes/`; campo `isDark` adicionado ao `GameTheme.cs` |
+| 2026-02-17 | THM-002 | ThemeManager implementado | Singleton DontDestroyOnLoad; detecta Android dark mode via JNI; persiste modo em `StorageKeys.THEME_MODE`; evento `OnThemeChanged`; criado na Boot scene pelo SceneCreator |
+| 2026-02-17 | THM-003 | Seletor de tema no SettingsPopup | Dropdown 3 opções (Sistema/Claro/Escuro) adicionado a `SettingsPopup.cs`; SceneCreator cria label + dropdown como linha 4 do painel; layout ajustado para 4 linhas |
+| 2026-02-17 | THM-004 | SceneCreator refatorado para tema | `LoadThemeColors()` carrega `GameTheme_Light` especificamente; helper `SetPanelAnchors` adicionado; `ThemeColorBinding` aplicado no painel e labels do SettingsPopup |
+| 2026-02-17 | THM-005 | Troca de tema em runtime | `ThemeColorBinding.cs` criado com `ThemeColorRole` (18 tokens); `OnEnable/OnDisable` assinam `ThemeManager.OnThemeChanged`; suporta `Image`, `TMP_Text`, `Graphic` |
+| 2026-02-17 | THM-006 | Validação no device — pendente | Aguarda execução no Unity (Generate Theme Assets → Create All Scenes → Build APK → teste no device) |
 | 2026-02-17 | TST-008 | Teste Fase 5 planejado | Validação completa no device após melhorias |
 | 2026-02-17 | BLD-007 | Build Fase 5 planejado | APK final pós-melhorias |
 

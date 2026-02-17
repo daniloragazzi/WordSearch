@@ -28,5 +28,8 @@ namespace RagazziStudios.Core.Infrastructure.Storage
 
         // Tutorial
         public const string TUTORIAL_COMPLETED = "tutorial_completed";
+
+        // Tema visual
+        public const string THEME_MODE = "settings_theme_mode"; // "system" | "light" | "dark"
     }
 }
