@@ -1,5 +1,5 @@
 {
-    "name": "RagazziStudios.Core.Domain",
+    "name": "RagazziStudios.WordSearch.Domain",
     "rootNamespace": "RagazziStudios.Core.Domain",
     "references": [],
     "includePlatforms": [],

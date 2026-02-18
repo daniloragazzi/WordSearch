@@ -5,6 +5,8 @@
         "RagazziStudios.Core.Domain",
         "RagazziStudios.Core.Infrastructure",
         "RagazziStudios.Core.Application",
+        "RagazziStudios.WordSearch.Domain",
+        "RagazziStudios.WordSearch.Application",
         "Unity.TextMeshPro"
     ],
     "includePlatforms": [],

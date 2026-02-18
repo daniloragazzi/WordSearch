@@ -2,7 +2,8 @@
     "name": "RagazziStudios.Tests.Integration",
     "rootNamespace": "RagazziStudios.Tests",
     "references": [
-        "RagazziStudios.Core.Domain"
+        "RagazziStudios.Core.Domain",
+        "RagazziStudios.WordSearch.Domain"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
