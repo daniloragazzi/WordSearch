@@ -458,14 +458,14 @@
 
 | Código | Ação | Status | Data Início | Data Fim |
 |--------|------|--------|-------------|----------|
-| PKG-000 | Criar repositório GitHub `RagazziCore` | ⬜ | — | — |
-| PKG-001 | Criar estrutura do package com `package.json` | ⬜ | — | — |
-| PKG-002 | Portar `Core/Infrastructure` para o package | ⬜ | — | — |
-| PKG-003 | Portar `Core/Application` para o package | ⬜ | — | — |
-| PKG-004 | Atualizar `GameTheme` com tokens de feedback do Termo | ⬜ | — | — |
-| PKG-005 | Portar `ThemePaletteGenerator` para o package Editor | ⬜ | — | — |
-| PKG-006 | Referenciar package no WordSearch via URL git e remover Core local | ⬜ | — | — |
-| PKG-007 | Validar que o WordSearch compila e funciona com o package | ⬜ | — | — |
+| PKG-000 | Criar repositório GitHub `RagazziCore` | ✅ | 2026-02-17 | 2026-02-17 |
+| PKG-001 | Criar estrutura do package com `package.json` | ✅ | 2026-02-17 | 2026-02-17 |
+| PKG-002 | Portar `Core/Infrastructure` para o package | ✅ | 2026-02-17 | 2026-02-17 |
+| PKG-003 | Portar `Core/Application` para o package | ✅ | 2026-02-17 | 2026-02-17 |
+| PKG-004 | Atualizar `GameTheme` com tokens de feedback do Termo | ✅ | 2026-02-17 | 2026-02-17 |
+| PKG-005 | Portar `ThemePaletteGenerator` para o package Editor | ✅ | 2026-02-17 | 2026-02-17 |
+| PKG-006 | Referenciar package no WordSearch via URL git e remover Core local | ✅ | 2026-02-17 | 2026-02-17 |
+| PKG-007 | Validar que o WordSearch compila e funciona com o package | ✅ | 2026-02-17 | 2026-02-17 |
 
 ### T1.2 — Integração RagazziCore no TermoBR
 

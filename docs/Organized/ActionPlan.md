@@ -292,14 +292,14 @@
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| PKG-000 | Criar repositório GitHub `RagazziCore` | 🔴 | — | `github.com/daniloragazzi/RagazziCore`, repo público, branches main+develop |
+| PKG-000 | Criar repositório GitHub `RagazziCore` | ✅ | — | `github.com/daniloragazzi/RagazziCore`, repo público, branches main+develop |
 | PKG-001 | Criar estrutura do package com `package.json` | ✅ | PKG-000 | `"name": "com.ragazzistudios.core"`, Runtime/, Editor/, README |
 | PKG-002 | Portar `Core/Infrastructure` para o package | ✅ | PKG-001 | StorageService, LocalizationService, AdsService, AnalyticsService, ServiceLocator |
 | PKG-003 | Portar `Core/Application` para o package | ✅ | PKG-001 | ThemeManager, MusicManager, GameStateMachine base, StorageKeys |
 | PKG-004 | Atualizar `GameTheme` com tokens de feedback do Termo | ✅ | PKG-001 | Adicionar `letterCorrect`, `letterPresent`, `letterAbsent`, `letterUnused`, `letterOnColor` |
 | PKG-005 | Portar `ThemePaletteGenerator` para o package Editor | ✅ | PKG-004 | Gerar `GameTheme_Light` e `GameTheme_Dark` com novos tokens |
-| PKG-006 | Referenciar package no WordSearch via URL git e remover Core local | ✅ | PKG-001..005 | `"com.ragazzistudios.core": "file:../../RagazziCore"` no manifest.json do WordSearch; remover `Assets/_Project/Core/` |
-| PKG-007 | Validar que o WordSearch compila e funciona com o package | ⏳ | PKG-006 | Regenerar cenas, build APK dev, teste no device — sem regressão |
+| PKG-006 | Referenciar package no WordSearch via URL git e remover Core local | ✅ | PKG-001..005 | `"com.ragazzistudios.core": "https://github.com/daniloragazzi/RagazziCore.git"` no manifest.json do WordSearch; remover `Assets/_Project/Core/` |
+| PKG-007 | Validar que o WordSearch compila e funciona com o package | ✅ | PKG-006 | Regenerar cenas, build APK dev, teste no device — sem regressão |
 
 ### T1.1 — Setup e Configuração (TermoBR)
 
