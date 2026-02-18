@@ -454,16 +454,24 @@
 | CFG-T05 | Criar estrutura de pastas `Assets/_Project/` | ⬜ | — | — |
 | CFG-T06 | Configurar Android build settings | ⬜ | — | — |
 
-### T1.2 — RagazziCore Package
+### T1.0 — RagazziCore Package (pré-requisito global)
 
 | Código | Ação | Status | Data Início | Data Fim |
 |--------|------|--------|-------------|----------|
-| PKG-001 | Criar estrutura do package `RagazziCore` | ⬜ | — | — |
+| PKG-000 | Criar repositório GitHub `RagazziCore` | ⬜ | — | — |
+| PKG-001 | Criar estrutura do package com `package.json` | ⬜ | — | — |
 | PKG-002 | Portar `Core/Infrastructure` para o package | ⬜ | — | — |
 | PKG-003 | Portar `Core/Application` para o package | ⬜ | — | — |
 | PKG-004 | Atualizar `GameTheme` com tokens de feedback do Termo | ⬜ | — | — |
 | PKG-005 | Portar `ThemePaletteGenerator` para o package Editor | ⬜ | — | — |
-| PKG-006 | Referenciar package no manifest e validar compilação | ⬜ | — | — |
+| PKG-006 | Referenciar package no WordSearch via URL git e remover Core local | ⬜ | — | — |
+| PKG-007 | Validar que o WordSearch compila e funciona com o package | ⬜ | — | — |
+
+### T1.2 — Integração RagazziCore no TermoBR
+
+| Código | Ação | Status | Data Início | Data Fim |
+|--------|------|--------|-------------|----------|
+| PKG-T01 | Referenciar RagazziCore no manifest do TermoBR | ⬜ | — | — |
 
 ### T1.3 — Domain Layer
 

@@ -285,27 +285,38 @@
 > Core compartilhado via package local `RagazziCore` (`com.ragazzistudios.core`).
 > Referências: Discussion_07..09 em `docs/Brainstorm/`.
 
-### T1.1 — Setup e Configuração
+### T1.0 — RagazziCore Package (pré-requisito de todos os apps)
+
+> **Executar antes de qualquer trabalho no TermoBR.**
+> O package também será backportado para o WordSearch — validando que o App 1 continua funcionando antes de avançar.
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| CFG-T01 | Criar repositório GitHub `TermoBR` | ⬜ | — | `github.com/daniloragazzi/TermoBR`, branches main+develop, .gitignore Unity |
+| PKG-000 | Criar repositório GitHub `RagazziCore` | ⬜ | — | `github.com/daniloragazzi/RagazziCore`, repo público, branches main+develop |
+| PKG-001 | Criar estrutura do package com `package.json` | ⬜ | PKG-000 | `"name": "com.ragazzistudios.core"`, Runtime/, Editor/, README |
+| PKG-002 | Portar `Core/Infrastructure` para o package | ⬜ | PKG-001 | StorageService, LocalizationService, AdsService, AnalyticsService, ServiceLocator |
+| PKG-003 | Portar `Core/Application` para o package | ⬜ | PKG-001 | ThemeManager, MusicManager, GameStateMachine base, StorageKeys |
+| PKG-004 | Atualizar `GameTheme` com tokens de feedback do Termo | ⬜ | PKG-001 | Adicionar `letterCorrect`, `letterPresent`, `letterAbsent`, `letterUnused`, `letterOnColor` |
+| PKG-005 | Portar `ThemePaletteGenerator` para o package Editor | ⬜ | PKG-004 | Gerar `GameTheme_Light` e `GameTheme_Dark` com novos tokens |
+| PKG-006 | Referenciar package no WordSearch via URL git e remover Core local | ⬜ | PKG-001..005 | `"com.ragazzistudios.core": "https://github.com/daniloragazzi/RagazziCore.git"` no manifest.json do WordSearch; remover `Assets/_Project/Core/` |
+| PKG-007 | Validar que o WordSearch compila e funciona com o package | ⬜ | PKG-006 | Regenerar cenas, build APK dev, teste no device — sem regressão |
+
+### T1.1 — Setup e Configuração (TermoBR)
+
+| Código | Ação | Status | Dependência | Notas |
+|--------|------|--------|-------------|-------|
+| CFG-T01 | Criar repositório GitHub `TermoBR` | ⬜ | PKG-007 | `github.com/daniloragazzi/TermoBR`, branches main+develop, .gitignore Unity |
 | CFG-T02 | Criar projeto Unity `Termo/` no novo repo | ⬜ | CFG-T01 | Unity 6.3 LTS, template 2D, package name `com.ragazzistudios.termo` |
 | CFG-T03 | Configurar Git (.gitignore, .gitattributes, README) | ⬜ | CFG-T01 | Mesmo padrão do WordSearch |
 | CFG-T04 | Configurar VS Code para o novo projeto | ⬜ | CFG-T02 | .vscode/, .editorconfig |
 | CFG-T05 | Criar estrutura de pastas `Assets/_Project/` | ⬜ | CFG-T02 | Core/, Game/, Editor/, Art/, Resources/ |
 | CFG-T06 | Configurar Android build settings | ⬜ | CFG-T02 | Package name, ícone placeholder, keystore dev |
 
-### T1.2 — RagazziCore Package
+### T1.2 — Integração RagazziCore no TermoBR
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| PKG-001 | Criar estrutura do package `RagazziCore` | ⬜ | CFG-T01 | `Packages/RagazziCore/package.json`, Runtime/, Editor/, README |
-| PKG-002 | Portar `Core/Infrastructure` para o package | ⬜ | PKG-001 | StorageService, LocalizationService, AdsService, AnalyticsService, ServiceLocator |
-| PKG-003 | Portar `Core/Application` para o package | ⬜ | PKG-001 | ThemeManager, MusicManager, GameStateMachine base, StorageKeys |
-| PKG-004 | Atualizar `GameTheme` com tokens de feedback do Termo | ⬜ | PKG-001 | Adicionar `letterCorrect`, `letterPresent`, `letterAbsent`, `letterUnused`, `letterOnColor` |
-| PKG-005 | Portar `ThemePaletteGenerator` para o package Editor | ⬜ | PKG-004 | Gerar `GameTheme_Light` e `GameTheme_Dark` com novos tokens |
-| PKG-006 | Referenciar package no manifest do projeto Termo e validar compilação | ⬜ | PKG-001..005, CFG-T02 | `"com.ragazzistudios.core": "file:../../Packages/RagazziCore"` no manifest.json |
+| PKG-T01 | Referenciar RagazziCore no manifest do TermoBR | ⬜ | CFG-T02, PKG-007 | `"com.ragazzistudios.core": "https://github.com/daniloragazzi/RagazziCore.git"` no manifest.json |
 
 ### T1.3 — Domain Layer (Termo)
 
@@ -418,8 +429,9 @@
 
 | Etapa | Total | ⬜ | ⏸️ | 🔵 | 🔴 | ✅ | % |
 |-------|-------|-----|-----|-----|-----|-----|---|
+| T1.0 RagazziCore Package | 8 | 8 | 0 | 0 | 0 | 0 | 0% |
 | T1.1 Setup | 6 | 6 | 0 | 0 | 0 | 0 | 0% |
-| T1.2 RagazziCore Package | 6 | 6 | 0 | 0 | 0 | 0 | 0% |
+| T1.2 Integrar Core no TermoBR | 1 | 1 | 0 | 0 | 0 | 0 | 0% |
 | T1.3 Domain | 5 | 5 | 0 | 0 | 0 | 0 | 0% |
 | T1.4 Application | 4 | 4 | 0 | 0 | 0 | 0 | 0% |
 | T1.5 Dados | 5 | 5 | 0 | 0 | 0 | 0 | 0% |
@@ -427,7 +439,7 @@
 | T1.7 Design | 4 | 4 | 0 | 0 | 0 | 0 | 0% |
 | T1.8 Áudio | 2 | 2 | 0 | 0 | 0 | 0 | 0% |
 | T1.9 Testes e Build | 7 | 7 | 0 | 0 | 0 | 0 | 0% |
-| **TOTAL App 2** | **52** | **52** | **0** | **0** | **0** | **0** | **0%** |
+| **TOTAL App 2** | **48** | **48** | **0** | **0** | **0** | **0** | **0%** |
 
 ---
 
@@ -441,10 +453,11 @@ App 1 — Caça-Palavras
     └── ARQ-002 (Ads/Analytics reais) — depende de IDs de produção externos
 
 App 2 — Termo BR (paralelo ao App 1)
-  T1.1 Setup → T1.2 RagazziCore Package
-    → T1.3 Domain + T1.4 Application + T1.5 Dados (paralelos)
-      → T1.6 UI/Cenas → T1.7 Design + T1.8 Áudio (paralelos)
-        → T1.9 Testes e Build
+  T1.0 RagazziCore Package (repo próprio) → PKG-007 Validar WordSearch ✓
+    → T1.1 Setup TermoBR → T1.2 Integrar Core
+      → T1.3 Domain + T1.4 Application + T1.5 Dados (paralelos)
+        → T1.6 UI/Cenas → T1.7 Design + T1.8 Áudio (paralelos)
+          → T1.9 Testes e Build
 ```
 
 > App 1 e App 2 são desenvolvidos em paralelo e independentes entre si.
