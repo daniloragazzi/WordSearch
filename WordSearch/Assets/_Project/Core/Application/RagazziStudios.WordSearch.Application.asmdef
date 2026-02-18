@@ -1,0 +1,20 @@
+{
+    "name": "RagazziStudios.WordSearch.Application",
+    "rootNamespace": "RagazziStudios.Core.Application",
+    "references": [
+        "RagazziStudios.Core.Domain",
+        "RagazziStudios.Core.Infrastructure",
+        "RagazziStudios.Core.Application",
+        "RagazziStudios.WordSearch.Domain",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
