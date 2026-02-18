@@ -447,12 +447,12 @@
 
 | Código | Ação | Status | Data Início | Data Fim |
 |--------|------|--------|-------------|----------|
-| CFG-T01 | Criar repositório GitHub `TermoBR` | ⬜ | — | — |
-| CFG-T02 | Criar projeto Unity `Termo/` no novo repo | ⬜ | — | — |
-| CFG-T03 | Configurar Git (.gitignore, .gitattributes, README) | ⬜ | — | — |
-| CFG-T04 | Configurar VS Code para o novo projeto | ⬜ | — | — |
-| CFG-T05 | Criar estrutura de pastas `Assets/_Project/` | ⬜ | — | — |
-| CFG-T06 | Configurar Android build settings | ⬜ | — | — |
+| CFG-T01 | Criar repositório GitHub `TermoBR` | ✅ | 2026-02-17 | 2026-02-17 |
+| CFG-T02 | Criar projeto Unity `Termo/` no novo repo | ✅ | 2026-02-17 | 2026-02-17 |
+| CFG-T03 | Configurar Git (.gitignore, .gitattributes, README) | ✅ | 2026-02-17 | 2026-02-17 |
+| CFG-T04 | Configurar VS Code para o novo projeto | ✅ | 2026-02-17 | 2026-02-17 |
+| CFG-T05 | Criar estrutura de pastas `Assets/_Project/` | ✅ | 2026-02-17 | 2026-02-17 |
+| CFG-T06 | Configurar Android build settings | ✅ | 2026-02-17 | 2026-02-17 |
 
 ### T1.0 — RagazziCore Package (pré-requisito global)
 
@@ -471,32 +471,32 @@
 
 | Código | Ação | Status | Data Início | Data Fim |
 |--------|------|--------|-------------|----------|
-| PKG-T01 | Referenciar RagazziCore no manifest do TermoBR | ⬜ | — | — |
+| PKG-T01 | Referenciar RagazziCore no manifest do TermoBR | ✅ | 2026-02-17 | 2026-02-17 |
 
 ### T1.3 — Domain Layer
 
 | Código | Ação | Status | Data Início | Data Fim |
 |--------|------|--------|-------------|----------|
-| DEV-T01 | Implementar `LetterState` (enum) | ⬜ | — | — |
-| DEV-T02 | Implementar `TermoGuess` | ⬜ | — | — |
-| DEV-T03 | Implementar `TermoBoard` (domain) | ⬜ | — | — |
-| DEV-T04 | Implementar `TermoValidator` | ⬜ | — | — |
-| DEV-T05 | Implementar `TermoGame` | ⬜ | — | — |
+| DEV-T01 | Implementar `LetterState` (enum) | ✅ | 2026-02-17 | 2026-02-17 |
+| DEV-T02 | Implementar `TermoGuess` | ✅ | 2026-02-17 | 2026-02-17 |
+| DEV-T03 | Implementar `TermoBoard` (domain) | ✅ | 2026-02-17 | 2026-02-17 |
+| DEV-T04 | Implementar `TermoValidator` | ✅ | 2026-02-17 | 2026-02-17 |
+| DEV-T05 | Implementar `TermoGame` | ✅ | 2026-02-17 | 2026-02-17 |
 
 ### T1.4 — Application Layer
 
 | Código | Ação | Status | Data Início | Data Fim |
 |--------|------|--------|-------------|----------|
-| DEV-T06 | Implementar `WordBankService` | ⬜ | — | — |
-| DEV-T07 | Implementar `StatsManager` | ⬜ | — | — |
-| DEV-T08 | Implementar `TermoGameManager` | ⬜ | — | — |
-| DEV-T09 | Adaptar `GameStateMachine` para estados do Termo | ⬜ | — | — |
+| DEV-T06 | Implementar `WordBankService` | ✅ | 2026-02-17 | 2026-02-17 |
+| DEV-T07 | Implementar `StatsManager` | ✅ | 2026-02-17 | 2026-02-17 |
+| DEV-T08 | Implementar `TermoGameManager` | ✅ | 2026-02-17 | 2026-02-17 |
+| DEV-T09 | Adaptar `GameStateMachine` para estados do Termo | ✅ | 2026-02-17 | 2026-02-17 |
 
 ### T1.5 — Dados e Conteúdo
 
 | Código | Ação | Status | Data Início | Data Fim |
 |--------|------|--------|-------------|----------|
-| DAT-T01 | Criar script Python `build_termo.py` | ⬜ | — | — |
+| DAT-T01 | Criar script Python `build_termo.py` | ✅ | 2026-02-17 | 2026-02-17 |
 | DAT-T02 | Gerar `words_5.json` (palavras-alvo, 1.000+) | ⬜ | — | — |
 | DAT-T03 | Gerar `valid_5.json` (dicionário completo, 3.000+) | ⬜ | — | — |
 | DAT-T04 | Criar script de validação `validate_termo.py` | ⬜ | — | — |

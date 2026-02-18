@@ -305,43 +305,43 @@
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| CFG-T01 | Criar repositório GitHub `TermoBR` | ⬜ | PKG-007 | `github.com/daniloragazzi/TermoBR`, branches main+develop, .gitignore Unity |
-| CFG-T02 | Criar projeto Unity `Termo/` no novo repo | ⬜ | CFG-T01 | Unity 6.3 LTS, template 2D, package name `com.ragazzistudios.termo` |
-| CFG-T03 | Configurar Git (.gitignore, .gitattributes, README) | ⬜ | CFG-T01 | Mesmo padrão do WordSearch |
-| CFG-T04 | Configurar VS Code para o novo projeto | ⬜ | CFG-T02 | .vscode/, .editorconfig |
-| CFG-T05 | Criar estrutura de pastas `Assets/_Project/` | ⬜ | CFG-T02 | Core/, Game/, Editor/, Art/, Resources/ |
-| CFG-T06 | Configurar Android build settings | ⬜ | CFG-T02 | Package name, ícone placeholder, keystore dev |
+| CFG-T01 | Criar repositório GitHub `TermoBR` | ✅ | PKG-007 | `github.com/daniloragazzi/TermoBR`, branches main+develop, .gitignore Unity |
+| CFG-T02 | Criar projeto Unity `Termo/` no novo repo | ✅ | CFG-T01 | Unity 6.3 LTS, template 2D, package name `com.ragazzistudios.termo` |
+| CFG-T03 | Configurar Git (.gitignore, .gitattributes, README) | ✅ | CFG-T01 | Mesmo padrão do WordSearch |
+| CFG-T04 | Configurar VS Code para o novo projeto | ✅ | CFG-T02 | .vscode/, .editorconfig |
+| CFG-T05 | Criar estrutura de pastas `Assets/_Project/` | ✅ | CFG-T02 | Core/, Game/, Editor/, Art/, Resources/ |
+| CFG-T06 | Configurar Android build settings | ✅ | CFG-T02 | Package name, ícone placeholder, keystore dev |
 
 ### T1.2 — Integração RagazziCore no TermoBR
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| PKG-T01 | Referenciar RagazziCore no manifest do TermoBR | ⬜ | CFG-T02, PKG-007 | `"com.ragazzistudios.core": "https://github.com/daniloragazzi/RagazziCore.git"` no manifest.json |
+| PKG-T01 | Referenciar RagazziCore no manifest do TermoBR | ✅ | CFG-T02, PKG-007 | `"com.ragazzistudios.core": "https://github.com/daniloragazzi/RagazziCore.git"` no manifest.json |
 
 ### T1.3 — Domain Layer (Termo)
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| DEV-T01 | Implementar `LetterState` (enum) | ⬜ | PKG-006 | Correct / Present / Absent / Unused |
-| DEV-T02 | Implementar `TermoGuess` | ⬜ | DEV-T01 | 5 letras + array de `LetterState` |
-| DEV-T03 | Implementar `TermoBoard` (domain) | ⬜ | DEV-T02 | Lista de `TermoGuess`, palavra-alvo, estado (Playing/Won/Lost) |
-| DEV-T04 | Implementar `TermoValidator` | ⬜ | DEV-T03 | Valida tentativa contra palavra-alvo; retorna array de `LetterState` |
-| DEV-T05 | Implementar `TermoGame` | ⬜ | DEV-T03 | Estado completo: 1, 2 ou 4 boards; modo enum; contagem de tentativas restantes |
+| DEV-T01 | Implementar `LetterState` (enum) | ✅ | PKG-006 | Correct / Present / Absent / Unused |
+| DEV-T02 | Implementar `TermoGuess` | ✅ | DEV-T01 | 5 letras + array de `LetterState` |
+| DEV-T03 | Implementar `TermoBoard` (domain) | ✅ | DEV-T02 | Lista de `TermoGuess`, palavra-alvo, estado (Playing/Won/Lost) |
+| DEV-T04 | Implementar `TermoValidator` | ✅ | DEV-T03 | Valida tentativa contra palavra-alvo; retorna array de `LetterState` |
+| DEV-T05 | Implementar `TermoGame` | ✅ | DEV-T03 | Estado completo: 1, 2 ou 4 boards; modo enum; contagem de tentativas restantes |
 
 ### T1.4 — Application Layer (Termo)
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| DEV-T06 | Implementar `WordBankService` | ⬜ | PKG-006 | Carrega `words_5.json` (alvos) e `valid_5.json` (dicionário); normaliza uppercase sem acento |
-| DEV-T07 | Implementar `StatsManager` | ⬜ | PKG-003 | Lê/grava partidas jogadas, vitórias, streak, distribuição de tentativas via StorageService |
-| DEV-T08 | Implementar `TermoGameManager` | ⬜ | DEV-T05, DEV-T06, DEV-T07 | Singleton; orquestra partida ativa, modo (1/2/4), histórico, sorteio de palavra |
-| DEV-T09 | Adaptar `GameStateMachine` para estados do Termo | ⬜ | PKG-003 | Estados: Boot, MainMenu, ModeSelect, Playing, Win, Lose |
+| DEV-T06 | Implementar `WordBankService` | ✅ | PKG-006 | Carrega `words_5.json` (alvos) e `valid_5.json` (dicionário); normaliza uppercase sem acento |
+| DEV-T07 | Implementar `StatsManager` | ✅ | PKG-003 | Lê/grava partidas jogadas, vitórias, streak, distribuição de tentativas via StorageService |
+| DEV-T08 | Implementar `TermoGameManager` | ✅ | DEV-T05, DEV-T06, DEV-T07 | Singleton; orquestra partida ativa, modo (1/2/4), histórico, sorteio de palavra |
+| DEV-T09 | Adaptar `GameStateMachine` para estados do Termo | ✅ | PKG-003 | Estados: Boot, MainMenu, ModeSelect, Playing, Win, Lose |
 
 ### T1.5 — Dados e Conteúdo
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| DAT-T01 | Criar script Python `build_termo.py` | ⬜ | — | Filtra + cura palavras de 5 letras; normaliza sem acento; gera 2 JSONs |
+| DAT-T01 | Criar script Python `build_termo.py` | ✅ | — | Filtra + cura palavras de 5 letras; normaliza sem acento; gera 2 JSONs |
 | DAT-T02 | Gerar `words_5.json` (palavras-alvo) | ⬜ | DAT-T01 | Meta: 1.000+ palavras comuns de 5 letras |
 | DAT-T03 | Gerar `valid_5.json` (dicionário completo) | ⬜ | DAT-T01 | Meta: 3.000+ palavras aceitas como tentativa |
 | DAT-T04 | Criar script de validação `validate_termo.py` | ⬜ | DAT-T02, DAT-T03 | Sem duplicatas, comprimento exato 5, charset `[A-Z]`, cobertura mínima |
