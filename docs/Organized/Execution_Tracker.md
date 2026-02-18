@@ -506,7 +506,7 @@
 
 | Código | Ação | Status | Data Início | Data Fim |
 |--------|------|--------|-------------|----------|
-| DEV-T10 | Criar `SceneCreator.cs` novo | ⬜ | — | — |
+| DEV-T10 | Criar `SceneCreator.cs` + `BuildScript.cs` | ✅ | 2026-02-17 | 2026-02-17 |
 | DEV-T11 | Criar cena Boot.unity | ⬜ | — | — |
 | DEV-T12 | Criar cena MainMenu.unity + `MainMenuScreen` | ⬜ | — | — |
 | DEV-T13 | Implementar `ModeSelectScreen` | ⬜ | — | — |

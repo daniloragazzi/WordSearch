@@ -351,7 +351,7 @@
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| DEV-T10 | Criar `SceneCreator.cs` (novo, independente) | ⬜ | PKG-006 | Editor tool; gera Boot, MainMenu, Game; sem herança do WordSearch |
+| DEV-T10 | Criar `SceneCreator.cs` + `BuildScript.cs` | ✅ | PKG-006 | Editor tool; gera Boot, MainMenu, ModeSelect, Game; `ThemeColorRole` tokens Termo BR |
 | DEV-T11 | Criar cena Boot.unity | ⬜ | DEV-T10 | Carrega banco de palavras, inicializa serviços, vai para MainMenu |
 | DEV-T12 | Criar cena MainMenu.unity + `MainMenuScreen` | ⬜ | DEV-T11 | Logo, botão Jogar, botão Configurações |
 | DEV-T13 | Implementar `ModeSelectScreen` | ⬜ | DEV-T12 | Seleção de modo: 1 / 2 / 4 palavras com descrição de tentativas |
