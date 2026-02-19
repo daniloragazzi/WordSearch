@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.ragazzistudios.core": {
-      "version": "file:../../../RagazziCore",
+      "version": "file:../../RagazziCore",
       "depth": 0,
       "source": "local",
       "dependencies": {}

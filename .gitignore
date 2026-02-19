@@ -2,6 +2,10 @@
 # Unity .gitignore
 # =============================================
 
+# Separate repos (have their own git repos)
+/RagazziCore/
+/TermoBR/
+
 # Unity generated
 /WordSearch/[Ll]ibrary/
 /WordSearch/[Tt]emp/
@@ -30,6 +34,7 @@
 *.aab
 *.unitypackage
 *.app
+*.keystore
 
 # Crashlytics
 /WordSearch/crashlytics-build.properties

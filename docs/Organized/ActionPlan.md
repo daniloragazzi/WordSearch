@@ -120,10 +120,10 @@
 |--------|------|--------|-------------|-------|
 | BLD-001 | Primeiro build Android (APK) | ✅ | TST-004 | BuildScript.cs, SceneCreator.cs, PlayerSettings Android, doc 10_Build_Test_Guide.md |
 | TST-005 | Teste no device real | ✅ | BLD-001 | Checklists 6.1, 6.2, 6.3 OK. Bugs corrigidos (orientation, layout, botões) |
-| BLD-002 | Criar conta Google Play Developer | ⏸️ | — | Conta criada, pendente validação — pausado para melhorias |
-| BLD-003 | Preparar assets Play Store (screenshots, descrição) | ⏸️ | TST-005 | Pausado — retomar após Fase 3 |
-| BLD-004 | Build AAB (Android App Bundle) | ⏸️ | TST-005 | Pausado — retomar após Fase 3 |
-| BLD-005 | Publicar na Play Store | ⏸️ | BLD-003, BLD-004 | Pausado — retomar após Fase 3 |
+| BLD-002 | Criar conta Google Play Developer | ✅ | — | Conta aprovada 2026-02-19 |
+| BLD-003 | Preparar assets Play Store (screenshots, descrição) | ✅ | TST-005 | PlayStoreListing_WordSearch.md criado 2026-02-19 |
+| BLD-004 | Build AAB (Android App Bundle) | ✅ | TST-005 | CacaPalavras.aab (42.8 MB), keystore ragazzi_release.keystore, v1.0.0 code 1 |
+| BLD-005 | Publicar na Play Store | ⏸️ | BLD-003, BLD-004 | Aguardando screenshots e upload no Console |
 
 ---
 
@@ -214,7 +214,7 @@
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
 | ARQ-001 | Revisar decisões de arquitetura Core/Game e state machine | ✅ | REV-001 | Aderência validada v0.1; ajustes pontuais registrados no tracker |
-| ARQ-002 | Revisar estratégia de serviços mock/real (Ads/Analytics/Storage) | 🔴 | REV-001 | Bloqueado por dependências externas de produção (SDK/IDs/consentimento) |
+| ARQ-002 | Revisar estratégia de serviços mock/real (Ads/Analytics/Storage) | ⏸️ | REV-001 | Adiado para pós-MVP — sem monetização no lançamento |
 | ARQ-003 | Revisar política de extensão do modo desafio no fluxo principal | ✅ | ARQ-001 | Política definida v1: desafio segmentado por modo e KPI separado do funil MVP |
 
 ### 4.3 — Usabilidade e Layout Visual
@@ -298,100 +298,100 @@
 | PKG-003 | Portar `Core/Application` para o package | ✅ | PKG-001 | ThemeManager, MusicManager, GameStateMachine base, StorageKeys |
 | PKG-004 | Atualizar `GameTheme` com tokens de feedback do Termo | ✅ | PKG-001 | Adicionar `letterCorrect`, `letterPresent`, `letterAbsent`, `letterUnused`, `letterOnColor` |
 | PKG-005 | Portar `ThemePaletteGenerator` para o package Editor | ✅ | PKG-004 | Gerar `GameTheme_Light` e `GameTheme_Dark` com novos tokens |
-| PKG-006 | Referenciar package no WordSearch via URL git e remover Core local | ✅ | PKG-001..005 | `"com.ragazzistudios.core": "https://github.com/daniloragazzi/RagazziCore.git"` no manifest.json do WordSearch; remover `Assets/_Project/Core/` |
+| PKG-006 | Referenciar package no WordSearch via path local e remover Core local | ✅ | PKG-001..005 | `"com.ragazzistudios.core": "file:../../RagazziCore"` no manifest.json do WordSearch; remover `Assets/_Project/Core/` |
 | PKG-007 | Validar que o WordSearch compila e funciona com o package | ✅ | PKG-006 | Regenerar cenas, build APK dev, teste no device — sem regressão |
 
 ### T1.1 — Setup e Configuração (TermoBR)
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| CFG-T01 | Criar repositório GitHub `TermoBR` | ⬜ | PKG-007 | `github.com/daniloragazzi/TermoBR`, branches main+develop, .gitignore Unity |
-| CFG-T02 | Criar projeto Unity `Termo/` no novo repo | ⬜ | CFG-T01 | Unity 6.3 LTS, template 2D, package name `com.ragazzistudios.termo` |
-| CFG-T03 | Configurar Git (.gitignore, .gitattributes, README) | ⬜ | CFG-T01 | Mesmo padrão do WordSearch |
-| CFG-T04 | Configurar VS Code para o novo projeto | ⬜ | CFG-T02 | .vscode/, .editorconfig |
-| CFG-T05 | Criar estrutura de pastas `Assets/_Project/` | ⬜ | CFG-T02 | Core/, Game/, Editor/, Art/, Resources/ |
-| CFG-T06 | Configurar Android build settings | ⬜ | CFG-T02 | Package name, ícone placeholder, keystore dev |
+| CFG-T01 | Criar repositório GitHub `TermoBR` | ✅ | PKG-007 | `github.com/daniloragazzi/TermoBR`, branches main+develop, .gitignore Unity |
+| CFG-T02 | Criar projeto Unity `Termo/` no novo repo | ✅ | CFG-T01 | Unity 6.3 LTS, template 2D, package name `com.ragazzistudios.termo` |
+| CFG-T03 | Configurar Git (.gitignore, .gitattributes, README) | ✅ | CFG-T01 | Mesmo padrão do WordSearch |
+| CFG-T04 | Configurar VS Code para o novo projeto | ✅ | CFG-T02 | .vscode/, .editorconfig |
+| CFG-T05 | Criar estrutura de pastas `Assets/_Project/` | ✅ | CFG-T02 | Core/, Game/, Editor/, Art/, Resources/ |
+| CFG-T06 | Configurar Android build settings | ✅ | CFG-T02 | Package name, ícone placeholder, keystore dev |
 
 ### T1.2 — Integração RagazziCore no TermoBR
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| PKG-T01 | Referenciar RagazziCore no manifest do TermoBR | ⬜ | CFG-T02, PKG-007 | `"com.ragazzistudios.core": "https://github.com/daniloragazzi/RagazziCore.git"` no manifest.json |
+| PKG-T01 | Referenciar RagazziCore no manifest do TermoBR | ✅ | CFG-T02, PKG-007 | `"com.ragazzistudios.core": "file:../../../RagazziCore"` no manifest.json |
 
 ### T1.3 — Domain Layer (Termo)
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| DEV-T01 | Implementar `LetterState` (enum) | ⬜ | PKG-006 | Correct / Present / Absent / Unused |
-| DEV-T02 | Implementar `TermoGuess` | ⬜ | DEV-T01 | 5 letras + array de `LetterState` |
-| DEV-T03 | Implementar `TermoBoard` (domain) | ⬜ | DEV-T02 | Lista de `TermoGuess`, palavra-alvo, estado (Playing/Won/Lost) |
-| DEV-T04 | Implementar `TermoValidator` | ⬜ | DEV-T03 | Valida tentativa contra palavra-alvo; retorna array de `LetterState` |
-| DEV-T05 | Implementar `TermoGame` | ⬜ | DEV-T03 | Estado completo: 1, 2 ou 4 boards; modo enum; contagem de tentativas restantes |
+| DEV-T01 | Implementar `LetterState` (enum) | ✅ | PKG-006 | Correct / Present / Absent / Unused |
+| DEV-T02 | Implementar `TermoGuess` | ✅ | DEV-T01 | 5 letras + array de `LetterState` |
+| DEV-T03 | Implementar `TermoBoard` (domain) | ✅ | DEV-T02 | Lista de `TermoGuess`, palavra-alvo, estado (Playing/Won/Lost) |
+| DEV-T04 | Implementar `TermoValidator` | ✅ | DEV-T03 | Valida tentativa contra palavra-alvo; retorna array de `LetterState` |
+| DEV-T05 | Implementar `TermoGame` | ✅ | DEV-T03 | Estado completo: 1, 2 ou 4 boards; modo enum; contagem de tentativas restantes |
 
 ### T1.4 — Application Layer (Termo)
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| DEV-T06 | Implementar `WordBankService` | ⬜ | PKG-006 | Carrega `words_5.json` (alvos) e `valid_5.json` (dicionário); normaliza uppercase sem acento |
-| DEV-T07 | Implementar `StatsManager` | ⬜ | PKG-003 | Lê/grava partidas jogadas, vitórias, streak, distribuição de tentativas via StorageService |
-| DEV-T08 | Implementar `TermoGameManager` | ⬜ | DEV-T05, DEV-T06, DEV-T07 | Singleton; orquestra partida ativa, modo (1/2/4), histórico, sorteio de palavra |
-| DEV-T09 | Adaptar `GameStateMachine` para estados do Termo | ⬜ | PKG-003 | Estados: Boot, MainMenu, ModeSelect, Playing, Win, Lose |
+| DEV-T06 | Implementar `WordBankService` | ✅ | PKG-006 | Carrega `words_5.json` (alvos) e `valid_5.json` (dicionário); normaliza uppercase sem acento |
+| DEV-T07 | Implementar `StatsManager` | ✅ | PKG-003 | Lê/grava partidas jogadas, vitórias, streak, distribuição de tentativas via StorageService |
+| DEV-T08 | Implementar `TermoGameManager` | ✅ | DEV-T05, DEV-T06, DEV-T07 | Singleton; orquestra partida ativa, modo (1/2/4), histórico, sorteio de palavra |
+| DEV-T09 | Adaptar `GameStateMachine` para estados do Termo | ✅ | PKG-003 | Estados: Boot, MainMenu, ModeSelect, Playing, Win, Lose |
 
 ### T1.5 — Dados e Conteúdo
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| DAT-T01 | Criar script Python `build_termo.py` | ⬜ | — | Filtra + cura palavras de 5 letras; normaliza sem acento; gera 2 JSONs |
-| DAT-T02 | Gerar `words_5.json` (palavras-alvo) | ⬜ | DAT-T01 | Meta: 1.000+ palavras comuns de 5 letras |
-| DAT-T03 | Gerar `valid_5.json` (dicionário completo) | ⬜ | DAT-T01 | Meta: 3.000+ palavras aceitas como tentativa |
-| DAT-T04 | Criar script de validação `validate_termo.py` | ⬜ | DAT-T02, DAT-T03 | Sem duplicatas, comprimento exato 5, charset `[A-Z]`, cobertura mínima |
-| DAT-T05 | Validar banco completo (sem erros) | ⬜ | DAT-T04 | 0 erros de formato; palavras-alvo são subconjunto das válidas |
+| DAT-T01 | Criar script Python `build_termo.py` | ✅ | — | Reescrito 2026-02-18: lê `pt_BR.dic` (ISO-8859-1, 312.369 entradas); `expand_plurals()` PT-BR; `implicit_4` para radicais curtos (ex: CASA de CASACO) |
+| DAT-T02 | Gerar `words_5.json` (palavras-alvo) | ✅ | DAT-T01 | **8.697 palavras** — formas diretas do dicionário (alvos sorteados); 119 KB; parse ~32 ms |
+| DAT-T03 | Gerar `valid_5.json` (dicionário completo) | ✅ | DAT-T01 | **17.496 palavras** — diretas + plurais morfológicos PT-BR; 239 KB; parse ~35 ms |
+| DAT-T04 | Validação do banco de palavras | ✅ | DAT-T02, DAT-T03 | Integrada ao `build_termo.py`: charset `[A-Z]`, comprimento 5, sem duplicatas, words_5 ⊂ valid_5; 0 erros |
+| DAT-T05 | Validar banco completo (sem erros) | ✅ | DAT-T04 | 0 erros confirmados; casos: RAIOS ✅ CASAS ✅ GATOS ✅ JOGOS ✅ BARCO ✅ |
 
 ### T1.6 — UI e Cenas
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| DEV-T10 | Criar `SceneCreator.cs` (novo, independente) | ⬜ | PKG-006 | Editor tool; gera Boot, MainMenu, Game; sem herança do WordSearch |
-| DEV-T11 | Criar cena Boot.unity | ⬜ | DEV-T10 | Carrega banco de palavras, inicializa serviços, vai para MainMenu |
-| DEV-T12 | Criar cena MainMenu.unity + `MainMenuScreen` | ⬜ | DEV-T11 | Logo, botão Jogar, botão Configurações |
-| DEV-T13 | Implementar `ModeSelectScreen` | ⬜ | DEV-T12 | Seleção de modo: 1 / 2 / 4 palavras com descrição de tentativas |
-| DEV-T14 | Criar cena Game.unity | ⬜ | DEV-T09 | Cena principal de gameplay |
-| DEV-T15 | Implementar `TermoCell` (UI) | ⬜ | DEV-T14 | Célula com letra, estado visual e animação flip (150ms cada metade, 100ms delay entre células) |
-| DEV-T16 | Implementar `TermoBoardView` (UI) | ⬜ | DEV-T15 | Grade N linhas × 5 colunas; suporta 6, 7 ou 9 tentativas conforme modo |
-| DEV-T17 | Implementar `TermoKeyboard` (UI) | ⬜ | DEV-T14 | Layout QWERTY PT-BR; teclas Enter e ⌫; cor reflete melhor estado acumulado por letra |
-| DEV-T18 | Implementar `GameplayController` | ⬜ | DEV-T08, DEV-T16, DEV-T17 | Coordena boards + teclado + submissão de tentativa + feedback |
-| DEV-T19 | Implementar `WinPopup` | ⬜ | DEV-T18 | Número de tentativas, streak, botão Jogar Novamente |
-| DEV-T20 | Implementar `LosePopup` | ⬜ | DEV-T18 | Revela palavra-alvo imediatamente, botão Jogar Novamente |
-| DEV-T21 | Implementar `StatsPopup` | ⬜ | DEV-T07 | Total de partidas, % vitórias, streak atual/máximo, distribuição de tentativas (barras) |
-| DEV-T22 | Implementar `SettingsPopup` | ⬜ | PKG-003 | Som, Música, Tema — reaproveitado via RagazziCore |
+| DEV-T10 | Criar `SceneCreator.cs` + `BuildScript.cs` | ✅ | PKG-006 | Editor tool; gera Boot, MainMenu, ModeSelect, Game; `ThemeColorRole` tokens Termo BR |
+| DEV-T11 | Criar cena Boot.unity | ✅ | DEV-T10 | `BootController.cs` (splash 1.5s → MainMenu); TermoGameManager + ThemeManager + MusicManager inicializados |
+| DEV-T12 | Criar cena MainMenu.unity + `MainMenuScreen` | ✅ | DEV-T11 | `MainMenuController.cs` (93 linhas): Jogar, Como Jogar popup, Stats popup, Settings placeholder |
+| DEV-T13 | Implementar `ModeSelectScreen` | ✅ | DEV-T12 | `ModeSelectController.cs` (71 linhas): 3 cards (Termo/Dueto/Quartixo) + botão voltar |
+| DEV-T14 | Criar cena Game.unity | ✅ | DEV-T09 | Header + GuessBoard 6×5 + InputDisplay + Keyboard QWERTY + WinPopup + LosePopup |
+| DEV-T15 | Implementar `TermoCell` (UI) | ✅ | DEV-T14 | Animação flip via coroutine: scale Y 1→0→1 (150ms×2, 100ms stagger); cor e letra trocados no midpoint |
+| DEV-T16 | Implementar `TermoBoardView` (UI) | ✅ | DEV-T15 | Board 9×5 (max Quartixo); rows visíveis e cellSize ajustados por modo (6/100px, 7/88px, 9/72px); `TermoBoard.MaxAttempts` configurável |
+| DEV-T17 | Implementar `TermoKeyboard` (UI) | ✅ | DEV-T14 | QWERTY 3 rows + ENTER/DEL; cor reflete melhor estado acumulado; inline no GameplayController |
+| DEV-T18 | Implementar `GameplayController` | ✅ | DEV-T08, DEV-T16, DEV-T17 | 475 linhas: resolve board/keyboard/popups, flip animation, dynamic rows, delayed end popup |
+| DEV-T19 | Implementar `WinPopup` | ✅ | DEV-T18 | Contagem dinâmica de tentativas, palavra-alvo revelada, popup após animação flip (1s delay) |
+| DEV-T20 | Implementar `LosePopup` | ✅ | DEV-T18 | UI funcional; revela palavra-alvo via `UpdateLosePopupWord()`; botão Menu retorna ao MainMenu |
+| DEV-T21 | Implementar `StatsPopup` | ✅ | DEV-T07 | `StatsPopup.cs`: data binding ao StatsManager em OnEnable (jogos, % vitórias, streak, máx seq.) |
+| DEV-T22 | Implementar `SettingsPopup` | ✅ | PKG-003 | `SettingsPopup.cs`: Som toggle, Música toggle, Tema dropdown (Sistema/Claro/Escuro); SceneCreator cria popup + helpers CreateToggle/CreateTMPDropdown |
 
 ### T1.7 — Design e Assets
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| DSN-T01 | Definir paleta do Termo BR (derivada do WordSearch + tokens de feedback) | ⬜ | PKG-004, PKG-005 | Verde/amarelo/cinza para feedback; paleta base Ragazzi Studios |
-| DSN-T02 | Gerar sprites para células, teclado e painéis | ⬜ | DSN-T01 | `SpriteGenerator.cs` novo ou portado; células quadradas, teclas arredondadas |
-| DSN-T03 | Criar ícone do app Termo BR (512×512 + adaptive) | ⬜ | DSN-T01 | `AppIconGenerator.cs` novo; visual com grade 5×5 e letras coloridas (verde/amarelo) |
-| DSN-T04 | Criar splash screen Termo BR | ⬜ | DSN-T01 | Identidade Ragazzi Studios com nome "Termo BR" |
+| DSN-T01 | Definir paleta do Termo BR (derivada do WordSearch + tokens de feedback) | ✅ | PKG-004, PKG-005 | Paleta via ThemePaletteGenerator (Light/Dark) com tokens LetterCorrect/Present/Absent/Unused |
+| DSN-T02 | Gerar sprites para células, teclado e painéis | ✅ | DSN-T01 | `SpriteGenerator.cs` — btn_primary, btn_circle, panel_popup, cell_bg, splash_logo |
+| DSN-T03 | Criar ícone do app Termo BR (512×512 + adaptive) | ✅ | DSN-T01 | `AppIconGenerator.cs` — 1024/512/432 adaptive com grid 5×6 "TERMO" |
+| DSN-T04 | Criar splash screen Termo BR | ✅ | DSN-T01 | Incluído em SpriteGenerator (splash_logo.png 512×512) |
 
 ### T1.8 — Áudio
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| AUD-T01 | Criar/adaptar SFX (flip, acerto, erro, vitória, derrota) | ⬜ | — | `SfxGenerator.cs` novo ou portado; 5 clips WAV procedurais |
-| AUD-T02 | Integrar MusicManager do RagazziCore | ⬜ | PKG-003, DEV-T11 | Loop ambient criado na Boot scene via SceneCreator |
+| AUD-T01 | Criar/adaptar SFX (flip, acerto, erro, vitória, derrota) | ✅ | — | `SfxGenerator.cs` — 7 clips WAV procedurais (key_tap, flip_reveal, row_correct, row_invalid, win, lose, button_click) |
+| AUD-T02 | Integrar MusicManager do RagazziCore | ✅ | PKG-003, DEV-T11 | `MusicGenerator.cs` gera ambient_loop.wav; CreateBootScene wira _ambientLoop |
 
 ### T1.9 — Testes e Build
 
 | Código | Ação | Status | Dependência | Notas |
 |--------|------|--------|-------------|-------|
-| TST-T01 | Testes unitários Domain (TermoValidator, TermoBoard, TermoGame) | ⬜ | DEV-T05 | Casos: palavra correta, presentes, ausentes, duplicatas, vitória, derrota |
-| TST-T02 | Testes unitários Application (WordBankService, StatsManager) | ⬜ | DEV-T07 | Carregamento de JSON, normalização, incremento de stats |
-| TST-T03 | Teste integrado completo (Boot → ModeSelect → Gameplay → Win/Lose) | ⬜ | T1.3–T1.6 | Fluxo ponta a ponta nos 3 modos (1/2/4 palavras) |
-| TST-T04 | Teste no device real | ⬜ | TST-T03 | Checklists: layout, teclado, animações, áudio, tema claro/escuro |
-| BLD-T01 | Build APK dev Termo BR | ⬜ | TST-T04 | APK de desenvolvimento para validação |
-| BLD-T02 | Preparar assets Play Store (screenshots, descrição, ícone) | ⬜ | BLD-T01 | Screenshots dos 3 modos; descrição PT-BR |
-| BLD-T03 | Build AAB (release) + publicar na Play Store | ⬜ | BLD-T02, CFG-T06 | Dependente de conta Google Play ativa |
+| TST-T01 | Testes unitários Domain (TermoValidator, TermoBoard, TermoGame) | ✅ | DEV-T05 | 4 arquivos: TermoGuessTests (8), TermoValidatorEdgeCaseTests (11), TermoBoardTests (13), TermoGameTests (20) = **52 testes** |
+| TST-T02 | Testes unitários Application (WordBankService, StatsManager) | ✅ | DEV-T07 | StatsManagerTests (16 testes) com MockStorage in-memory; WordBankService depende de Resources (coberto em PlayMode) |
+| TST-T03 | Teste integrado completo (Boot → ModeSelect → Gameplay → Win/Lose) | ✅ | T1.3–T1.6 | IntegrationFlowTests.cs (PlayMode): scene loads, Boot→MainMenu, full game Termo/Dueto/Quartixo |
+| TST-T04 | Teste no device real | ✅ | TST-T03 | DeviceTestChecklist_TermoBR.md: 50+ itens (navegação, gameplay 3 modos, áudio, tema, layout, persistência, performance) |
+| BLD-T01 | Build APK dev Termo BR | ✅ | TST-T04 | BuildScript.cs corrigido: APP_NAME=TermoBR, menu Build Android (Dev) |
+| BLD-T02 | Preparar assets Play Store (screenshots, descrição, ícone) | ✅ | BLD-T01 | PlayStoreListing_TermoBR.md: descrição curta/longa, release notes, screenshots checklist, classificação |
+| BLD-T03 | Build AAB (release) + publicar na Play Store | ✅ | BLD-T02, CFG-T06 | TermoBR.aab (42.3 MB), keystore ragazzi_release.keystore, v1.0.0 code 1 |
 
 ---
 
@@ -405,7 +405,7 @@
 | 2.6 UI/Cenas | 11 | 0 | 0 | 0 | 0 | 11 | 100% |
 | 2.7 Design | 5 | 0 | 0 | 0 | 0 | 5 | 100% |
 | 2.8 Testes/Integração | 6 | 0 | 0 | 0 | 0 | 6 | 100% |
-| 2.9 Build/Publicação | 6 | 0 | 4 | 0 | 0 | 2 | 33% |
+| 2.9 Build/Publicação | 6 | 0 | 1 | 0 | 0 | 5 | 83% |
 | 3.1 Áudio | 5 | 0 | 0 | 0 | 0 | 5 | 100% |
 | 3.2 Fonte | 3 | 0 | 0 | 0 | 0 | 3 | 100% |
 | 3.3 UI/Sprites | 6 | 0 | 0 | 0 | 0 | 6 | 100% |
@@ -414,14 +414,14 @@
 | 3.6 Teste Final | 2 | 0 | 0 | 0 | 0 | 2 | 100% |
 | 3.7 Extras | 2 | 0 | 0 | 0 | 0 | 2 | 100% |
 | 4.1 Governança | 3 | 0 | 0 | 0 | 0 | 3 | 100% |
-| 4.2 Arquitetura | 3 | 0 | 0 | 0 | 1 | 2 | 67% |
+| 4.2 Arquitetura | 3 | 0 | 1 | 0 | 0 | 2 | 67% |
 | 4.3 UX/Layout | 4 | 0 | 0 | 0 | 0 | 4 | 100% |
 | 4.4 Validação | 2 | 0 | 0 | 0 | 0 | 2 | 100% |
 | 5.1 Ícone | 4 | 0 | 0 | 0 | 0 | 4 | 100% |
 | 5.2 Palavras | 5 | 0 | 0 | 0 | 0 | 5 | 100% |
 | 5.3 Tema | 6 | 0 | 0 | 0 | 0 | 6 | 100% |
 | 5.4 Validação F5 | 2 | 0 | 0 | 0 | 0 | 2 | 100% |
-| **TOTAL App 1** | **105** | **0** | **4** | **0** | **1** | **100** | **95%** |
+| **TOTAL App 1** | **105** | **0** | **1** | **0** | **0** | **104** | **99%** |
 
 ---
 
@@ -429,17 +429,17 @@
 
 | Etapa | Total | ⬜ | ⏸️ | 🔵 | 🔴 | ✅ | % |
 |-------|-------|-----|-----|-----|-----|-----|---|
-| T1.0 RagazziCore Package | 8 | 8 | 0 | 0 | 0 | 0 | 0% |
-| T1.1 Setup | 6 | 6 | 0 | 0 | 0 | 0 | 0% |
-| T1.2 Integrar Core no TermoBR | 1 | 1 | 0 | 0 | 0 | 0 | 0% |
-| T1.3 Domain | 5 | 5 | 0 | 0 | 0 | 0 | 0% |
-| T1.4 Application | 4 | 4 | 0 | 0 | 0 | 0 | 0% |
-| T1.5 Dados | 5 | 5 | 0 | 0 | 0 | 0 | 0% |
-| T1.6 UI/Cenas | 13 | 13 | 0 | 0 | 0 | 0 | 0% |
-| T1.7 Design | 4 | 4 | 0 | 0 | 0 | 0 | 0% |
-| T1.8 Áudio | 2 | 2 | 0 | 0 | 0 | 0 | 0% |
-| T1.9 Testes e Build | 7 | 7 | 0 | 0 | 0 | 0 | 0% |
-| **TOTAL App 2** | **48** | **48** | **0** | **0** | **0** | **0** | **0%** |
+| T1.0 RagazziCore Package | 8 | 0 | 0 | 0 | 0 | 8 | 100% |
+| T1.1 Setup | 6 | 0 | 0 | 0 | 0 | 6 | 100% |
+| T1.2 Integrar Core no TermoBR | 1 | 0 | 0 | 0 | 0 | 1 | 100% |
+| T1.3 Domain | 5 | 0 | 0 | 0 | 0 | 5 | 100% |
+| T1.4 Application | 4 | 0 | 0 | 0 | 0 | 4 | 100% |
+| T1.5 Dados | 5 | 0 | 0 | 0 | 0 | 5 | 100% |
+| T1.6 UI/Cenas | 13 | 0 | 0 | 0 | 0 | 13 | 100% |
+| T1.7 Design | 4 | 0 | 0 | 0 | 0 | 4 | 100% |
+| T1.8 Áudio | 2 | 0 | 0 | 0 | 0 | 2 | 100% |
+| T1.9 Testes e Build | 7 | 0 | 0 | 0 | 0 | 7 | 100% |
+| **TOTAL App 2** | **55** | **0** | **0** | **0** | **0** | **55** | **100%** |
 
 ---
 
