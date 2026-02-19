@@ -1,6 +1,6 @@
 {
     "dependencies": {
-        "com.ragazzistudios.core": "https://github.com/daniloragazzi/RagazziCore.git",
+        "com.ragazzistudios.core": "file:../../RagazziCore",
         "com.unity.inputsystem": "1.11.2",
         "com.unity.textmeshpro": "3.2.0-pre.12",
         "com.unity.test-framework": "1.4.5",

@@ -1,16 +1,32 @@
-# Brainstorm — Indie Game Studio (Jogos Casuais Android)
+﻿# PRD — WordGames (Ragazzi Studios)
+
+> **Última atualização:** 2026-02-18
+> **Status:** 🟢 Ativo — App 1 (Caça-Palavras) em fase de publicação · App 2 (Termo BR) em desenvolvimento
+
+---
 
 ## Visão Geral
 
 Criar um **ecossistema de jogos casuais Android** (word games, puzzles, quizzes, jogos educativos), com foco em:
 
-* baixo custo inicial
-* produção em série
-* escalabilidade
-* monetização via anúncios + in-app purchases
-* renda recorrente (semi-passiva no médio prazo)
+- baixo custo inicial
+- produção em série
+- escalabilidade
+- monetização via anúncios + in-app purchases
+- renda recorrente (semi-passiva no médio prazo)
 
 O projeto nasce como **laboratório técnico + diversão + produto real**, combinando engenharia de software corporativa com desenvolvimento de jogos simples.
+
+---
+
+## Identidade do Estúdio
+
+| Item | Valor |
+|------|-------|
+| Nome do estúdio | **Ragazzi Studios** |
+| Company Name (Unity) | `RagazziStudios` |
+| Package base (Android) | `com.ragazzistudios.*` |
+| Conta Google Play | Ragazzi Studios (⏸️ aguardando validação) |
 
 ---
 
@@ -22,57 +38,74 @@ Construir um **portfólio escalável de jogos simples**, não um único jogo iso
 
 ### Objetivos secundários
 
-* Aprender game dev de forma prática
-* Usar IA como copiloto de desenvolvimento
-* Criar pipeline técnico profissional
-* Validar modelo de renda recorrente
-* Criar ativos digitais reutilizáveis
+- Aprender game dev de forma prática
+- Usar IA como copiloto de desenvolvimento
+- Criar pipeline técnico profissional
+- Validar modelo de renda recorrente
+- Criar ativos digitais reutilizáveis
 
 ---
 
 ## Princípios do Projeto
 
-* CLI-first
-* VS Code como IDE principal
-* IA integrada ao fluxo
-* Arquitetura limpa
-* Código reutilizável
-* Data-driven
-* Automação
-* Escala por repetição
-* Produção em série
+- CLI-first
+- VS Code como IDE principal
+- IA integrada ao fluxo (GitHub Copilot)
+- Arquitetura limpa (Clean Architecture adaptada para Unity)
+- Código reutilizável (RagazziCore como pacote compartilhado)
+- Data-driven
+- Automação
+- Escala por repetição
+- Produção em série
 
 ---
 
-## Tipos de Jogos (Ideias Iniciais)
+## Stack Técnica (Decisões do MVP)
 
-* Caça-palavras
-* Termo-like (Wordle clone)
-* Quiz temático
-* Puzzle lógico
-* Jogos educativos
-* Jogos infantis
-* Jogos para público sênior
-* Jogos offline
-* Jogos temáticos (bíblico, concursos, técnico, idiomas)
+| Componente | Tecnologia | Decisão |
+|------------|-----------|---------|
+| Engine | Unity 6.3 LTS (6000.3.8f1) | Confirmado no MVP |
+| IDE | VS Code | Confirmado |
+| Versionamento | Git + GitHub | Confirmado |
+| Ads | Google AdMob | Confirmado |
+| Analytics | Unity Analytics | Confirmado |
+| Storage | PlayerPrefs (local) | MVP — sem backend |
+| Dados | JSON embarcado em Resources/ | MVP |
+| Backend | Nenhum no MVP | Planejado para v2+ |
+| Scripts auxiliares | Python | Pipeline de dados |
+| IA | GitHub Copilot | Integrado ao fluxo |
 
 ---
 
-## Modelo de Produto
+## Arquitetura (Decisões do MVP)
 
-### Estratégia
+Clean Architecture adaptada para Unity com **5 camadas**:
 
-Criar uma **engine base reutilizável** e derivar múltiplos jogos:
+| Camada | Responsabilidade | Reutilizável |
+|--------|-----------------|--------------|
+| UI | Telas, HUD, animações | Parcial |
+| Application | Game flow, estados, managers | Sim |
+| Domain | Lógica pura do jogo | 100% |
+| Infrastructure | Ads, Storage, Analytics, i18n | 100% |
+| Data | JSON, ScriptableObjects | Estrutura sim |
 
-* Mesmo core
-* Mesma arquitetura
-* Mesmo pipeline
-* Mudam apenas:
+### RagazziCore — Pacote Compartilhado
 
-  * dados
-  * temas
-  * UI
-  * conteúdo
+- Extraído como **UPM package local** (`com.ragazzistudios.core`)
+- Localização: `WordGames/RagazziCore/`
+- Referenciado via path local em todos os projetos:
+  - WordSearch: `"file:../../RagazziCore"`
+  - TermoBR: `"file:../../../RagazziCore"`
+- Contém: Domain, Application, Infrastructure (interfaces + implementações)
+
+### Modelo de Portfólio
+
+> **1 jogo = 1 app independente na Play Store**
+
+- Cada jogo tem seu próprio package name (`com.ragazzistudios.*`)
+- `RagazziCore/` compartilhado via UPM package local
+- `Game/`, `Resources/`, `Art/`, `Audio/` específicos de cada jogo
+- Cross-promotion entre apps (tráfego gratuito)
 
 ---
 
@@ -80,119 +113,143 @@ Criar uma **engine base reutilizável** e derivar múltiplos jogos:
 
 ### Monetização
 
-* Anúncios (principal)
-
-  * banner
-  * interstitial
-  * rewarded ads
-* In-App Purchases
-
-  * remover anúncios
-  * packs de dicas
-  * conteúdo premium
+| Tipo | Decisão MVP |
+|------|-------------|
+| Interstitial | ✅ A cada 3 níveis completos |
+| Rewarded Ad | ✅ Dica por ad (sob demanda) |
+| Banner | ❌ Nunca (polui UX) |
+| IAP | ❌ Não no MVP (planejado v1.1+) |
 
 ### Modelo financeiro
 
-* Produto digital
-* Custo marginal ~ zero
-* Alta margem
-* Receita recorrente
-* Escala por portfólio
+- Produto digital, custo marginal ~ zero
+- Alta margem, receita recorrente
+- Escala por portfólio
 
 ---
 
-## Posicionamento
+## Pipeline Técnico (Decisões do MVP)
 
-Não é um projeto de "um jogo"
+### Git Flow simplificado
 
-É um projeto de:
+```
+main          ← produção (versões publicadas)
+  └── develop ← desenvolvimento ativo
+       ├── feature/*
+       ├── hotfix/*
+       └── release/*
+```
 
-> Estúdio indie digital de jogos casuais
+### Conventional Commits
+
+`feat` · `fix` · `docs` · `refactor` · `chore` · `data` · `style` · `test`
+
+### Build Pipeline (MVP — Manual)
+
+```
+Dev local → Unity CLI Build → APK/AAB → Upload manual Play Store
+```
+
+Automação via GitHub Actions planejada quando o portfólio justificar o investimento.
+
+### Pipeline de Dados
+
+```
+Curadoria/IA → Python script → JSON validado → Resources/Data/
+```
+
+### Versionamento
+
+```
+v0.1.0 → Primeiro build jogável
+v0.2.0 → Alpha com ads
+v1.0.0 → MVP na Play Store
+v1.1.0 → Primeiro update
+```
 
 ---
 
-## Arquitetura Conceitual
+## Tipos de Jogos
 
-### Camadas
+### Apps implementados / em desenvolvimento
 
-* Domain
+| App | Nome | Package | Status |
+|-----|------|---------|--------|
+| App 1 | Caça-Palavras | `com.ragazzistudios.wordsearch` | ⏸️ Aguardando publicação (Google Play) |
+| App 2 | Termo BR | `com.ragazzistudios.termo` | 🔵 Em desenvolvimento (Domain/Application prontos) |
 
-  * regras do jogo
-  * engine semântica
-  * lógica de palavras
-  * sistemas de pontuação
+### Pipeline futura
 
-* Application
-
-  * serviços de jogo
-  * progressão
-  * níveis
-
-* Infrastructure
-
-  * ads
-  * analytics
-  * storage
-  * backend
-
-* UI
-
-  * telas
-  * componentes
-  * controladores
+- Quiz temático
+- Puzzle lógico
+- Jogos educativos
+- Jogos infantis
+- Jogos para público sênior
+- Jogos offline / temáticos (bíblico, concursos, idiomas)
 
 ---
 
-## Pipeline Técnico
+## Estrutura do Workspace
 
-* Unity como engine
-* VS Code como IDE
-* Git como versionamento
-* CLI como orquestração
-* IA como copiloto
-* Build automatizado
-* Deploy automatizado
-* Estrutura multi-app
+```
+WordGames/
+├── docs/          ← Documentação (Brainstorm/ + Organized/)
+├── RagazziCore/   ← UPM package compartilhado entre apps
+├── scripts/       ← Scripts de automação e dados (Python)
+├── WordSearch/    ← Projeto Unity — App 1 (Caça-Palavras)
+└── TermoBR/       ← Projeto Unity — App 2 (Termo BR)
+```
 
 ---
 
 ## Estratégia de Produção
 
-1. Criar engine base
-2. Criar template de jogo
-3. Criar banco de dados de palavras
-4. Criar sistema de geração de níveis
-5. Criar sistema de temas
-6. Criar sistema de monetização
-7. Criar sistema de analytics
-8. Criar pipeline de build
-9. Criar pipeline de deploy
-10. Replicar
+1. ✅ Criar RagazziCore (engine base reutilizável)
+2. ✅ Criar template de jogo (App 1 como referência)
+3. ✅ Criar banco de dados de palavras (993 palavras, 8 categorias)
+4. ✅ Criar sistema de geração de níveis (seed determinístico)
+5. ✅ Criar sistema de temas (GameTheme com tokens de cor)
+6. ✅ Criar sistema de monetização (AdMob — interstitial + rewarded)
+7. ✅ Criar sistema de analytics (Unity Analytics)
+8. ✅ Criar pipeline de build (manual, Unity CLI)
+9. ⏸️ Deploy — aguardando conta Google Play
+10. 🔵 Replicar → App 2 (Termo BR) em andamento
 
 ---
 
 ## Estratégia de Escala
 
-* Portfólio de apps
-* Cross-promotion
-* ASO
-* Tráfego orgânico
-* Reaproveitamento de código
-* Reaproveitamento de dados
-* Reaproveitamento de assets
+- Portfólio de apps
+- Cross-promotion
+- ASO (App Store Optimization)
+- Tráfego orgânico
+- Reaproveitamento de código (RagazziCore)
+- Reaproveitamento de dados
+- Reaproveitamento de assets
 
 ---
 
 ## Indicadores-Chave (KPIs)
 
-* MAU (usuários ativos mensais)
-* Retenção
-* ARPU
-* CPM
-* LTV
-* CAC
-* Receita por jogo
-* Receita total do portfólio
+| KPI | Descrição |
+|-----|-----------|
+| MAU | Usuários ativos mensais |
+| Retenção D1/D7/D30 | Qualidade do produto |
+| ARPU | Receita por usuário |
+| CPM | Eficiência dos ads |
+| LTV | Valor de vida do usuário |
+| CAC | Custo de aquisição |
+| Receita por jogo | Performance individual |
+| Receita total do portfólio | Saúde do estúdio |
+
+### Eventos de Analytics (App 1 — definidos no MVP)
+
+| Evento | Parâmetros principais |
+|--------|----------------------|
+| `level_start` | `category_id`, `level_number`, `game_mode` |
+| `level_complete` | `category_id`, `level_number`, `time_seconds` |
+| `hint_used` | `category_id`, `level_number` |
+| `ad_shown` | `ad_type`, `placement` |
 
 ---
 
@@ -200,54 +257,28 @@ Não é um projeto de "um jogo"
 
 Criar um **ecossistema próprio de jogos simples**, com:
 
-* engine proprietária
-* pipeline próprio
-* marca própria
-* rede interna de tráfego
-* múltiplos produtos
-* renda recorrente
+- Engine proprietária (RagazziCore)
+- Pipeline próprio
+- Marca própria (Ragazzi Studios)
+- Rede interna de tráfego (cross-promotion)
+- Múltiplos produtos
+- Renda recorrente
 
 ---
 
-## Motivação
+## Estado Atual (2026-02-18)
 
-* Diversão técnica
-* Criação de produto real
-* Exploração de IA
-* Construção de ativos digitais
-* Aprendizado contínuo
-* Projeto escalável
-
----
-
-## Estado Atual
-
-Fase: Brainstorm
-
-Status:
-
-* modelo de negócio definido
-* stack definida
-* arquitetura conceitual definida
-* estratégia definida
-* visão de produto definida
-
-Próxima fase:
-→ Organized
-
----
-
-## Próximos Passos (pré-execução)
-
-* Definir primeiro tipo de jogo
-* Definir escopo do MVP
-* Definir engine base
-* Definir arquitetura de pastas
-* Definir pipeline técnico
-* Definir naming
-* Definir branding inicial
-* Definir estrutura de dados
-* Definir modelo de níveis
+| Dimensão | Status |
+|----------|--------|
+| App 1 — Caça-Palavras (gameplay + polimento) | ✅ Completo |
+| App 1 — Tema escuro/claro | ✅ Implementado (Fase 5) |
+| App 1 — Banco de palavras | ✅ 993 palavras, 8 categorias |
+| App 1 — Revisão estruturada (Fase 4) | ✅ Concluída |
+| App 1 — Publicação na Play Store | ⏸️ Aguardando validação da conta Google Play |
+| App 1 — SDKs reais de Ads/Analytics + LGPD | 🔴 Bloqueado (IDs externos pendentes) |
+| App 2 — RagazziCore (pacote compartilhado) | ✅ Criado e integrado |
+| App 2 — Domain + Application | ✅ Implementados |
+| App 2 — Dados, UI, Design, Áudio, Testes, Build | ⬜ Não iniciado |
 
 ---
 

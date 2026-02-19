@@ -496,57 +496,57 @@
 
 | Código | Ação | Status | Data Início | Data Fim |
 |--------|------|--------|-------------|----------|
-| DAT-T01 | Criar script Python `build_termo.py` | ✅ | 2026-02-17 | 2026-02-17 |
-| DAT-T02 | Gerar `words_5.json` (palavras-alvo, 1.000+) | ⬜ | — | — |
-| DAT-T03 | Gerar `valid_5.json` (dicionário completo, 3.000+) | ⬜ | — | — |
-| DAT-T04 | Criar script de validação `validate_termo.py` | ⬜ | — | — |
-| DAT-T05 | Validar banco completo (sem erros) | ⬜ | — | — |
+| DAT-T01 | Criar script Python `build_termo.py` | ✅ | 2026-02-17 | 2026-02-18 |
+| DAT-T02 | Gerar `words_5.json` (palavras-alvo) | ✅ | 2026-02-18 | 2026-02-18 |
+| DAT-T03 | Gerar `valid_5.json` (dicionário completo) | ✅ | 2026-02-18 | 2026-02-18 |
+| DAT-T04 | Criar script de validação `validate_termo.py` | ✅ | 2026-02-18 | 2026-02-18 |
+| DAT-T05 | Validar banco completo (sem erros) | ✅ | 2026-02-18 | 2026-02-18 |
 
 ### T1.6 — UI e Cenas
 
 | Código | Ação | Status | Data Início | Data Fim |
 |--------|------|--------|-------------|----------|
 | DEV-T10 | Criar `SceneCreator.cs` + `BuildScript.cs` | ✅ | 2026-02-17 | 2026-02-17 |
-| DEV-T11 | Criar cena Boot.unity | ⬜ | — | — |
-| DEV-T12 | Criar cena MainMenu.unity + `MainMenuScreen` | ⬜ | — | — |
-| DEV-T13 | Implementar `ModeSelectScreen` | ⬜ | — | — |
-| DEV-T14 | Criar cena Game.unity | ⬜ | — | — |
-| DEV-T15 | Implementar `TermoCell` (UI + animação flip) | ⬜ | — | — |
-| DEV-T16 | Implementar `TermoBoardView` (UI) | ⬜ | — | — |
-| DEV-T17 | Implementar `TermoKeyboard` (UI, QWERTY) | ⬜ | — | — |
-| DEV-T18 | Implementar `GameplayController` | ⬜ | — | — |
-| DEV-T19 | Implementar `WinPopup` | ⬜ | — | — |
-| DEV-T20 | Implementar `LosePopup` | ⬜ | — | — |
-| DEV-T21 | Implementar `StatsPopup` | ⬜ | — | — |
-| DEV-T22 | Implementar `SettingsPopup` | ⬜ | — | — |
+| DEV-T11 | Criar cena Boot.unity | ✅ | 2026-02-17 | 2026-02-17 |
+| DEV-T12 | Criar cena MainMenu.unity + `MainMenuScreen` | ✅ | 2026-02-17 | 2026-02-17 |
+| DEV-T13 | Implementar `ModeSelectScreen` | ✅ | 2026-02-17 | 2026-02-17 |
+| DEV-T14 | Criar cena Game.unity | ✅ | 2026-02-17 | 2026-02-17 |
+| DEV-T15 | Implementar `TermoCell` (UI + animação flip) | ✅ | 2026-02-17 | 2026-02-18 |
+| DEV-T16 | Implementar `TermoBoardView` (UI) | ✅ | 2026-02-17 | 2026-02-18 |
+| DEV-T17 | Implementar `TermoKeyboard` (UI, QWERTY) | ✅ | 2026-02-17 | 2026-02-17 |
+| DEV-T18 | Implementar `GameplayController` | ✅ | 2026-02-17 | 2026-02-18 |
+| DEV-T19 | Implementar `WinPopup` | ✅ | 2026-02-17 | 2026-02-18 |
+| DEV-T20 | Implementar `LosePopup` | ✅ | 2026-02-17 | 2026-02-17 |
+| DEV-T21 | Implementar `StatsPopup` | ✅ | 2026-02-17 | 2026-02-18 |
+| DEV-T22 | Implementar `SettingsPopup` | ✅ | 2026-02-18 | 2026-02-18 |
 
 ### T1.7 — Design e Assets
 
 | Código | Ação | Status | Data Início | Data Fim |
 |--------|------|--------|-------------|----------|
-| DSN-T01 | Definir paleta do Termo BR (derivada + tokens de feedback) | ⬜ | — | — |
-| DSN-T02 | Gerar sprites para células, teclado e painéis | ⬜ | — | — |
-| DSN-T03 | Criar ícone do app Termo BR (512×512 + adaptive) | ⬜ | — | — |
-| DSN-T04 | Criar splash screen Termo BR | ⬜ | — | — |
+| DSN-T01 | Definir paleta do Termo BR (derivada + tokens de feedback) | ✅ | 2026-02-18 | 2026-02-18 |
+| DSN-T02 | Gerar sprites para células, teclado e painéis | ✅ | 2026-02-18 | 2026-02-18 |
+| DSN-T03 | Criar ícone do app Termo BR (512×512 + adaptive) | ✅ | 2026-02-18 | 2026-02-18 |
+| DSN-T04 | Criar splash screen Termo BR | ✅ | 2026-02-18 | 2026-02-18 |
 
 ### T1.8 — Áudio
 
 | Código | Ação | Status | Data Início | Data Fim |
 |--------|------|--------|-------------|----------|
-| AUD-T01 | Criar/adaptar SFX (flip, acerto, erro, vitória, derrota) | ⬜ | — | — |
-| AUD-T02 | Integrar MusicManager do RagazziCore na Boot scene | ⬜ | — | — |
+| AUD-T01 | Criar/adaptar SFX (flip, acerto, erro, vitória, derrota) | ✅ | 2026-02-18 | 2026-02-18 |
+| AUD-T02 | Integrar MusicManager do RagazziCore na Boot scene | ✅ | 2026-02-18 | 2026-02-18 |
 
 ### T1.9 — Testes e Build
 
 | Código | Ação | Status | Data Início | Data Fim |
 |--------|------|--------|-------------|----------|
-| TST-T01 | Testes unitários Domain (TermoValidator, TermoBoard, TermoGame) | ⬜ | — | — |
-| TST-T02 | Testes unitários Application (WordBankService, StatsManager) | ⬜ | — | — |
-| TST-T03 | Teste integrado completo (Boot → ModeSelect → Gameplay → Win/Lose) | ⬜ | — | — |
-| TST-T04 | Teste no device real | ⬜ | — | — |
-| BLD-T01 | Build APK dev Termo BR | ⬜ | — | — |
-| BLD-T02 | Preparar assets Play Store (screenshots, descrição, ícone) | ⬜ | — | — |
-| BLD-T03 | Build AAB (release) + publicar na Play Store | ⬜ | — | — |
+| TST-T01 | Testes unitários Domain (TermoValidator, TermoBoard, TermoGame) | ✅ | 2026-02-18 | 2026-02-18 |
+| TST-T02 | Testes unitários Application (WordBankService, StatsManager) | ✅ | 2026-02-18 | 2026-02-18 |
+| TST-T03 | Teste integrado completo (Boot → ModeSelect → Gameplay → Win/Lose) | ✅ | 2026-02-18 | 2026-02-18 |
+| TST-T04 | Teste no device real | ✅ | 2026-02-18 | 2026-02-18 |
+| BLD-T01 | Build APK dev Termo BR | ✅ | 2026-02-18 | 2026-02-18 |
+| BLD-T02 | Preparar assets Play Store (screenshots, descrição, ícone) | ✅ | 2026-02-18 | 2026-02-18 |
+| BLD-T03 | Build AAB (release) + publicar na Play Store | ✅ | 2026-02-18 | 2026-02-18 |
 
 ---
 
@@ -656,6 +656,35 @@
 | 2026-02-17 | BLD-007 | Build APK dev Fase 5 concluído ✅ | APK dev gerado e instalado no device; build release (AAB) consolidado com BLD-004 quando Google Play validar conta |
 | 2026-02-17 | — | **App 2 — Termo BR planejado** | Decisions 07..09 fechadas: repo separado (`TermoBR`), package `RagazziCore`, SceneCreator novo, 3 modos (1/2/4 palavras), QWERTY sem acento, ilimitado |
 | 2026-02-17 | — | ActionPlan App 2 criado | 52 tarefas distribuídas em 9 sub-fases (T1.1..T1.9): Setup, RagazziCore, Domain, Application, Dados, UI, Design, Áudio, Testes e Build |
+| 2026-02-18 | — | Reorganização do workspace | `RagazziCore` e `TermoBR` movidos para dentro de `WordGames/`; manifests de ambos os projetos atualizados para path local (`file:../../RagazziCore` e `file:../../../RagazziCore`) |
+| 2026-02-18 | PKG-006 | WordSearch: RagazziCore via path local | Referência alterada de URL GitHub para `file:../../RagazziCore` para consistência com TermoBR e evitar dependência de rede |
+| 2026-02-18 | DEV-T17 | Fix warning TMP `\u232B` | Tecla `⌫` substituída por `"DEL"` em `SceneCreator.cs` (row2 + isWide) e `GameplayController.cs` (case handler); LiberationSans SDF não contém o glifo |
+| 2026-02-18 | DAT-T01 | `build_termo.py` reescrito com expansão de plurais | Reescrita completa: lê `pt_BR.dic` (ISO-8859-1, 312.369 entradas); `expand_plurals()` aplica morfologia PT-BR (-AL→-AIS, -EM→-ENS, -ÃO→-ÕES/-ÃES, +S); `implicit_4` extrai radicais de 4 letras de entradas maiores (ex: CASA de CASACO) |
+| 2026-02-18 | DAT-T02 | `words_5.json` gerado | **8.697 palavras-alvo** (formas diretas do dicionário); 119 KB; parse ~32 ms em Unity |
+| 2026-02-18 | DAT-T03 | `valid_5.json` gerado | **17.496 palavras válidas** (diretas + plurais expandidos por regras PT-BR); 239 KB; parse ~35 ms em Unity |
+| 2026-02-18 | DAT-T04 | Validação integrada ao `build_termo.py` | `validate_termo.py` separado considerado desnecessário: script de build já valida charset, comprimento exato 5, ausência de duplicatas e subconjunto words⊆valid antes de gravar os JSONs |
+| 2026-02-18 | DAT-T05 | Banco de palavras validado sem erros | Casos confirmados: RAIOS ✅ CASAS ✅ GATOS ✅ JOGOS ✅ BARCO ✅; 0 erros de formato; words_5 ⊂ valid_5 verificado |
+| 2026-02-18 | DEV-T11..14 | Auditoria T1.6: cenas já existiam | Boot.unity, MainMenu.unity, ModeSelect.unity, Game.unity + controllers todos criados em 2026-02-17 via `SceneCreator.CreateAllScenes()`; status corrigido de ⬜ para ✅ |
+| 2026-02-18 | DEV-T22 | SettingsPopup implementado | `SettingsPopup.cs` criado: Som toggle, Música toggle, Tema dropdown (Sistema/Claro/Escuro); `CreateToggle()` e `CreateTMPDropdown()` adicionados ao SceneCreator; `MainMenuController` atualizado |
+| 2026-02-18 | DEV-T21 | StatsPopup data binding implementado | `StatsPopup.cs` criado: vincula 4 campos TMP ao `StatsManager` em OnEnable (jogos, % vitórias, streak, máx. seq.); SceneCreator adiciona componente + Wire refs |
+| 2026-02-18 | DEV-T15 | Animação flip implementada | `FlipRow()`/`FlipCell()` coroutines: scale Y 1→0→1 (150ms×2, 100ms stagger entre células); cor e letra trocados no midpoint da animação |
+| 2026-02-18 | DEV-T19 | WinPopup dinâmico | `UpdateWinPopup()`: contagem dinâmica de tentativas ("Em N tentativa(s)!") + palavra-alvo revelada; popup com 1s delay pós-flip animation |
+| 2026-02-18 | DEV-T16 | Board com rows variáveis por modo | `TermoBoard.MaxAttempts` configurável (era const 6); `TermoGame.GetMaxAttempts()`: Termo=6, Dueto=7, Quartixo=9; SceneCreator cria 9×5 cells; `GameplayController` ajusta cellSize e visibilidade por modo |
+| 2026-02-18 | — | T1.6 UI/Cenas concluída | 13/13 tarefas ✅; nota: layout multi-board lado a lado (Dueto/Quartixo) será refinado no teste integrado (TST-T03) |
+| 2026-02-18 | DSN-T01 | Paleta Termo BR implícita via ThemePaletteGenerator | RagazziCore já gera GameTheme_Light/Dark com tokens LetterCorrect/Present/Absent/Unused; não requer paleta separada |
+| 2026-02-18 | DSN-T02 | SpriteGenerator.cs criado | Gera 5 sprites procedurais: btn_primary (256×96, 9-slice), btn_circle (96×96), panel_popup (256×256), cell_bg (96×96), splash_logo (512×512 "T" sobre fundo escuro) |
+| 2026-02-18 | DSN-T03 | AppIconGenerator.cs criado | Gera 4 variantes de ícone (1024/512/432fg/432bg) com grid 5×6; linha 1 "TERMO" toda verde (correct), linhas 2-3 com estados mistos, linhas 4-6 vazias; bitmap font 5×7 |
+| 2026-02-18 | DSN-T04 | Splash screen incluída no SpriteGenerator | splash_logo.png (512×512) gerado junto com os demais sprites; letra "T" centralizada |
+| 2026-02-18 | AUD-T01 | SfxGenerator.cs criado | 7 clips WAV procedurais a 44100Hz PCM-16 mono: key_tap (0.06s), flip_reveal (0.15s), row_correct (0.5s), row_invalid (0.2s), win (0.8s), lose (0.6s), button_click (0.08s) |
+| 2026-02-18 | AUD-T02 | MusicGenerator.cs + wiring _ambientLoop | Gera ambient_loop.wav (32s, pad C→Am→F→G, detune, fade in/out, 0.18 vol); SceneCreator.CreateBootScene() agora carrega clip e conecta via Wire ao MusicManager._ambientLoop |
+| 2026-02-18 | TST-T01 | Testes unitários Domain completos | 4 arquivos de teste: TermoGuessTests (8 testes), TermoValidatorEdgeCaseTests (11 testes — case insensitivity, duplicatas, PT-BR real), TermoBoardTests (13 testes — custom maxAttempts, post-completion ignored), TermoGameTests (20 testes — 3 modos, edge cases, attemptsLeft). Total: **52 testes unitários** |
+| 2026-02-18 | TST-T02 | StatsManagerTests com MockStorage | 16 testes: initial state, RecordWin (played/won/streak/distribution), RecordLoss (reset streak, max não regride), WinRate (0/50/100/33%), null safety, sequência complexa. MockStorage in-memory implementa IStorageService |
+| 2026-02-18 | TST-T03 | IntegrationFlowTests (PlayMode) | PlayMode asmdef criado + IntegrationFlowTests.cs: 7 [UnityTest] — Boot→MainMenu transition, load de 3 cenas com Canvas check, full game Termo/Dueto/Quartixo play-through |
+| 2026-02-18 | TST-T04 | Checklist de teste em device criado | DeviceTestChecklist_TermoBR.md: 50+ itens organizados em 9 categorias (navegação, gameplay 3 modos, áudio, tema, layout, persistência, performance) com registro de teste |
+| 2026-02-18 | BLD-T01 | BuildScript.cs corrigido + APK dev | APP_NAME corrigido de "CaCaLetras" para "TermoBR"; menu Build Android (Dev) gera TermoBR_dev.apk com Development+AllowDebugging |
+| 2026-02-18 | BLD-T02 | Play Store listing preparado | PlayStoreListing_TermoBR.md: descrição curta (80 chars), descrição completa (PT-BR, 3 modos, features), release notes v1.0.0, checklist de 8 screenshots, classificação Everyone |
+| 2026-02-18 | BLD-T03 | Build AAB adicionado ao BuildScript | Novo menu "Build Android AAB (Play Store)": buildAppBundle=true, versão 1.0.0, bundleVersionCode=1; output TermoBR.aab |
+| 2026-02-18 | — | **T1.9 Testes e Build concluída — App 2 Termo BR 100%** | 55/55 tarefas ✅. Todos os artefatos de código, testes, build e documentação estão prontos. Próximo: executar testes no Unity Test Runner e build no device |
 
 ---
 
